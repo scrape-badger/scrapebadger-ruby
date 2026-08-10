@@ -1,3 +1,49 @@
+# ScrapeBadger Ruby SDK
+
+[![version](https://img.shields.io/gem/v/scrapebadger)](https://rubygems.org/gems/scrapebadger) [![CI](https://img.shields.io/github/actions/workflow/status/scrape-badger/scrapebadger-ruby/ci.yml?label=CI)](https://github.com/scrape-badger/scrapebadger-ruby/actions) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Official **Ruby** SDK for [ScrapeBadger](https://scrapebadger.com) — one API key for
+30+ scraping APIs: Twitter/X, Reddit, Facebook, Instagram, TikTok, YouTube, Amazon, eBay,
+Walmart, Vinted, Google (18 products), Bing, Yahoo, ChatGPT, Perplexity, real estate, and
+any URL via the general Web Scraping API. Generated from the ScrapeBadger OpenAPI spec —
+always in sync with the API. ⚠️ This repository is regenerated automatically; don't send
+PRs here, request changes via the [roadmap](https://github.com/scrape-badger/roadmap).
+
+📚 [API docs](https://docs.scrapebadger.com) · 🧰 [All SDKs](https://scrapebadger.com/sdks) · 🔑 [Get an API key](https://scrapebadger.com/auth/signup) — 1,000 free credits
+
+## 🚀 Install
+
+```
+gem install scrapebadger
+```
+
+## ⚡ Quick start
+
+```ruby
+require 'scrapebadger'
+
+ScrapeBadger.configure do |config|
+  config.api_key['ApiKeyAuth'] = 'YOUR_API_KEY'
+end
+
+twitter = ScrapeBadger::TwitterApi.new
+user = twitter.twitter_get_user_by_username('elonmusk')
+puts user
+```
+
+Every scraper is available as its own API class (`TwitterApi`, `AmazonApi`, `GoogleApi`, …)
+with one method per endpoint — the full list is in the reference below.
+
+## 🛠 Development
+
+```sh
+bundle install               # deps
+gem build scrapebadger.gemspec   # package
+bundle exec rspec            # tests
+```
+
+---
+
 # scrapebadger
 
 ScrapeBadger - the Ruby gem for the ScrapeBadger API
