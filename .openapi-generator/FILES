@@ -28,6 +28,7 @@ docs/FilterRuleResponse.md
 docs/FilterRuleUpdate.md
 docs/FilterRuleValidateRequest.md
 docs/FilterRuleValidateResponse.md
+docs/GeminiApi.md
 docs/GoogleApi.md
 docs/HTTPValidationError.md
 docs/IdealistaApi.md
@@ -36,6 +37,7 @@ docs/InstagramApi.md
 docs/LeboncoinApi.md
 docs/LinkedInApi.md
 docs/LoopNetApi.md
+docs/PerplexityApi.md
 docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md
 docs/RealtorApi.md
 docs/RedditApi.md
@@ -76,6 +78,7 @@ lib/scrapebadger/api/depop_api.rb
 lib/scrapebadger/api/duck_duck_go_api.rb
 lib/scrapebadger/api/e_bay_api.rb
 lib/scrapebadger/api/facebook_api.rb
+lib/scrapebadger/api/gemini_api.rb
 lib/scrapebadger/api/google_api.rb
 lib/scrapebadger/api/idealista_api.rb
 lib/scrapebadger/api/immobiliare_api.rb
@@ -83,6 +86,7 @@ lib/scrapebadger/api/instagram_api.rb
 lib/scrapebadger/api/leboncoin_api.rb
 lib/scrapebadger/api/linked_in_api.rb
 lib/scrapebadger/api/loop_net_api.rb
+lib/scrapebadger/api/perplexity_api.rb
 lib/scrapebadger/api/realtor_api.rb
 lib/scrapebadger/api/reddit_api.rb
 lib/scrapebadger/api/redfin_api.rb
@@ -138,6 +142,7 @@ spec/api/depop_api_spec.rb
 spec/api/duck_duck_go_api_spec.rb
 spec/api/e_bay_api_spec.rb
 spec/api/facebook_api_spec.rb
+spec/api/gemini_api_spec.rb
 spec/api/google_api_spec.rb
 spec/api/idealista_api_spec.rb
 spec/api/immobiliare_api_spec.rb
@@ -145,6 +150,7 @@ spec/api/instagram_api_spec.rb
 spec/api/leboncoin_api_spec.rb
 spec/api/linked_in_api_spec.rb
 spec/api/loop_net_api_spec.rb
+spec/api/perplexity_api_spec.rb
 spec/api/realtor_api_spec.rb
 spec/api/reddit_api_spec.rb
 spec/api/redfin_api_spec.rb

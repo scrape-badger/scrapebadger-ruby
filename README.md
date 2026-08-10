@@ -177,6 +177,12 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::FacebookApi* | [**facebook_search_places**](docs/FacebookApi.md#facebook_search_places) | **GET** /v1/facebook/search/places | Search places
 *ScrapeBadger::FacebookApi* | [**facebook_search_posts**](docs/FacebookApi.md#facebook_search_posts) | **GET** /v1/facebook/search/posts | Search posts
 *ScrapeBadger::FacebookApi* | [**facebook_search_the_ad_library**](docs/FacebookApi.md#facebook_search_the_ad_library) | **GET** /v1/facebook/ads/search | Search the Ad Library
+*ScrapeBadger::GeminiApi* | [**gemini_ask_gemini_a_question**](docs/GeminiApi.md#gemini_ask_gemini_a_question) | **GET** /v1/gemini/ask | Ask Gemini a question
+*ScrapeBadger::GeminiApi* | [**gemini_ask_gemini_a_question_post**](docs/GeminiApi.md#gemini_ask_gemini_a_question_post) | **POST** /v1/gemini/ask | Ask Gemini a question (POST)
+*ScrapeBadger::GeminiApi* | [**gemini_gemini_scraper_health_check**](docs/GeminiApi.md#gemini_gemini_scraper_health_check) | **GET** /v1/gemini/health | Gemini scraper health check
+*ScrapeBadger::GeminiApi* | [**gemini_gemini_scraper_health_check_head**](docs/GeminiApi.md#gemini_gemini_scraper_health_check_head) | **HEAD** /v1/gemini/health | Gemini scraper health check
+*ScrapeBadger::GeminiApi* | [**gemini_measure_a_brand_s_visibility_in_a_gemini_answer**](docs/GeminiApi.md#gemini_measure_a_brand_s_visibility_in_a_gemini_answer) | **GET** /v1/gemini/brand-visibility | Measure a brand's visibility in a Gemini answer
+*ScrapeBadger::GeminiApi* | [**gemini_measure_a_brand_s_visibility_in_a_gemini_answer_post**](docs/GeminiApi.md#gemini_measure_a_brand_s_visibility_in_a_gemini_answer_post) | **POST** /v1/gemini/brand-visibility | Measure a brand's visibility in a Gemini answer (POST)
 *ScrapeBadger::GoogleApi* | [**google_get_author_citations_per_year_chart**](docs/GoogleApi.md#google_get_author_citations_per_year_chart) | **GET** /v1/google/scholar/author/citation | Get author citations-per-year chart
 *ScrapeBadger::GoogleApi* | [**google_get_business_posts**](docs/GoogleApi.md#google_get_business_posts) | **GET** /v1/google/maps/posts | Get business posts
 *ScrapeBadger::GoogleApi* | [**google_get_citation_formats_for_a_scholar_paper**](docs/GoogleApi.md#google_get_citation_formats_for_a_scholar_paper) | **GET** /v1/google/scholar/cite | Get citation formats for a Scholar paper
@@ -290,6 +296,12 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::LoopNetApi* | [**loopnet_loopnet_scraper_health_check**](docs/LoopNetApi.md#loopnet_loopnet_scraper_health_check) | **GET** /v1/loopnet/health | LoopNet scraper health check
 *ScrapeBadger::LoopNetApi* | [**loopnet_loopnet_scraper_health_check_head**](docs/LoopNetApi.md#loopnet_loopnet_scraper_health_check_head) | **HEAD** /v1/loopnet/health | LoopNet scraper health check
 *ScrapeBadger::LoopNetApi* | [**loopnet_search_commercial_real_estate**](docs/LoopNetApi.md#loopnet_search_commercial_real_estate) | **GET** /v1/loopnet/search | Search commercial real estate
+*ScrapeBadger::PerplexityApi* | [**perplexity_ask_perplexity_a_question**](docs/PerplexityApi.md#perplexity_ask_perplexity_a_question) | **GET** /v1/perplexity/ask | Ask Perplexity a question
+*ScrapeBadger::PerplexityApi* | [**perplexity_ask_perplexity_a_question_post**](docs/PerplexityApi.md#perplexity_ask_perplexity_a_question_post) | **POST** /v1/perplexity/ask | Ask Perplexity a question (POST)
+*ScrapeBadger::PerplexityApi* | [**perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer**](docs/PerplexityApi.md#perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer) | **GET** /v1/perplexity/brand-visibility | Measure a brand's visibility in a Perplexity answer
+*ScrapeBadger::PerplexityApi* | [**perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer_post**](docs/PerplexityApi.md#perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer_post) | **POST** /v1/perplexity/brand-visibility | Measure a brand's visibility in a Perplexity answer (POST)
+*ScrapeBadger::PerplexityApi* | [**perplexity_perplexity_scraper_health_check**](docs/PerplexityApi.md#perplexity_perplexity_scraper_health_check) | **GET** /v1/perplexity/health | Perplexity scraper health check
+*ScrapeBadger::PerplexityApi* | [**perplexity_perplexity_scraper_health_check_head**](docs/PerplexityApi.md#perplexity_perplexity_scraper_health_check_head) | **HEAD** /v1/perplexity/health | Perplexity scraper health check
 *ScrapeBadger::RealtorApi* | [**realtor_get_full_property_detail**](docs/RealtorApi.md#realtor_get_full_property_detail) | **GET** /v1/realtor/properties/{property_id} | Get full property detail
 *ScrapeBadger::RealtorApi* | [**realtor_list_markets**](docs/RealtorApi.md#realtor_list_markets) | **GET** /v1/realtor/markets | List markets
 *ScrapeBadger::RealtorApi* | [**realtor_location_autocomplete**](docs/RealtorApi.md#realtor_location_autocomplete) | **GET** /v1/realtor/autocomplete | Location autocomplete
