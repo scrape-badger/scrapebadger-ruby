@@ -11,6 +11,7 @@ docs/AccountApi.md
 docs/AccountInfo.md
 docs/AmazonApi.md
 docs/ApartmentsApi.md
+docs/AppStoreApi.md
 docs/BaiduApi.md
 docs/BillingLogListResponse.md
 docs/BillingLogResponse.md
@@ -30,6 +31,7 @@ docs/FilterRuleValidateRequest.md
 docs/FilterRuleValidateResponse.md
 docs/GeminiApi.md
 docs/GoogleApi.md
+docs/GooglePlayApi.md
 docs/HTTPValidationError.md
 docs/IdealistaApi.md
 docs/ImmobiliareApi.md
@@ -71,6 +73,7 @@ lib/scrapebadger.rb
 lib/scrapebadger/api/account_api.rb
 lib/scrapebadger/api/amazon_api.rb
 lib/scrapebadger/api/apartments_api.rb
+lib/scrapebadger/api/app_store_api.rb
 lib/scrapebadger/api/baidu_api.rb
 lib/scrapebadger/api/bing_api.rb
 lib/scrapebadger/api/chat_gpt_api.rb
@@ -80,6 +83,7 @@ lib/scrapebadger/api/e_bay_api.rb
 lib/scrapebadger/api/facebook_api.rb
 lib/scrapebadger/api/gemini_api.rb
 lib/scrapebadger/api/google_api.rb
+lib/scrapebadger/api/google_play_api.rb
 lib/scrapebadger/api/idealista_api.rb
 lib/scrapebadger/api/immobiliare_api.rb
 lib/scrapebadger/api/instagram_api.rb
@@ -135,6 +139,7 @@ scrapebadger.gemspec
 spec/api/account_api_spec.rb
 spec/api/amazon_api_spec.rb
 spec/api/apartments_api_spec.rb
+spec/api/app_store_api_spec.rb
 spec/api/baidu_api_spec.rb
 spec/api/bing_api_spec.rb
 spec/api/chat_gpt_api_spec.rb
@@ -144,6 +149,7 @@ spec/api/e_bay_api_spec.rb
 spec/api/facebook_api_spec.rb
 spec/api/gemini_api_spec.rb
 spec/api/google_api_spec.rb
+spec/api/google_play_api_spec.rb
 spec/api/idealista_api_spec.rb
 spec/api/immobiliare_api_spec.rb
 spec/api/instagram_api_spec.rb

@@ -159,6 +159,13 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::ApartmentsApi* | [**apartments_get_property_detail_by_slug_id**](docs/ApartmentsApi.md#apartments_get_property_detail_by_slug_id) | **GET** /v1/apartments/properties/{slug}/{property_id} | Get property detail by slug + id
 *ScrapeBadger::ApartmentsApi* | [**apartments_get_property_detail_by_url**](docs/ApartmentsApi.md#apartments_get_property_detail_by_url) | **GET** /v1/apartments/property | Get property detail by URL
 *ScrapeBadger::ApartmentsApi* | [**apartments_search_rental_listings**](docs/ApartmentsApi.md#apartments_search_rental_listings) | **GET** /v1/apartments/search | Search rental listings
+*ScrapeBadger::AppStoreApi* | [**app_store_get_app_detail**](docs/AppStoreApi.md#app_store_get_app_detail) | **GET** /v1/app-store/apps/{app_id} | Get app detail
+*ScrapeBadger::AppStoreApi* | [**app_store_get_app_reviews**](docs/AppStoreApi.md#app_store_get_app_reviews) | **GET** /v1/app-store/apps/{app_id}/reviews | Get app reviews
+*ScrapeBadger::AppStoreApi* | [**app_store_get_developer_apps**](docs/AppStoreApi.md#app_store_get_developer_apps) | **GET** /v1/app-store/developers/{artist_id} | Get developer apps
+*ScrapeBadger::AppStoreApi* | [**app_store_list_genres**](docs/AppStoreApi.md#app_store_list_genres) | **GET** /v1/app-store/genres | List genres
+*ScrapeBadger::AppStoreApi* | [**app_store_list_markets**](docs/AppStoreApi.md#app_store_list_markets) | **GET** /v1/app-store/markets | List markets
+*ScrapeBadger::AppStoreApi* | [**app_store_search_apps**](docs/AppStoreApi.md#app_store_search_apps) | **GET** /v1/app-store/search | Search apps
+*ScrapeBadger::AppStoreApi* | [**app_store_top_charts**](docs/AppStoreApi.md#app_store_top_charts) | **GET** /v1/app-store/charts | Top charts
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_image_search**](docs/BaiduApi.md#baidu_baidu_image_search) | **GET** /v1/baidu/images | Baidu image search
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_news_search**](docs/BaiduApi.md#baidu_baidu_news_search) | **GET** /v1/baidu/news | Baidu news search
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_scraper_health_check**](docs/BaiduApi.md#baidu_baidu_scraper_health_check) | **GET** /v1/baidu/health | Baidu scraper health check
@@ -276,6 +283,16 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::GoogleApi* | [**google_trending_news**](docs/GoogleApi.md#google_trending_news) | **GET** /v1/google/news/trending | Trending news
 *ScrapeBadger::GoogleApi* | [**google_trending_searches**](docs/GoogleApi.md#google_trending_searches) | **GET** /v1/google/trends/trending | Trending searches
 *ScrapeBadger::GoogleApi* | [**google_trends_topic_autocomplete**](docs/GoogleApi.md#google_trends_topic_autocomplete) | **GET** /v1/google/trends/autocomplete | Trends topic autocomplete
+*ScrapeBadger::GooglePlayApi* | [**google_play_browse_a_category**](docs/GooglePlayApi.md#google_play_browse_a_category) | **GET** /v1/google-play/categories/{category_id} | Browse a category
+*ScrapeBadger::GooglePlayApi* | [**google_play_get_app_detail**](docs/GooglePlayApi.md#google_play_get_app_detail) | **GET** /v1/google-play/apps/{app_id} | Get app detail
+*ScrapeBadger::GooglePlayApi* | [**google_play_get_app_permissions**](docs/GooglePlayApi.md#google_play_get_app_permissions) | **GET** /v1/google-play/apps/{app_id}/permissions | Get app permissions
+*ScrapeBadger::GooglePlayApi* | [**google_play_get_app_reviews**](docs/GooglePlayApi.md#google_play_get_app_reviews) | **GET** /v1/google-play/apps/{app_id}/reviews | Get app reviews
+*ScrapeBadger::GooglePlayApi* | [**google_play_get_developer_apps**](docs/GooglePlayApi.md#google_play_get_developer_apps) | **GET** /v1/google-play/developers/{developer} | Get developer apps
+*ScrapeBadger::GooglePlayApi* | [**google_play_get_similar_apps**](docs/GooglePlayApi.md#google_play_get_similar_apps) | **GET** /v1/google-play/apps/{app_id}/similar | Get similar apps
+*ScrapeBadger::GooglePlayApi* | [**google_play_list_categories**](docs/GooglePlayApi.md#google_play_list_categories) | **GET** /v1/google-play/categories | List categories
+*ScrapeBadger::GooglePlayApi* | [**google_play_list_markets**](docs/GooglePlayApi.md#google_play_list_markets) | **GET** /v1/google-play/markets | List markets
+*ScrapeBadger::GooglePlayApi* | [**google_play_search_apps**](docs/GooglePlayApi.md#google_play_search_apps) | **GET** /v1/google-play/search | Search apps
+*ScrapeBadger::GooglePlayApi* | [**google_play_top_charts**](docs/GooglePlayApi.md#google_play_top_charts) | **GET** /v1/google-play/collections/{collection} | Top charts
 *ScrapeBadger::IdealistaApi* | [**idealista_agency_by_phone**](docs/IdealistaApi.md#idealista_agency_by_phone) | **GET** /v1/idealista/agency/by-phone/{phone} | Agency by phone
 *ScrapeBadger::IdealistaApi* | [**idealista_agency_profile_listings**](docs/IdealistaApi.md#idealista_agency_profile_listings) | **GET** /v1/idealista/agency/{short_name} | Agency profile + listings
 *ScrapeBadger::IdealistaApi* | [**idealista_get_listing_engagement_stats**](docs/IdealistaApi.md#idealista_get_listing_engagement_stats) | **GET** /v1/idealista/properties/{property_code}/stats | Get listing engagement stats
