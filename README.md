@@ -422,6 +422,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::TikTokApi* | [**tiktok_get_oembed_metadata**](docs/TikTokApi.md#tiktok_get_oembed_metadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata
 *ScrapeBadger::TikTokApi* | [**tiktok_get_related_videos**](docs/TikTokApi.md#tiktok_get_related_videos) | **GET** /v1/tiktok/videos/{video_id}/related | Get related videos
 *ScrapeBadger::TikTokApi* | [**tiktok_get_reposts**](docs/TikTokApi.md#tiktok_get_reposts) | **GET** /v1/tiktok/users/{username}/reposts | Get reposts
+*ScrapeBadger::TikTokApi* | [**tiktok_get_tiktok_ad_detail**](docs/TikTokApi.md#tiktok_get_tiktok_ad_detail) | **GET** /v1/tiktok/ads/{ad_id} | Get TikTok ad detail
 *ScrapeBadger::TikTokApi* | [**tiktok_get_transcript**](docs/TikTokApi.md#tiktok_get_transcript) | **GET** /v1/tiktok/videos/{video_id}/transcript | Get transcript
 *ScrapeBadger::TikTokApi* | [**tiktok_get_user_profile**](docs/TikTokApi.md#tiktok_get_user_profile) | **GET** /v1/tiktok/users/{username} | Get user profile
 *ScrapeBadger::TikTokApi* | [**tiktok_get_user_videos**](docs/TikTokApi.md#tiktok_get_user_videos) | **GET** /v1/tiktok/users/{username}/videos | Get user videos
@@ -431,6 +432,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::TikTokApi* | [**tiktok_list_regions**](docs/TikTokApi.md#tiktok_list_regions) | **GET** /v1/tiktok/regions | List regions
 *ScrapeBadger::TikTokApi* | [**tiktok_search_hashtags**](docs/TikTokApi.md#tiktok_search_hashtags) | **GET** /v1/tiktok/search/hashtags | Search hashtags
 *ScrapeBadger::TikTokApi* | [**tiktok_search_the_tiktok_ad_library**](docs/TikTokApi.md#tiktok_search_the_tiktok_ad_library) | **GET** /v1/tiktok/ads/search | Search the TikTok Ad Library
+*ScrapeBadger::TikTokApi* | [**tiktok_search_tiktok_advertisers**](docs/TikTokApi.md#tiktok_search_tiktok_advertisers) | **GET** /v1/tiktok/ads/advertisers | Search TikTok advertisers
 *ScrapeBadger::TikTokApi* | [**tiktok_search_users**](docs/TikTokApi.md#tiktok_search_users) | **GET** /v1/tiktok/search/users | Search users
 *ScrapeBadger::TikTokApi* | [**tiktok_search_videos**](docs/TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_hashtags**](docs/TikTokApi.md#tiktok_trending_hashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags

@@ -217,6 +217,19 @@ describe 'TikTokApi' do
     end
   end
 
+  # unit tests for tiktok_get_tiktok_ad_detail
+  # Get TikTok ad detail
+  # Get a single ad&#39;s advertiser, creatives, and targeting/impression breakdown.
+  # @param ad_id 
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :region EU region code (the Ad Library is EU-only)
+  # @return [Object]
+  describe 'tiktok_get_tiktok_ad_detail test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for tiktok_get_transcript
   # Get transcript
   # Get subtitle/caption tracks for a TikTok video.
@@ -334,6 +347,20 @@ describe 'TikTokApi' do
   # @option opts [Integer] :count 
   # @return [Object]
   describe 'tiktok_search_the_tiktok_ad_library test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for tiktok_search_tiktok_advertisers
+  # Search TikTok advertisers
+  # Look up TikTok advertiser business ids by name (feeds ads/search?advertiser_id&#x3D;).
+  # @param query Advertiser name (or partial) to look up
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :region EU region code (the Ad Library is EU-only)
+  # @option opts [Integer] :count 
+  # @return [Object]
+  describe 'tiktok_search_tiktok_advertisers test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end

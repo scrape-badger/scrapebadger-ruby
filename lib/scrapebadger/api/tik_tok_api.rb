@@ -1011,6 +1011,72 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Get TikTok ad detail
+    # Get a single ad's advertiser, creatives, and targeting/impression breakdown.
+    # @param ad_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region EU region code (the Ad Library is EU-only) (default to 'DE')
+    # @return [Object]
+    def tiktok_get_tiktok_ad_detail(ad_id, opts = {})
+      data, _status_code, _headers = tiktok_get_tiktok_ad_detail_with_http_info(ad_id, opts)
+      data
+    end
+
+    # Get TikTok ad detail
+    # Get a single ad&#39;s advertiser, creatives, and targeting/impression breakdown.
+    # @param ad_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region EU region code (the Ad Library is EU-only) (default to 'DE')
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def tiktok_get_tiktok_ad_detail_with_http_info(ad_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_tiktok_ad_detail ...'
+      end
+      # verify the required parameter 'ad_id' is set
+      if @api_client.config.client_side_validation && ad_id.nil?
+        fail ArgumentError, "Missing the required parameter 'ad_id' when calling TikTokApi.tiktok_get_tiktok_ad_detail"
+      end
+      # resource path
+      local_var_path = '/v1/tiktok/ads/{ad_id}'.sub('{' + 'ad_id' + '}', CGI.escape(ad_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"TikTokApi.tiktok_get_tiktok_ad_detail",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_tiktok_ad_detail\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get transcript
     # Get subtitle/caption tracks for a TikTok video.
     # @param video_id [String] 
@@ -1641,6 +1707,88 @@ module ScrapeBadger
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TikTokApi#tiktok_search_the_tiktok_ad_library\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Search TikTok advertisers
+    # Look up TikTok advertiser business ids by name (feeds ads/search?advertiser_id=).
+    # @param query [String] Advertiser name (or partial) to look up
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region EU region code (the Ad Library is EU-only) (default to 'DE')
+    # @option opts [Integer] :count  (default to 10)
+    # @return [Object]
+    def tiktok_search_tiktok_advertisers(query, opts = {})
+      data, _status_code, _headers = tiktok_search_tiktok_advertisers_with_http_info(query, opts)
+      data
+    end
+
+    # Search TikTok advertisers
+    # Look up TikTok advertiser business ids by name (feeds ads/search?advertiser_id&#x3D;).
+    # @param query [String] Advertiser name (or partial) to look up
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region EU region code (the Ad Library is EU-only) (default to 'DE')
+    # @option opts [Integer] :count  (default to 10)
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def tiktok_search_tiktok_advertisers_with_http_info(query, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_search_tiktok_advertisers ...'
+      end
+      # verify the required parameter 'query' is set
+      if @api_client.config.client_side_validation && query.nil?
+        fail ArgumentError, "Missing the required parameter 'query' when calling TikTokApi.tiktok_search_tiktok_advertisers"
+      end
+      if @api_client.config.client_side_validation && query.to_s.length < 1
+        fail ArgumentError, 'invalid value for "query" when calling TikTokApi.tiktok_search_tiktok_advertisers, the character length must be great than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] > 50
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_search_tiktok_advertisers, must be smaller than or equal to 50.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_search_tiktok_advertisers, must be greater than or equal to 1.'
+      end
+
+      # resource path
+      local_var_path = '/v1/tiktok/ads/advertisers'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'query'] = query
+      query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+      query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"TikTokApi.tiktok_search_tiktok_advertisers",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_search_tiktok_advertisers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

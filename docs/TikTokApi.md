@@ -17,6 +17,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**tiktok_get_oembed_metadata**](TikTokApi.md#tiktok_get_oembed_metadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata |
 | [**tiktok_get_related_videos**](TikTokApi.md#tiktok_get_related_videos) | **GET** /v1/tiktok/videos/{video_id}/related | Get related videos |
 | [**tiktok_get_reposts**](TikTokApi.md#tiktok_get_reposts) | **GET** /v1/tiktok/users/{username}/reposts | Get reposts |
+| [**tiktok_get_tiktok_ad_detail**](TikTokApi.md#tiktok_get_tiktok_ad_detail) | **GET** /v1/tiktok/ads/{ad_id} | Get TikTok ad detail |
 | [**tiktok_get_transcript**](TikTokApi.md#tiktok_get_transcript) | **GET** /v1/tiktok/videos/{video_id}/transcript | Get transcript |
 | [**tiktok_get_user_profile**](TikTokApi.md#tiktok_get_user_profile) | **GET** /v1/tiktok/users/{username} | Get user profile |
 | [**tiktok_get_user_videos**](TikTokApi.md#tiktok_get_user_videos) | **GET** /v1/tiktok/users/{username}/videos | Get user videos |
@@ -26,6 +27,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**tiktok_list_regions**](TikTokApi.md#tiktok_list_regions) | **GET** /v1/tiktok/regions | List regions |
 | [**tiktok_search_hashtags**](TikTokApi.md#tiktok_search_hashtags) | **GET** /v1/tiktok/search/hashtags | Search hashtags |
 | [**tiktok_search_the_tiktok_ad_library**](TikTokApi.md#tiktok_search_the_tiktok_ad_library) | **GET** /v1/tiktok/ads/search | Search the TikTok Ad Library |
+| [**tiktok_search_tiktok_advertisers**](TikTokApi.md#tiktok_search_tiktok_advertisers) | **GET** /v1/tiktok/ads/advertisers | Search TikTok advertisers |
 | [**tiktok_search_users**](TikTokApi.md#tiktok_search_users) | **GET** /v1/tiktok/search/users | Search users |
 | [**tiktok_search_videos**](TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos |
 | [**tiktok_trending_hashtags**](TikTokApi.md#tiktok_trending_hashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags |
@@ -1040,6 +1042,81 @@ end
 - **Accept**: application/json
 
 
+## tiktok_get_tiktok_ad_detail
+
+> Object tiktok_get_tiktok_ad_detail(ad_id, opts)
+
+Get TikTok ad detail
+
+Get a single ad's advertiser, creatives, and targeting/impression breakdown.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+ad_id = 'ad_id_example' # String | 
+opts = {
+  region: 'region_example' # String | EU region code (the Ad Library is EU-only)
+}
+
+begin
+  # Get TikTok ad detail
+  result = api_instance.tiktok_get_tiktok_ad_detail(ad_id, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_get_tiktok_ad_detail: #{e}"
+end
+```
+
+#### Using the tiktok_get_tiktok_ad_detail_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_get_tiktok_ad_detail_with_http_info(ad_id, opts)
+
+```ruby
+begin
+  # Get TikTok ad detail
+  data, status_code, headers = api_instance.tiktok_get_tiktok_ad_detail_with_http_info(ad_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_get_tiktok_ad_detail_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **ad_id** | **String** |  |  |
+| **region** | **String** | EU region code (the Ad Library is EU-only) | [optional][default to &#39;DE&#39;] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## tiktok_get_transcript
 
 > Object tiktok_get_transcript(video_id, opts)
@@ -1701,6 +1778,83 @@ end
 | **offset** | **Integer** |  | [optional][default to 0] |
 | **search_id** | **String** |  | [optional][default to &#39;&#39;] |
 | **count** | **Integer** |  | [optional][default to 20] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_search_tiktok_advertisers
+
+> Object tiktok_search_tiktok_advertisers(query, opts)
+
+Search TikTok advertisers
+
+Look up TikTok advertiser business ids by name (feeds ads/search?advertiser_id=).
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+query = 'query_example' # String | Advertiser name (or partial) to look up
+opts = {
+  region: 'region_example', # String | EU region code (the Ad Library is EU-only)
+  count: 56 # Integer | 
+}
+
+begin
+  # Search TikTok advertisers
+  result = api_instance.tiktok_search_tiktok_advertisers(query, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_search_tiktok_advertisers: #{e}"
+end
+```
+
+#### Using the tiktok_search_tiktok_advertisers_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_search_tiktok_advertisers_with_http_info(query, opts)
+
+```ruby
+begin
+  # Search TikTok advertisers
+  data, status_code, headers = api_instance.tiktok_search_tiktok_advertisers_with_http_info(query, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_search_tiktok_advertisers_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query** | **String** | Advertiser name (or partial) to look up |  |
+| **region** | **String** | EU region code (the Ad Library is EU-only) | [optional][default to &#39;DE&#39;] |
+| **count** | **Integer** |  | [optional][default to 10] |
 
 ### Return type
 
