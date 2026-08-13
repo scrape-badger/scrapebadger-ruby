@@ -9,6 +9,7 @@ README.md
 Rakefile
 docs/AccountApi.md
 docs/AccountInfo.md
+docs/AirbnbApi.md
 docs/AmazonApi.md
 docs/ApartmentsApi.md
 docs/AppStoreApi.md
@@ -71,6 +72,7 @@ docs/ZillowApi.md
 git_push.sh
 lib/scrapebadger.rb
 lib/scrapebadger/api/account_api.rb
+lib/scrapebadger/api/airbnb_api.rb
 lib/scrapebadger/api/amazon_api.rb
 lib/scrapebadger/api/apartments_api.rb
 lib/scrapebadger/api/app_store_api.rb
@@ -137,6 +139,7 @@ lib/scrapebadger/models/webhook_test_response.rb
 lib/scrapebadger/version.rb
 scrapebadger.gemspec
 spec/api/account_api_spec.rb
+spec/api/airbnb_api_spec.rb
 spec/api/amazon_api_spec.rb
 spec/api/apartments_api_spec.rb
 spec/api/app_store_api_spec.rb

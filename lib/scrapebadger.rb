@@ -48,6 +48,7 @@ require 'scrapebadger/models/webhook_test_response'
 
 # APIs
 require 'scrapebadger/api/account_api'
+require 'scrapebadger/api/airbnb_api'
 require 'scrapebadger/api/amazon_api'
 require 'scrapebadger/api/apartments_api'
 require 'scrapebadger/api/app_store_api'

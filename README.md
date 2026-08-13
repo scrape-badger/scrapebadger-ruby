@@ -138,6 +138,14 @@ All URIs are relative to *https://scrapebadger.com*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ScrapeBadger::AccountApi* | [**account_get_account_info**](docs/AccountApi.md#account_get_account_info) | **GET** /v1/account/me | Get account info
+*ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check) | **GET** /v1/airbnb/health | Airbnb scraper health check
+*ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check_head**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check_head) | **HEAD** /v1/airbnb/health | Airbnb scraper health check
+*ScrapeBadger::AirbnbApi* | [**airbnb_get_availability_calendar**](docs/AirbnbApi.md#airbnb_get_availability_calendar) | **GET** /v1/airbnb/listings/{room_id}/calendar | Get availability calendar
+*ScrapeBadger::AirbnbApi* | [**airbnb_get_experience_detail**](docs/AirbnbApi.md#airbnb_get_experience_detail) | **GET** /v1/airbnb/experiences/{experience_id} | Get experience detail
+*ScrapeBadger::AirbnbApi* | [**airbnb_get_listing_detail**](docs/AirbnbApi.md#airbnb_get_listing_detail) | **GET** /v1/airbnb/listings/{room_id} | Get listing detail
+*ScrapeBadger::AirbnbApi* | [**airbnb_get_listing_reviews**](docs/AirbnbApi.md#airbnb_get_listing_reviews) | **GET** /v1/airbnb/listings/{room_id}/reviews | Get listing reviews
+*ScrapeBadger::AirbnbApi* | [**airbnb_search_experiences**](docs/AirbnbApi.md#airbnb_search_experiences) | **GET** /v1/airbnb/experiences | Search experiences
+*ScrapeBadger::AirbnbApi* | [**airbnb_search_stays**](docs/AirbnbApi.md#airbnb_search_stays) | **GET** /v1/airbnb/search | Search stays
 *ScrapeBadger::AmazonApi* | [**amazon_amazon_scraper_health_check**](docs/AmazonApi.md#amazon_amazon_scraper_health_check) | **GET** /v1/amazon/health | Amazon scraper health check
 *ScrapeBadger::AmazonApi* | [**amazon_amazon_scraper_health_check_head**](docs/AmazonApi.md#amazon_amazon_scraper_health_check_head) | **HEAD** /v1/amazon/health | Amazon scraper health check
 *ScrapeBadger::AmazonApi* | [**amazon_bestsellers_by_category**](docs/AmazonApi.md#amazon_bestsellers_by_category) | **GET** /v1/amazon/bestsellers | Bestsellers by category
