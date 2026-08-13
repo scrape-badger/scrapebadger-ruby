@@ -39,6 +39,7 @@ describe 'GooglePlayApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :country Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39;
   # @option opts [String] :lang Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39;
+  # @option opts [Integer] :num Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly
   # @return [Object]
   describe 'google_play_browse_a_category test' do
     it 'should work' do
@@ -97,6 +98,7 @@ describe 'GooglePlayApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :country Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39;
   # @option opts [String] :lang Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39;
+  # @option opts [Integer] :num Max apps; follows rail continuations above the page&#39;s directly-rendered slice
   # @return [Object]
   describe 'google_play_get_developer_apps test' do
     it 'should work' do

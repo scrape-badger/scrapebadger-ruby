@@ -25,6 +25,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (default to 'US')
     # @option opts [String] :lang Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (default to 'en')
+    # @option opts [Integer] :num Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly (default to 100)
     # @return [Object]
     def google_play_browse_a_category(category_id, opts = {})
       data, _status_code, _headers = google_play_browse_a_category_with_http_info(category_id, opts)
@@ -37,6 +38,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (default to 'US')
     # @option opts [String] :lang Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (default to 'en')
+    # @option opts [Integer] :num Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly (default to 100)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_play_browse_a_category_with_http_info(category_id, opts = {})
       if @api_client.config.debugging
@@ -46,6 +48,14 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && category_id.nil?
         fail ArgumentError, "Missing the required parameter 'category_id' when calling GooglePlayApi.google_play_browse_a_category"
       end
+      if @api_client.config.client_side_validation && !opts[:'num'].nil? && opts[:'num'] > 500
+        fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GooglePlayApi.google_play_browse_a_category, must be smaller than or equal to 500.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'num'].nil? && opts[:'num'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GooglePlayApi.google_play_browse_a_category, must be greater than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google-play/categories/{category_id}'.sub('{' + 'category_id' + '}', CGI.escape(category_id.to_s))
 
@@ -53,6 +63,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
       query_params[:'lang'] = opts[:'lang'] if !opts[:'lang'].nil?
+      query_params[:'num'] = opts[:'num'] if !opts[:'num'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -315,6 +326,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (default to 'US')
     # @option opts [String] :lang Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (default to 'en')
+    # @option opts [Integer] :num Max apps; follows rail continuations above the page&#39;s directly-rendered slice (default to 100)
     # @return [Object]
     def google_play_get_developer_apps(developer, opts = {})
       data, _status_code, _headers = google_play_get_developer_apps_with_http_info(developer, opts)
@@ -327,6 +339,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (default to 'US')
     # @option opts [String] :lang Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (default to 'en')
+    # @option opts [Integer] :num Max apps; follows rail continuations above the page&#39;s directly-rendered slice (default to 100)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_play_get_developer_apps_with_http_info(developer, opts = {})
       if @api_client.config.debugging
@@ -336,6 +349,14 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && developer.nil?
         fail ArgumentError, "Missing the required parameter 'developer' when calling GooglePlayApi.google_play_get_developer_apps"
       end
+      if @api_client.config.client_side_validation && !opts[:'num'].nil? && opts[:'num'] > 500
+        fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GooglePlayApi.google_play_get_developer_apps, must be smaller than or equal to 500.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'num'].nil? && opts[:'num'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GooglePlayApi.google_play_get_developer_apps, must be greater than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google-play/developers/{developer}'.sub('{' + 'developer' + '}', CGI.escape(developer.to_s))
 
@@ -343,6 +364,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
       query_params[:'lang'] = opts[:'lang'] if !opts[:'lang'].nil?
+      query_params[:'num'] = opts[:'num'] if !opts[:'num'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

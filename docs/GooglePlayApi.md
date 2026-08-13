@@ -41,7 +41,8 @@ api_instance = ScrapeBadger::GooglePlayApi.new
 category_id = 'category_id_example' # String | Play category id, e.g. 'GAME_PUZZLE' or 'SOCIAL'
 opts = {
   country: 'country_example', # String | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. 'US'
-  lang: 'lang_example' # String | Play content language (hl), e.g. 'en' or 'pt-BR'
+  lang: 'lang_example', # String | Play content language (hl), e.g. 'en' or 'pt-BR'
+  num: 56 # Integer | Max apps; follows each rail's 'see more' continuation above the ~40-120 the page renders directly
 }
 
 begin
@@ -78,6 +79,7 @@ end
 | **category_id** | **String** | Play category id, e.g. &#39;GAME_PUZZLE&#39; or &#39;SOCIAL&#39; |  |
 | **country** | **String** | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; | [optional][default to &#39;US&#39;] |
 | **lang** | **String** | Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; | [optional][default to &#39;en&#39;] |
+| **num** | **Integer** | Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly | [optional][default to 100] |
 
 ### Return type
 
@@ -353,7 +355,8 @@ api_instance = ScrapeBadger::GooglePlayApi.new
 developer = 'developer_example' # String | Developer name or numeric id
 opts = {
   country: 'country_example', # String | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. 'US'
-  lang: 'lang_example' # String | Play content language (hl), e.g. 'en' or 'pt-BR'
+  lang: 'lang_example', # String | Play content language (hl), e.g. 'en' or 'pt-BR'
+  num: 56 # Integer | Max apps; follows rail continuations above the page's directly-rendered slice
 }
 
 begin
@@ -390,6 +393,7 @@ end
 | **developer** | **String** | Developer name or numeric id |  |
 | **country** | **String** | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; | [optional][default to &#39;US&#39;] |
 | **lang** | **String** | Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; | [optional][default to &#39;en&#39;] |
+| **num** | **Integer** | Max apps; follows rail continuations above the page&#39;s directly-rendered slice | [optional][default to 100] |
 
 ### Return type
 
