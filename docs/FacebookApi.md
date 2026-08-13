@@ -6,6 +6,7 @@ All URIs are relative to *https://scrapebadger.com*
 | ------ | ------------ | ----------- |
 | [**facebook_browse_a_marketplace_category**](FacebookApi.md#facebook_browse_a_marketplace_category) | **GET** /v1/facebook/marketplace/category/{category} | Browse a Marketplace category |
 | [**facebook_get_a_marketplace_item**](FacebookApi.md#facebook_get_a_marketplace_item) | **GET** /v1/facebook/marketplace/item/{item_id} | Get a Marketplace item |
+| [**facebook_get_advertiser_page_info**](FacebookApi.md#facebook_get_advertiser_page_info) | **GET** /v1/facebook/ads/pages/{page_id} | Get advertiser page info |
 | [**facebook_get_an_ad**](FacebookApi.md#facebook_get_an_ad) | **GET** /v1/facebook/ads/{ad_archive_id} | Get an ad |
 | [**facebook_get_group_detail**](FacebookApi.md#facebook_get_group_detail) | **GET** /v1/facebook/groups/{group_id} | Get group detail |
 | [**facebook_get_group_posts**](FacebookApi.md#facebook_get_group_posts) | **GET** /v1/facebook/groups/{group_id}/posts | Get group posts |
@@ -17,6 +18,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**facebook_get_profile_posts**](FacebookApi.md#facebook_get_profile_posts) | **GET** /v1/facebook/profiles/{identifier}/posts | Get profile posts |
 | [**facebook_list_categories**](FacebookApi.md#facebook_list_categories) | **GET** /v1/facebook/marketplace/categories | List categories |
 | [**facebook_list_locations**](FacebookApi.md#facebook_list_locations) | **GET** /v1/facebook/marketplace/locations | List locations |
+| [**facebook_search_advertiser_pages**](FacebookApi.md#facebook_search_advertiser_pages) | **GET** /v1/facebook/ads/pages/search | Search advertiser pages |
 | [**facebook_search_events**](FacebookApi.md#facebook_search_events) | **GET** /v1/facebook/search/events | Search events |
 | [**facebook_search_everything**](FacebookApi.md#facebook_search_everything) | **GET** /v1/facebook/search | Search everything |
 | [**facebook_search_groups**](FacebookApi.md#facebook_search_groups) | **GET** /v1/facebook/search/groups | Search groups |
@@ -182,13 +184,88 @@ end
 - **Accept**: application/json
 
 
+## facebook_get_advertiser_page_info
+
+> Object facebook_get_advertiser_page_info(page_id, opts)
+
+Get advertiser page info
+
+Get advertiser page info: category, followers, page transparency (creation date, name history, managing organization, admin-account locations), related pages, and ad spend (for political/issue advertisers).
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::FacebookApi.new
+page_id = 'page_id_example' # String | 
+opts = {
+  country: 'country_example' # String | 
+}
+
+begin
+  # Get advertiser page info
+  result = api_instance.facebook_get_advertiser_page_info(page_id, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling FacebookApi->facebook_get_advertiser_page_info: #{e}"
+end
+```
+
+#### Using the facebook_get_advertiser_page_info_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> facebook_get_advertiser_page_info_with_http_info(page_id, opts)
+
+```ruby
+begin
+  # Get advertiser page info
+  data, status_code, headers = api_instance.facebook_get_advertiser_page_info_with_http_info(page_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling FacebookApi->facebook_get_advertiser_page_info_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **page_id** | **String** |  |  |
+| **country** | **String** |  | [optional][default to &#39;US&#39;] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## facebook_get_an_ad
 
-> Object facebook_get_an_ad(ad_archive_id)
+> Object facebook_get_an_ad(ad_archive_id, opts)
 
 Get an ad
 
-Get a single Ad Library ad by its archive id.
+Get a single Ad Library ad by its archive id. For EU/UK-targeted ads the response also includes transparency insights (payer/beneficiary, total EU reach, and age/gender/country reach breakdowns).
 
 ### Examples
 
@@ -205,10 +282,13 @@ end
 
 api_instance = ScrapeBadger::FacebookApi.new
 ad_archive_id = 'ad_archive_id_example' # String | 
+opts = {
+  country: 'country_example' # String | ISO country code (an EU code returns EU transparency)
+}
 
 begin
   # Get an ad
-  result = api_instance.facebook_get_an_ad(ad_archive_id)
+  result = api_instance.facebook_get_an_ad(ad_archive_id, opts)
   p result
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling FacebookApi->facebook_get_an_ad: #{e}"
@@ -219,12 +299,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> facebook_get_an_ad_with_http_info(ad_archive_id)
+> <Array(Object, Integer, Hash)> facebook_get_an_ad_with_http_info(ad_archive_id, opts)
 
 ```ruby
 begin
   # Get an ad
-  data, status_code, headers = api_instance.facebook_get_an_ad_with_http_info(ad_archive_id)
+  data, status_code, headers = api_instance.facebook_get_an_ad_with_http_info(ad_archive_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
@@ -238,6 +318,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **ad_archive_id** | **String** |  |  |
+| **country** | **String** | ISO country code (an EU code returns EU transparency) | [optional][default to &#39;US&#39;] |
 
 ### Return type
 
@@ -960,6 +1041,81 @@ end
 ### Parameters
 
 This endpoint does not need any parameter.
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## facebook_search_advertiser_pages
+
+> Object facebook_search_advertiser_pages(query, opts)
+
+Search advertiser pages
+
+Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::FacebookApi.new
+query = 'query_example' # String | Advertiser name or keyword
+opts = {
+  country: 'country_example' # String | 
+}
+
+begin
+  # Search advertiser pages
+  result = api_instance.facebook_search_advertiser_pages(query, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling FacebookApi->facebook_search_advertiser_pages: #{e}"
+end
+```
+
+#### Using the facebook_search_advertiser_pages_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> facebook_search_advertiser_pages_with_http_info(query, opts)
+
+```ruby
+begin
+  # Search advertiser pages
+  data, status_code, headers = api_instance.facebook_search_advertiser_pages_with_http_info(query, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling FacebookApi->facebook_search_advertiser_pages_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query** | **String** | Advertiser name or keyword |  |
+| **country** | **String** |  | [optional][default to &#39;US&#39;] |
 
 ### Return type
 

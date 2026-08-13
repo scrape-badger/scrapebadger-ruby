@@ -160,10 +160,77 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Get advertiser page info
+    # Get advertiser page info: category, followers, page transparency (creation date, name history, managing organization, admin-account locations), related pages, and ad spend (for political/issue advertisers).
+    # @param page_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :country  (default to 'US')
+    # @return [Object]
+    def facebook_get_advertiser_page_info(page_id, opts = {})
+      data, _status_code, _headers = facebook_get_advertiser_page_info_with_http_info(page_id, opts)
+      data
+    end
+
+    # Get advertiser page info
+    # Get advertiser page info: category, followers, page transparency (creation date, name history, managing organization, admin-account locations), related pages, and ad spend (for political/issue advertisers).
+    # @param page_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :country  (default to 'US')
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def facebook_get_advertiser_page_info_with_http_info(page_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FacebookApi.facebook_get_advertiser_page_info ...'
+      end
+      # verify the required parameter 'page_id' is set
+      if @api_client.config.client_side_validation && page_id.nil?
+        fail ArgumentError, "Missing the required parameter 'page_id' when calling FacebookApi.facebook_get_advertiser_page_info"
+      end
+      # resource path
+      local_var_path = '/v1/facebook/ads/pages/{page_id}'.sub('{' + 'page_id' + '}', CGI.escape(page_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"FacebookApi.facebook_get_advertiser_page_info",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FacebookApi#facebook_get_advertiser_page_info\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get an ad
-    # Get a single Ad Library ad by its archive id.
+    # Get a single Ad Library ad by its archive id. For EU/UK-targeted ads the response also includes transparency insights (payer/beneficiary, total EU reach, and age/gender/country reach breakdowns).
     # @param ad_archive_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :country ISO country code (an EU code returns EU transparency) (default to 'US')
     # @return [Object]
     def facebook_get_an_ad(ad_archive_id, opts = {})
       data, _status_code, _headers = facebook_get_an_ad_with_http_info(ad_archive_id, opts)
@@ -171,9 +238,10 @@ module ScrapeBadger
     end
 
     # Get an ad
-    # Get a single Ad Library ad by its archive id.
+    # Get a single Ad Library ad by its archive id. For EU/UK-targeted ads the response also includes transparency insights (payer/beneficiary, total EU reach, and age/gender/country reach breakdowns).
     # @param ad_archive_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :country ISO country code (an EU code returns EU transparency) (default to 'US')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def facebook_get_an_ad_with_http_info(ad_archive_id, opts = {})
       if @api_client.config.debugging
@@ -188,6 +256,7 @@ module ScrapeBadger
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -852,6 +921,73 @@ module ScrapeBadger
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FacebookApi#facebook_list_locations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Search advertiser pages
+    # Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
+    # @param query [String] Advertiser name or keyword
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :country  (default to 'US')
+    # @return [Object]
+    def facebook_search_advertiser_pages(query, opts = {})
+      data, _status_code, _headers = facebook_search_advertiser_pages_with_http_info(query, opts)
+      data
+    end
+
+    # Search advertiser pages
+    # Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
+    # @param query [String] Advertiser name or keyword
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :country  (default to 'US')
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def facebook_search_advertiser_pages_with_http_info(query, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FacebookApi.facebook_search_advertiser_pages ...'
+      end
+      # verify the required parameter 'query' is set
+      if @api_client.config.client_side_validation && query.nil?
+        fail ArgumentError, "Missing the required parameter 'query' when calling FacebookApi.facebook_search_advertiser_pages"
+      end
+      # resource path
+      local_var_path = '/v1/facebook/ads/pages/search'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'query'] = query
+      query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"FacebookApi.facebook_search_advertiser_pages",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FacebookApi#facebook_search_advertiser_pages\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

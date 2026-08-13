@@ -226,6 +226,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::EBayApi* | [**ebay_search_listings**](docs/EBayApi.md#ebay_search_listings) | **GET** /v1/ebay/search | Search listings
 *ScrapeBadger::FacebookApi* | [**facebook_browse_a_marketplace_category**](docs/FacebookApi.md#facebook_browse_a_marketplace_category) | **GET** /v1/facebook/marketplace/category/{category} | Browse a Marketplace category
 *ScrapeBadger::FacebookApi* | [**facebook_get_a_marketplace_item**](docs/FacebookApi.md#facebook_get_a_marketplace_item) | **GET** /v1/facebook/marketplace/item/{item_id} | Get a Marketplace item
+*ScrapeBadger::FacebookApi* | [**facebook_get_advertiser_page_info**](docs/FacebookApi.md#facebook_get_advertiser_page_info) | **GET** /v1/facebook/ads/pages/{page_id} | Get advertiser page info
 *ScrapeBadger::FacebookApi* | [**facebook_get_an_ad**](docs/FacebookApi.md#facebook_get_an_ad) | **GET** /v1/facebook/ads/{ad_archive_id} | Get an ad
 *ScrapeBadger::FacebookApi* | [**facebook_get_group_detail**](docs/FacebookApi.md#facebook_get_group_detail) | **GET** /v1/facebook/groups/{group_id} | Get group detail
 *ScrapeBadger::FacebookApi* | [**facebook_get_group_posts**](docs/FacebookApi.md#facebook_get_group_posts) | **GET** /v1/facebook/groups/{group_id}/posts | Get group posts
@@ -237,6 +238,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::FacebookApi* | [**facebook_get_profile_posts**](docs/FacebookApi.md#facebook_get_profile_posts) | **GET** /v1/facebook/profiles/{identifier}/posts | Get profile posts
 *ScrapeBadger::FacebookApi* | [**facebook_list_categories**](docs/FacebookApi.md#facebook_list_categories) | **GET** /v1/facebook/marketplace/categories | List categories
 *ScrapeBadger::FacebookApi* | [**facebook_list_locations**](docs/FacebookApi.md#facebook_list_locations) | **GET** /v1/facebook/marketplace/locations | List locations
+*ScrapeBadger::FacebookApi* | [**facebook_search_advertiser_pages**](docs/FacebookApi.md#facebook_search_advertiser_pages) | **GET** /v1/facebook/ads/pages/search | Search advertiser pages
 *ScrapeBadger::FacebookApi* | [**facebook_search_events**](docs/FacebookApi.md#facebook_search_events) | **GET** /v1/facebook/search/events | Search events
 *ScrapeBadger::FacebookApi* | [**facebook_search_everything**](docs/FacebookApi.md#facebook_search_everything) | **GET** /v1/facebook/search | Search everything
 *ScrapeBadger::FacebookApi* | [**facebook_search_groups**](docs/FacebookApi.md#facebook_search_groups) | **GET** /v1/facebook/search/groups | Search groups

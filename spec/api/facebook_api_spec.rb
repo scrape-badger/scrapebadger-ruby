@@ -61,11 +61,25 @@ describe 'FacebookApi' do
     end
   end
 
+  # unit tests for facebook_get_advertiser_page_info
+  # Get advertiser page info
+  # Get advertiser page info: category, followers, page transparency (creation date, name history, managing organization, admin-account locations), related pages, and ad spend (for political/issue advertisers).
+  # @param page_id 
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :country 
+  # @return [Object]
+  describe 'facebook_get_advertiser_page_info test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for facebook_get_an_ad
   # Get an ad
-  # Get a single Ad Library ad by its archive id.
+  # Get a single Ad Library ad by its archive id. For EU/UK-targeted ads the response also includes transparency insights (payer/beneficiary, total EU reach, and age/gender/country reach breakdowns).
   # @param ad_archive_id 
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :country ISO country code (an EU code returns EU transparency)
   # @return [Object]
   describe 'facebook_get_an_ad test' do
     it 'should work' do
@@ -191,6 +205,19 @@ describe 'FacebookApi' do
   # @param [Hash] opts the optional parameters
   # @return [Object]
   describe 'facebook_list_locations test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for facebook_search_advertiser_pages
+  # Search advertiser pages
+  # Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
+  # @param query Advertiser name or keyword
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :country 
+  # @return [Object]
+  describe 'facebook_search_advertiser_pages test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
