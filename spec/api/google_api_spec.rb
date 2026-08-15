@@ -101,9 +101,9 @@ describe 'GoogleApi' do
   # Get place reviews
   # @param data_id Maps data ID
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :sort_by 
+  # @option opts [String] :sort_by qualityScore | newestFirst | ratingHigh | ratingLow
   # @option opts [String] :hl 
-  # @option opts [String] :next_page_token 
+  # @option opts [String] :next_page_token Cursor from the previous response&#39;s pagination.next; omit for page 1.
   # @option opts [Integer] :results 
   # @return [Object]
   describe 'google_get_place_reviews test' do

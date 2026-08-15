@@ -356,9 +356,9 @@ module ScrapeBadger
     # Get place reviews
     # @param data_id [String] Maps data ID
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :sort_by  (default to 'qualityScore')
+    # @option opts [String] :sort_by qualityScore | newestFirst | ratingHigh | ratingLow (default to 'qualityScore')
     # @option opts [String] :hl  (default to 'en')
-    # @option opts [String] :next_page_token 
+    # @option opts [String] :next_page_token Cursor from the previous response&#39;s pagination.next; omit for page 1.
     # @option opts [Integer] :results  (default to 10)
     # @return [Object]
     def google_get_place_reviews(data_id, opts = {})
@@ -369,9 +369,9 @@ module ScrapeBadger
     # Get place reviews
     # @param data_id [String] Maps data ID
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :sort_by  (default to 'qualityScore')
+    # @option opts [String] :sort_by qualityScore | newestFirst | ratingHigh | ratingLow (default to 'qualityScore')
     # @option opts [String] :hl  (default to 'en')
-    # @option opts [String] :next_page_token 
+    # @option opts [String] :next_page_token Cursor from the previous response&#39;s pagination.next; omit for page 1.
     # @option opts [Integer] :results  (default to 10)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_place_reviews_with_http_info(data_id, opts = {})

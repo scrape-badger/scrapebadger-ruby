@@ -442,9 +442,9 @@ end
 api_instance = ScrapeBadger::GoogleApi.new
 data_id = 'data_id_example' # String | Maps data ID
 opts = {
-  sort_by: 'sort_by_example', # String | 
+  sort_by: 'sort_by_example', # String | qualityScore | newestFirst | ratingHigh | ratingLow
   hl: 'hl_example', # String | 
-  next_page_token: 'next_page_token_example', # String | 
+  next_page_token: 'next_page_token_example', # String | Cursor from the previous response's pagination.next; omit for page 1.
   results: 56 # Integer | 
 }
 
@@ -480,9 +480,9 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **data_id** | **String** | Maps data ID |  |
-| **sort_by** | **String** |  | [optional][default to &#39;qualityScore&#39;] |
+| **sort_by** | **String** | qualityScore | newestFirst | ratingHigh | ratingLow | [optional][default to &#39;qualityScore&#39;] |
 | **hl** | **String** |  | [optional][default to &#39;en&#39;] |
-| **next_page_token** | **String** |  | [optional] |
+| **next_page_token** | **String** | Cursor from the previous response&#39;s pagination.next; omit for page 1. | [optional] |
 | **results** | **Integer** |  | [optional][default to 10] |
 
 ### Return type
