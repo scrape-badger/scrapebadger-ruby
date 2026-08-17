@@ -188,6 +188,12 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::BingApi* | [**bing_search_suggestions**](docs/BingApi.md#bing_search_suggestions) | **GET** /v1/bing/autocomplete | Search suggestions
 *ScrapeBadger::BingApi* | [**bing_video_search**](docs/BingApi.md#bing_video_search) | **GET** /v1/bing/videos | Video search
 *ScrapeBadger::BingApi* | [**bing_web_search**](docs/BingApi.md#bing_web_search) | **GET** /v1/bing/search | Web search
+*ScrapeBadger::BookingApi* | [**booking_booking_scraper_health_check**](docs/BookingApi.md#booking_booking_scraper_health_check) | **GET** /v1/booking/health | Booking scraper health check
+*ScrapeBadger::BookingApi* | [**booking_booking_scraper_health_check_head**](docs/BookingApi.md#booking_booking_scraper_health_check_head) | **HEAD** /v1/booking/health | Booking scraper health check
+*ScrapeBadger::BookingApi* | [**booking_get_property_detail**](docs/BookingApi.md#booking_get_property_detail) | **GET** /v1/booking/properties/{country_code}/{slug} | Get property detail
+*ScrapeBadger::BookingApi* | [**booking_get_property_reviews**](docs/BookingApi.md#booking_get_property_reviews) | **GET** /v1/booking/properties/{country_code}/{slug}/reviews | Get property reviews
+*ScrapeBadger::BookingApi* | [**booking_search_destinations**](docs/BookingApi.md#booking_search_destinations) | **GET** /v1/booking/destinations | Search destinations
+*ScrapeBadger::BookingApi* | [**booking_search_properties**](docs/BookingApi.md#booking_search_properties) | **GET** /v1/booking/search | Search properties
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_ask_chatgpt_a_question**](docs/ChatGPTApi.md#chatgpt_ask_chatgpt_a_question) | **GET** /v1/chatgpt/ask | Ask ChatGPT a question
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_ask_chatgpt_a_question_post**](docs/ChatGPTApi.md#chatgpt_ask_chatgpt_a_question_post) | **POST** /v1/chatgpt/ask | Ask ChatGPT a question (POST)
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_chatgpt_scraper_health_check**](docs/ChatGPTApi.md#chatgpt_chatgpt_scraper_health_check) | **GET** /v1/chatgpt/health | ChatGPT scraper health check

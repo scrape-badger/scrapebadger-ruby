@@ -17,6 +17,7 @@ docs/BaiduApi.md
 docs/BillingLogListResponse.md
 docs/BillingLogResponse.md
 docs/BingApi.md
+docs/BookingApi.md
 docs/ChatGPTApi.md
 docs/DepopApi.md
 docs/DuckDuckGoApi.md
@@ -78,6 +79,7 @@ lib/scrapebadger/api/apartments_api.rb
 lib/scrapebadger/api/app_store_api.rb
 lib/scrapebadger/api/baidu_api.rb
 lib/scrapebadger/api/bing_api.rb
+lib/scrapebadger/api/booking_api.rb
 lib/scrapebadger/api/chat_gpt_api.rb
 lib/scrapebadger/api/depop_api.rb
 lib/scrapebadger/api/duck_duck_go_api.rb
@@ -145,6 +147,7 @@ spec/api/apartments_api_spec.rb
 spec/api/app_store_api_spec.rb
 spec/api/baidu_api_spec.rb
 spec/api/bing_api_spec.rb
+spec/api/booking_api_spec.rb
 spec/api/chat_gpt_api_spec.rb
 spec/api/depop_api_spec.rb
 spec/api/duck_duck_go_api_spec.rb
