@@ -350,6 +350,132 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Get room types and live rates
+    # Every room type at one property with every rate bookable on it for the given dates — price, price before discount, price per night, discounts and badges — plus per-room facilities, bed layouts, occupancy and photos. /search returns only the cheapest rate per property; this returns the whole table.
+    # @param country_code [String] Two-letter country code, e.g. &#39;it&#39;
+    # @param slug [String] Booking page name, e.g. &#39;hotel-artemide&#39;
+    # @param checkin [String] Check-in date YYYY-MM-DD
+    # @param checkout [String] Check-out date YYYY-MM-DD
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :adults  (default to 2)
+    # @option opts [String] :children Comma-separated children ages, e.g. &#39;4,9&#39;
+    # @option opts [Integer] :rooms  (default to 1)
+    # @option opts [String] :currency ISO currency, e.g. EUR, USD, GBP
+    # @option opts [String] :language Locale, e.g. en-us, fr, de
+    # @return [Object]
+    def booking_get_room_types_and_live_rates(country_code, slug, checkin, checkout, opts = {})
+      data, _status_code, _headers = booking_get_room_types_and_live_rates_with_http_info(country_code, slug, checkin, checkout, opts)
+      data
+    end
+
+    # Get room types and live rates
+    # Every room type at one property with every rate bookable on it for the given dates — price, price before discount, price per night, discounts and badges — plus per-room facilities, bed layouts, occupancy and photos. /search returns only the cheapest rate per property; this returns the whole table.
+    # @param country_code [String] Two-letter country code, e.g. &#39;it&#39;
+    # @param slug [String] Booking page name, e.g. &#39;hotel-artemide&#39;
+    # @param checkin [String] Check-in date YYYY-MM-DD
+    # @param checkout [String] Check-out date YYYY-MM-DD
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :adults  (default to 2)
+    # @option opts [String] :children Comma-separated children ages, e.g. &#39;4,9&#39;
+    # @option opts [Integer] :rooms  (default to 1)
+    # @option opts [String] :currency ISO currency, e.g. EUR, USD, GBP
+    # @option opts [String] :language Locale, e.g. en-us, fr, de
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def booking_get_room_types_and_live_rates_with_http_info(country_code, slug, checkin, checkout, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: BookingApi.booking_get_room_types_and_live_rates ...'
+      end
+      # verify the required parameter 'country_code' is set
+      if @api_client.config.client_side_validation && country_code.nil?
+        fail ArgumentError, "Missing the required parameter 'country_code' when calling BookingApi.booking_get_room_types_and_live_rates"
+      end
+      if @api_client.config.client_side_validation && country_code.to_s.length > 2
+        fail ArgumentError, 'invalid value for "country_code" when calling BookingApi.booking_get_room_types_and_live_rates, the character length must be smaller than or equal to 2.'
+      end
+
+      if @api_client.config.client_side_validation && country_code.to_s.length < 2
+        fail ArgumentError, 'invalid value for "country_code" when calling BookingApi.booking_get_room_types_and_live_rates, the character length must be great than or equal to 2.'
+      end
+
+      # verify the required parameter 'slug' is set
+      if @api_client.config.client_side_validation && slug.nil?
+        fail ArgumentError, "Missing the required parameter 'slug' when calling BookingApi.booking_get_room_types_and_live_rates"
+      end
+      if @api_client.config.client_side_validation && slug.to_s.length < 1
+        fail ArgumentError, 'invalid value for "slug" when calling BookingApi.booking_get_room_types_and_live_rates, the character length must be great than or equal to 1.'
+      end
+
+      # verify the required parameter 'checkin' is set
+      if @api_client.config.client_side_validation && checkin.nil?
+        fail ArgumentError, "Missing the required parameter 'checkin' when calling BookingApi.booking_get_room_types_and_live_rates"
+      end
+      # verify the required parameter 'checkout' is set
+      if @api_client.config.client_side_validation && checkout.nil?
+        fail ArgumentError, "Missing the required parameter 'checkout' when calling BookingApi.booking_get_room_types_and_live_rates"
+      end
+      if @api_client.config.client_side_validation && !opts[:'adults'].nil? && opts[:'adults'] > 30
+        fail ArgumentError, 'invalid value for "opts[:"adults"]" when calling BookingApi.booking_get_room_types_and_live_rates, must be smaller than or equal to 30.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'adults'].nil? && opts[:'adults'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"adults"]" when calling BookingApi.booking_get_room_types_and_live_rates, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'rooms'].nil? && opts[:'rooms'] > 30
+        fail ArgumentError, 'invalid value for "opts[:"rooms"]" when calling BookingApi.booking_get_room_types_and_live_rates, must be smaller than or equal to 30.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'rooms'].nil? && opts[:'rooms'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"rooms"]" when calling BookingApi.booking_get_room_types_and_live_rates, must be greater than or equal to 1.'
+      end
+
+      # resource path
+      local_var_path = '/v1/booking/properties/{country_code}/{slug}/rooms'.sub('{' + 'country_code' + '}', CGI.escape(country_code.to_s)).sub('{' + 'slug' + '}', CGI.escape(slug.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'checkin'] = checkin
+      query_params[:'checkout'] = checkout
+      query_params[:'adults'] = opts[:'adults'] if !opts[:'adults'].nil?
+      query_params[:'children'] = opts[:'children'] if !opts[:'children'].nil?
+      query_params[:'rooms'] = opts[:'rooms'] if !opts[:'rooms'].nil?
+      query_params[:'currency'] = opts[:'currency'] if !opts[:'currency'].nil?
+      query_params[:'language'] = opts[:'language'] if !opts[:'language'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"BookingApi.booking_get_room_types_and_live_rates",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: BookingApi#booking_get_room_types_and_live_rates\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Search destinations
     # Resolve a place name to Booking's `dest_id`/`dest_type`, with coordinates and country — feed the pair back into /search for an exact match.
     # @param query [String] Free-text place, e.g. &#39;amsterd&#39;

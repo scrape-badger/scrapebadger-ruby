@@ -89,6 +89,26 @@ describe 'BookingApi' do
     end
   end
 
+  # unit tests for booking_get_room_types_and_live_rates
+  # Get room types and live rates
+  # Every room type at one property with every rate bookable on it for the given dates — price, price before discount, price per night, discounts and badges — plus per-room facilities, bed layouts, occupancy and photos. /search returns only the cheapest rate per property; this returns the whole table.
+  # @param country_code Two-letter country code, e.g. &#39;it&#39;
+  # @param slug Booking page name, e.g. &#39;hotel-artemide&#39;
+  # @param checkin Check-in date YYYY-MM-DD
+  # @param checkout Check-out date YYYY-MM-DD
+  # @param [Hash] opts the optional parameters
+  # @option opts [Integer] :adults 
+  # @option opts [String] :children Comma-separated children ages, e.g. &#39;4,9&#39;
+  # @option opts [Integer] :rooms 
+  # @option opts [String] :currency ISO currency, e.g. EUR, USD, GBP
+  # @option opts [String] :language Locale, e.g. en-us, fr, de
+  # @return [Object]
+  describe 'booking_get_room_types_and_live_rates test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for booking_search_destinations
   # Search destinations
   # Resolve a place name to Booking&#39;s &#x60;dest_id&#x60;/&#x60;dest_type&#x60;, with coordinates and country — feed the pair back into /search for an exact match.

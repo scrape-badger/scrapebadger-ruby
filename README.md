@@ -192,6 +192,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::BookingApi* | [**booking_booking_scraper_health_check_head**](docs/BookingApi.md#booking_booking_scraper_health_check_head) | **HEAD** /v1/booking/health | Booking scraper health check
 *ScrapeBadger::BookingApi* | [**booking_get_property_detail**](docs/BookingApi.md#booking_get_property_detail) | **GET** /v1/booking/properties/{country_code}/{slug} | Get property detail
 *ScrapeBadger::BookingApi* | [**booking_get_property_reviews**](docs/BookingApi.md#booking_get_property_reviews) | **GET** /v1/booking/properties/{country_code}/{slug}/reviews | Get property reviews
+*ScrapeBadger::BookingApi* | [**booking_get_room_types_and_live_rates**](docs/BookingApi.md#booking_get_room_types_and_live_rates) | **GET** /v1/booking/properties/{country_code}/{slug}/rooms | Get room types and live rates
 *ScrapeBadger::BookingApi* | [**booking_search_destinations**](docs/BookingApi.md#booking_search_destinations) | **GET** /v1/booking/destinations | Search destinations
 *ScrapeBadger::BookingApi* | [**booking_search_properties**](docs/BookingApi.md#booking_search_properties) | **GET** /v1/booking/search | Search properties
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_ask_chatgpt_a_question**](docs/ChatGPTApi.md#chatgpt_ask_chatgpt_a_question) | **GET** /v1/chatgpt/ask | Ask ChatGPT a question
