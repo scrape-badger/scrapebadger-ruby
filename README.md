@@ -219,7 +219,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::DuckDuckGoApi* | [**duckduckgo_video_search**](docs/DuckDuckGoApi.md#duckduckgo_video_search) | **GET** /v1/duckduckgo/videos | Video search
 *ScrapeBadger::DuckDuckGoApi* | [**duckduckgo_web_search**](docs/DuckDuckGoApi.md#duckduckgo_web_search) | **GET** /v1/duckduckgo/search | Web search
 *ScrapeBadger::EBayApi* | [**ebay_browse_a_category**](docs/EBayApi.md#ebay_browse_a_category) | **GET** /v1/ebay/categories/{category_id}/items | Browse a category
-*ScrapeBadger::EBayApi* | [**ebay_completed_sold_listings**](docs/EBayApi.md#ebay_completed_sold_listings) | **GET** /v1/ebay/completed | Completed / sold listings
+*ScrapeBadger::EBayApi* | [**ebay_completed_sold_listings_deprecated**](docs/EBayApi.md#ebay_completed_sold_listings_deprecated) | **GET** /v1/ebay/completed | Completed / sold listings (deprecated)
 *ScrapeBadger::EBayApi* | [**ebay_ebay_scraper_health_check**](docs/EBayApi.md#ebay_ebay_scraper_health_check) | **GET** /v1/ebay/health | eBay scraper health check
 *ScrapeBadger::EBayApi* | [**ebay_ebay_scraper_health_check_head**](docs/EBayApi.md#ebay_ebay_scraper_health_check_head) | **HEAD** /v1/ebay/health | eBay scraper health check
 *ScrapeBadger::EBayApi* | [**ebay_get_item_detail**](docs/EBayApi.md#ebay_get_item_detail) | **GET** /v1/ebay/items/{item_id} | Get item detail

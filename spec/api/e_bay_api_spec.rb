@@ -50,9 +50,9 @@ describe 'EBayApi' do
     end
   end
 
-  # unit tests for ebay_completed_sold_listings
-  # Completed / sold listings
-  # Search completed/sold listings — eBay&#39;s sold-price history.
+  # unit tests for ebay_completed_sold_listings_deprecated
+  # Completed / sold listings (deprecated)
+  # Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
   # @param query Search keywords
   # @param [Hash] opts the optional parameters
   # @option opts [String] :domain 
@@ -64,7 +64,7 @@ describe 'EBayApi' do
   # @option opts [Float] :min_price 
   # @option opts [Float] :max_price 
   # @return [Object]
-  describe 'ebay_completed_sold_listings test' do
+  describe 'ebay_completed_sold_listings_deprecated test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end

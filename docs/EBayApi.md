@@ -5,7 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**ebay_browse_a_category**](EBayApi.md#ebay_browse_a_category) | **GET** /v1/ebay/categories/{category_id}/items | Browse a category |
-| [**ebay_completed_sold_listings**](EBayApi.md#ebay_completed_sold_listings) | **GET** /v1/ebay/completed | Completed / sold listings |
+| [**ebay_completed_sold_listings_deprecated**](EBayApi.md#ebay_completed_sold_listings_deprecated) | **GET** /v1/ebay/completed | Completed / sold listings (deprecated) |
 | [**ebay_ebay_scraper_health_check**](EBayApi.md#ebay_ebay_scraper_health_check) | **GET** /v1/ebay/health | eBay scraper health check |
 | [**ebay_ebay_scraper_health_check_head**](EBayApi.md#ebay_ebay_scraper_health_check_head) | **HEAD** /v1/ebay/health | eBay scraper health check |
 | [**ebay_get_item_detail**](EBayApi.md#ebay_get_item_detail) | **GET** /v1/ebay/items/{item_id} | Get item detail |
@@ -104,13 +104,13 @@ end
 - **Accept**: application/json
 
 
-## ebay_completed_sold_listings
+## ebay_completed_sold_listings_deprecated
 
-> Object ebay_completed_sold_listings(query, opts)
+> Object ebay_completed_sold_listings_deprecated(query, opts)
 
-Completed / sold listings
+Completed / sold listings (deprecated)
 
-Search completed/sold listings — eBay's sold-price history.
+Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
 
 ### Examples
 
@@ -139,29 +139,29 @@ opts = {
 }
 
 begin
-  # Completed / sold listings
-  result = api_instance.ebay_completed_sold_listings(query, opts)
+  # Completed / sold listings (deprecated)
+  result = api_instance.ebay_completed_sold_listings_deprecated(query, opts)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling EBayApi->ebay_completed_sold_listings: #{e}"
+  puts "Error when calling EBayApi->ebay_completed_sold_listings_deprecated: #{e}"
 end
 ```
 
-#### Using the ebay_completed_sold_listings_with_http_info variant
+#### Using the ebay_completed_sold_listings_deprecated_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> ebay_completed_sold_listings_with_http_info(query, opts)
+> <Array(Object, Integer, Hash)> ebay_completed_sold_listings_deprecated_with_http_info(query, opts)
 
 ```ruby
 begin
-  # Completed / sold listings
-  data, status_code, headers = api_instance.ebay_completed_sold_listings_with_http_info(query, opts)
+  # Completed / sold listings (deprecated)
+  data, status_code, headers = api_instance.ebay_completed_sold_listings_deprecated_with_http_info(query, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling EBayApi->ebay_completed_sold_listings_with_http_info: #{e}"
+  puts "Error when calling EBayApi->ebay_completed_sold_listings_deprecated_with_http_info: #{e}"
 end
 ```
 
