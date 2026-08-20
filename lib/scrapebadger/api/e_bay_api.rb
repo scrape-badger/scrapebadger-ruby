@@ -124,67 +124,67 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
-    # Completed / sold listings (deprecated)
-    # Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
+    # Completed / sold listings
+    # Search completed/sold listings — eBay's sold-price history.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :domain  (default to 'com')
-    # @option opts [String] :category_id 
+    # @option opts [String] :domain Marketplace domain (com, co.uk, de …) (default to 'com')
+    # @option opts [String] :category_id Restrict to a category id
     # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :per_page 
+    # @option opts [Integer] :per_page 60, 120 or 240
     # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (default to 'best_match')
     # @option opts [String] :condition new|open_box|refurbished|used|for_parts
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
     # @return [Object]
-    def ebay_completed_sold_listings_deprecated(query, opts = {})
-      data, _status_code, _headers = ebay_completed_sold_listings_deprecated_with_http_info(query, opts)
+    def ebay_completed_sold_listings(query, opts = {})
+      data, _status_code, _headers = ebay_completed_sold_listings_with_http_info(query, opts)
       data
     end
 
-    # Completed / sold listings (deprecated)
-    # Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
+    # Completed / sold listings
+    # Search completed/sold listings — eBay&#39;s sold-price history.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :domain  (default to 'com')
-    # @option opts [String] :category_id 
+    # @option opts [String] :domain Marketplace domain (com, co.uk, de …) (default to 'com')
+    # @option opts [String] :category_id Restrict to a category id
     # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :per_page 
+    # @option opts [Integer] :per_page 60, 120 or 240
     # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (default to 'best_match')
     # @option opts [String] :condition new|open_box|refurbished|used|for_parts
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def ebay_completed_sold_listings_deprecated_with_http_info(query, opts = {})
+    def ebay_completed_sold_listings_with_http_info(query, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: EBayApi.ebay_completed_sold_listings_deprecated ...'
+        @api_client.config.logger.debug 'Calling API: EBayApi.ebay_completed_sold_listings ...'
       end
       # verify the required parameter 'query' is set
       if @api_client.config.client_side_validation && query.nil?
-        fail ArgumentError, "Missing the required parameter 'query' when calling EBayApi.ebay_completed_sold_listings_deprecated"
+        fail ArgumentError, "Missing the required parameter 'query' when calling EBayApi.ebay_completed_sold_listings"
       end
       if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] > 100
-        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling EBayApi.ebay_completed_sold_listings_deprecated, must be smaller than or equal to 100.'
+        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling EBayApi.ebay_completed_sold_listings, must be smaller than or equal to 100.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling EBayApi.ebay_completed_sold_listings_deprecated, must be greater than or equal to 1.'
+        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling EBayApi.ebay_completed_sold_listings, must be greater than or equal to 1.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'per_page'].nil? && opts[:'per_page'] > 240
-        fail ArgumentError, 'invalid value for "opts[:"per_page"]" when calling EBayApi.ebay_completed_sold_listings_deprecated, must be smaller than or equal to 240.'
+        fail ArgumentError, 'invalid value for "opts[:"per_page"]" when calling EBayApi.ebay_completed_sold_listings, must be smaller than or equal to 240.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'per_page'].nil? && opts[:'per_page'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"per_page"]" when calling EBayApi.ebay_completed_sold_listings_deprecated, must be greater than or equal to 1.'
+        fail ArgumentError, 'invalid value for "opts[:"per_page"]" when calling EBayApi.ebay_completed_sold_listings, must be greater than or equal to 1.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'min_price'].nil? && opts[:'min_price'] < 0
-        fail ArgumentError, 'invalid value for "opts[:"min_price"]" when calling EBayApi.ebay_completed_sold_listings_deprecated, must be greater than or equal to 0.'
+        fail ArgumentError, 'invalid value for "opts[:"min_price"]" when calling EBayApi.ebay_completed_sold_listings, must be greater than or equal to 0.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'max_price'].nil? && opts[:'max_price'] < 0
-        fail ArgumentError, 'invalid value for "opts[:"max_price"]" when calling EBayApi.ebay_completed_sold_listings_deprecated, must be greater than or equal to 0.'
+        fail ArgumentError, 'invalid value for "opts[:"max_price"]" when calling EBayApi.ebay_completed_sold_listings, must be greater than or equal to 0.'
       end
 
       # resource path
@@ -220,7 +220,7 @@ module ScrapeBadger
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
 
       new_options = opts.merge(
-        :operation => :"EBayApi.ebay_completed_sold_listings_deprecated",
+        :operation => :"EBayApi.ebay_completed_sold_listings",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -231,7 +231,7 @@ module ScrapeBadger
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: EBayApi#ebay_completed_sold_listings_deprecated\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: EBayApi#ebay_completed_sold_listings\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

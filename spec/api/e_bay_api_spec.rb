@@ -50,21 +50,21 @@ describe 'EBayApi' do
     end
   end
 
-  # unit tests for ebay_completed_sold_listings_deprecated
-  # Completed / sold listings (deprecated)
-  # Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
+  # unit tests for ebay_completed_sold_listings
+  # Completed / sold listings
+  # Search completed/sold listings — eBay&#39;s sold-price history.
   # @param query Search keywords
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :domain 
-  # @option opts [String] :category_id 
+  # @option opts [String] :domain Marketplace domain (com, co.uk, de …)
+  # @option opts [String] :category_id Restrict to a category id
   # @option opts [Integer] :page 
-  # @option opts [Integer] :per_page 
+  # @option opts [Integer] :per_page 60, 120 or 240
   # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low
   # @option opts [String] :condition new|open_box|refurbished|used|for_parts
   # @option opts [Float] :min_price 
   # @option opts [Float] :max_price 
   # @return [Object]
-  describe 'ebay_completed_sold_listings_deprecated test' do
+  describe 'ebay_completed_sold_listings test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end

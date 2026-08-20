@@ -5,7 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**ebay_browse_a_category**](EBayApi.md#ebay_browse_a_category) | **GET** /v1/ebay/categories/{category_id}/items | Browse a category |
-| [**ebay_completed_sold_listings_deprecated**](EBayApi.md#ebay_completed_sold_listings_deprecated) | **GET** /v1/ebay/completed | Completed / sold listings (deprecated) |
+| [**ebay_completed_sold_listings**](EBayApi.md#ebay_completed_sold_listings) | **GET** /v1/ebay/completed | Completed / sold listings |
 | [**ebay_ebay_scraper_health_check**](EBayApi.md#ebay_ebay_scraper_health_check) | **GET** /v1/ebay/health | eBay scraper health check |
 | [**ebay_ebay_scraper_health_check_head**](EBayApi.md#ebay_ebay_scraper_health_check_head) | **HEAD** /v1/ebay/health | eBay scraper health check |
 | [**ebay_get_item_detail**](EBayApi.md#ebay_get_item_detail) | **GET** /v1/ebay/items/{item_id} | Get item detail |
@@ -104,13 +104,13 @@ end
 - **Accept**: application/json
 
 
-## ebay_completed_sold_listings_deprecated
+## ebay_completed_sold_listings
 
-> Object ebay_completed_sold_listings_deprecated(query, opts)
+> Object ebay_completed_sold_listings(query, opts)
 
-Completed / sold listings (deprecated)
+Completed / sold listings
 
-Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
+Search completed/sold listings — eBay's sold-price history.
 
 ### Examples
 
@@ -128,10 +128,10 @@ end
 api_instance = ScrapeBadger::EBayApi.new
 query = 'query_example' # String | Search keywords
 opts = {
-  domain: 'domain_example', # String | 
-  category_id: 'category_id_example', # String | 
+  domain: 'domain_example', # String | Marketplace domain (com, co.uk, de …)
+  category_id: 'category_id_example', # String | Restrict to a category id
   page: 56, # Integer | 
-  per_page: 56, # Integer | 
+  per_page: 56, # Integer | 60, 120 or 240
   sort_by: 'sort_by_example', # String | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low
   condition: 'condition_example', # String | new|open_box|refurbished|used|for_parts
   min_price: 8.14, # Float | 
@@ -139,29 +139,29 @@ opts = {
 }
 
 begin
-  # Completed / sold listings (deprecated)
-  result = api_instance.ebay_completed_sold_listings_deprecated(query, opts)
+  # Completed / sold listings
+  result = api_instance.ebay_completed_sold_listings(query, opts)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling EBayApi->ebay_completed_sold_listings_deprecated: #{e}"
+  puts "Error when calling EBayApi->ebay_completed_sold_listings: #{e}"
 end
 ```
 
-#### Using the ebay_completed_sold_listings_deprecated_with_http_info variant
+#### Using the ebay_completed_sold_listings_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> ebay_completed_sold_listings_deprecated_with_http_info(query, opts)
+> <Array(Object, Integer, Hash)> ebay_completed_sold_listings_with_http_info(query, opts)
 
 ```ruby
 begin
-  # Completed / sold listings (deprecated)
-  data, status_code, headers = api_instance.ebay_completed_sold_listings_deprecated_with_http_info(query, opts)
+  # Completed / sold listings
+  data, status_code, headers = api_instance.ebay_completed_sold_listings_with_http_info(query, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling EBayApi->ebay_completed_sold_listings_deprecated_with_http_info: #{e}"
+  puts "Error when calling EBayApi->ebay_completed_sold_listings_with_http_info: #{e}"
 end
 ```
 
@@ -170,10 +170,10 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **query** | **String** | Search keywords |  |
-| **domain** | **String** |  | [optional][default to &#39;com&#39;] |
-| **category_id** | **String** |  | [optional] |
+| **domain** | **String** | Marketplace domain (com, co.uk, de …) | [optional][default to &#39;com&#39;] |
+| **category_id** | **String** | Restrict to a category id | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |
-| **per_page** | **Integer** |  | [optional] |
+| **per_page** | **Integer** | 60, 120 or 240 | [optional] |
 | **sort_by** | **String** | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low | [optional][default to &#39;best_match&#39;] |
 | **condition** | **String** | new|open_box|refurbished|used|for_parts | [optional] |
 | **min_price** | **Float** |  | [optional] |
