@@ -133,9 +133,10 @@ opts = {
   page: 56, # Integer | 
   per_page: 56, # Integer | 60, 120 or 240
   sort_by: 'sort_by_example', # String | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low
-  condition: 'condition_example', # String | new|open_box|refurbished|used|for_parts
+  condition: 'condition_example', # String | new|open_box|refurbished|used|for_parts|graded|ungraded
   min_price: 8.14, # Float | 
-  max_price: 8.14 # Float | 
+  max_price: 8.14, # Float | 
+  location: 'location_example' # String | domestic|worldwide
 }
 
 begin
@@ -175,9 +176,10 @@ end
 | **page** | **Integer** |  | [optional][default to 1] |
 | **per_page** | **Integer** | 60, 120 or 240 | [optional] |
 | **sort_by** | **String** | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low | [optional][default to &#39;best_match&#39;] |
-| **condition** | **String** | new|open_box|refurbished|used|for_parts | [optional] |
+| **condition** | **String** | new|open_box|refurbished|used|for_parts|graded|ungraded | [optional] |
 | **min_price** | **Float** |  | [optional] |
 | **max_price** | **Float** |  | [optional] |
+| **location** | **String** | domestic|worldwide | [optional] |
 
 ### Return type
 
@@ -954,11 +956,12 @@ opts = {
   page: 56, # Integer | 
   per_page: 56, # Integer | 60, 120 or 240
   sort_by: 'sort_by_example', # String | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low
-  condition: 'condition_example', # String | new|open_box|refurbished|used|for_parts
+  condition: 'condition_example', # String | new|open_box|refurbished|used|for_parts|graded|ungraded
   buying_format: 'buying_format_example', # String | auction|buy_it_now|best_offer
   min_price: 8.14, # Float | 
   max_price: 8.14, # Float | 
-  free_shipping: true # Boolean | 
+  free_shipping: true, # Boolean | 
+  location: 'location_example' # String | domestic|worldwide
 }
 
 begin
@@ -998,11 +1001,12 @@ end
 | **page** | **Integer** |  | [optional][default to 1] |
 | **per_page** | **Integer** | 60, 120 or 240 | [optional] |
 | **sort_by** | **String** | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low | [optional][default to &#39;best_match&#39;] |
-| **condition** | **String** | new|open_box|refurbished|used|for_parts | [optional] |
+| **condition** | **String** | new|open_box|refurbished|used|for_parts|graded|ungraded | [optional] |
 | **buying_format** | **String** | auction|buy_it_now|best_offer | [optional] |
 | **min_price** | **Float** |  | [optional] |
 | **max_price** | **Float** |  | [optional] |
 | **free_shipping** | **Boolean** |  | [optional][default to false] |
+| **location** | **String** | domestic|worldwide | [optional] |
 
 ### Return type
 

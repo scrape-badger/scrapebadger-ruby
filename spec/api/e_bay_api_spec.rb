@@ -60,9 +60,10 @@ describe 'EBayApi' do
   # @option opts [Integer] :page 
   # @option opts [Integer] :per_page 60, 120 or 240
   # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low
-  # @option opts [String] :condition new|open_box|refurbished|used|for_parts
+  # @option opts [String] :condition new|open_box|refurbished|used|for_parts|graded|ungraded
   # @option opts [Float] :min_price 
   # @option opts [Float] :max_price 
+  # @option opts [String] :location domestic|worldwide
   # @return [Object]
   describe 'ebay_completed_sold_listings test' do
     it 'should work' do
@@ -207,11 +208,12 @@ describe 'EBayApi' do
   # @option opts [Integer] :page 
   # @option opts [Integer] :per_page 60, 120 or 240
   # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low
-  # @option opts [String] :condition new|open_box|refurbished|used|for_parts
+  # @option opts [String] :condition new|open_box|refurbished|used|for_parts|graded|ungraded
   # @option opts [String] :buying_format auction|buy_it_now|best_offer
   # @option opts [Float] :min_price 
   # @option opts [Float] :max_price 
   # @option opts [Boolean] :free_shipping 
+  # @option opts [String] :location domestic|worldwide
   # @return [Object]
   describe 'ebay_search_listings test' do
     it 'should work' do

@@ -133,9 +133,10 @@ module ScrapeBadger
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :per_page 60, 120 or 240
     # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (default to 'best_match')
-    # @option opts [String] :condition new|open_box|refurbished|used|for_parts
+    # @option opts [String] :condition new|open_box|refurbished|used|for_parts|graded|ungraded
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
+    # @option opts [String] :location domestic|worldwide
     # @return [Object]
     def ebay_completed_sold_listings(query, opts = {})
       data, _status_code, _headers = ebay_completed_sold_listings_with_http_info(query, opts)
@@ -151,9 +152,10 @@ module ScrapeBadger
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :per_page 60, 120 or 240
     # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (default to 'best_match')
-    # @option opts [String] :condition new|open_box|refurbished|used|for_parts
+    # @option opts [String] :condition new|open_box|refurbished|used|for_parts|graded|ungraded
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
+    # @option opts [String] :location domestic|worldwide
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def ebay_completed_sold_listings_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -201,6 +203,7 @@ module ScrapeBadger
       query_params[:'condition'] = opts[:'condition'] if !opts[:'condition'].nil?
       query_params[:'min_price'] = opts[:'min_price'] if !opts[:'min_price'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
+      query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -917,11 +920,12 @@ module ScrapeBadger
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :per_page 60, 120 or 240
     # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (default to 'best_match')
-    # @option opts [String] :condition new|open_box|refurbished|used|for_parts
+    # @option opts [String] :condition new|open_box|refurbished|used|for_parts|graded|ungraded
     # @option opts [String] :buying_format auction|buy_it_now|best_offer
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
     # @option opts [Boolean] :free_shipping  (default to false)
+    # @option opts [String] :location domestic|worldwide
     # @return [Object]
     def ebay_search_listings(query, opts = {})
       data, _status_code, _headers = ebay_search_listings_with_http_info(query, opts)
@@ -937,11 +941,12 @@ module ScrapeBadger
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :per_page 60, 120 or 240
     # @option opts [String] :sort_by best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (default to 'best_match')
-    # @option opts [String] :condition new|open_box|refurbished|used|for_parts
+    # @option opts [String] :condition new|open_box|refurbished|used|for_parts|graded|ungraded
     # @option opts [String] :buying_format auction|buy_it_now|best_offer
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
     # @option opts [Boolean] :free_shipping  (default to false)
+    # @option opts [String] :location domestic|worldwide
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def ebay_search_listings_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -991,6 +996,7 @@ module ScrapeBadger
       query_params[:'min_price'] = opts[:'min_price'] if !opts[:'min_price'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'free_shipping'] = opts[:'free_shipping'] if !opts[:'free_shipping'].nil?
+      query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
