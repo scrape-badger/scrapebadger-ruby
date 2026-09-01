@@ -28,8 +28,13 @@ All URIs are relative to *https://scrapebadger.com*
 | [**tiktok_search_hashtags**](TikTokApi.md#tiktok_search_hashtags) | **GET** /v1/tiktok/search/hashtags | Search hashtags |
 | [**tiktok_search_the_tiktok_ad_library**](TikTokApi.md#tiktok_search_the_tiktok_ad_library) | **GET** /v1/tiktok/ads/search | Search the TikTok Ad Library |
 | [**tiktok_search_tiktok_advertisers**](TikTokApi.md#tiktok_search_tiktok_advertisers) | **GET** /v1/tiktok/ads/advertisers | Search TikTok advertisers |
+| [**tiktok_search_tiktok_shop_products**](TikTokApi.md#tiktok_search_tiktok_shop_products) | **GET** /v1/tiktok/shop/search | Search TikTok Shop products |
 | [**tiktok_search_users**](TikTokApi.md#tiktok_search_users) | **GET** /v1/tiktok/search/users | Search users |
 | [**tiktok_search_videos**](TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos |
+| [**tiktok_tiktok_shop_best_sellers**](TikTokApi.md#tiktok_tiktok_shop_best_sellers) | **GET** /v1/tiktok/shop/ranking | TikTok Shop best sellers |
+| [**tiktok_tiktok_shop_category_subcategories_top_products**](TikTokApi.md#tiktok_tiktok_shop_category_subcategories_top_products) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products |
+| [**tiktok_tiktok_shop_product_detail**](TikTokApi.md#tiktok_tiktok_shop_product_detail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail |
+| [**tiktok_tiktok_shop_root_categories**](TikTokApi.md#tiktok_tiktok_shop_root_categories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories |
 | [**tiktok_trending_hashtags**](TikTokApi.md#tiktok_trending_hashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags |
 | [**tiktok_trending_songs**](TikTokApi.md#tiktok_trending_songs) | **GET** /v1/tiktok/trending/songs | Trending songs |
 | [**tiktok_trending_videos**](TikTokApi.md#tiktok_trending_videos) | **GET** /v1/tiktok/trending/videos | Trending videos |
@@ -1870,6 +1875,77 @@ end
 - **Accept**: application/json
 
 
+## tiktok_search_tiktok_shop_products
+
+> Object tiktok_search_tiktok_shop_products(q)
+
+Search TikTok Shop products
+
+Keyword search over TikTok Shop products (US): products with their bound video, matching shops, related searches and categories.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+q = 'q_example' # String | Keyword, e.g. 'wireless earbuds'
+
+begin
+  # Search TikTok Shop products
+  result = api_instance.tiktok_search_tiktok_shop_products(q)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_search_tiktok_shop_products: #{e}"
+end
+```
+
+#### Using the tiktok_search_tiktok_shop_products_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_search_tiktok_shop_products_with_http_info(q)
+
+```ruby
+begin
+  # Search TikTok Shop products
+  data, status_code, headers = api_instance.tiktok_search_tiktok_shop_products_with_http_info(q)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_search_tiktok_shop_products_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **q** | **String** | Keyword, e.g. &#39;wireless earbuds&#39; |  |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## tiktok_search_users
 
 > Object tiktok_search_users(query, opts)
@@ -2013,6 +2089,289 @@ end
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 20] |
 | **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_tiktok_shop_best_sellers
+
+> Object tiktok_tiktok_shop_best_sellers(opts)
+
+TikTok Shop best sellers
+
+TikTok Shop's own ranking of the best-selling products of the past 30 days (US).
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+opts = {
+  count: 56 # Integer | Max products to return
+}
+
+begin
+  # TikTok Shop best sellers
+  result = api_instance.tiktok_tiktok_shop_best_sellers(opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_best_sellers: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_best_sellers_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_best_sellers_with_http_info(opts)
+
+```ruby
+begin
+  # TikTok Shop best sellers
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_best_sellers_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_best_sellers_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **count** | **Integer** | Max products to return | [optional][default to 20] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_tiktok_shop_category_subcategories_top_products
+
+> Object tiktok_tiktok_shop_category_subcategories_top_products(category_id)
+
+TikTok Shop category: subcategories + top products
+
+A category's subcategories and its top products as TikTok Shop ranks them (US).
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+category_id = 'category_id_example' # String | 
+
+begin
+  # TikTok Shop category: subcategories + top products
+  result = api_instance.tiktok_tiktok_shop_category_subcategories_top_products(category_id)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_category_subcategories_top_products: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_category_subcategories_top_products_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_category_subcategories_top_products_with_http_info(category_id)
+
+```ruby
+begin
+  # TikTok Shop category: subcategories + top products
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_category_subcategories_top_products_with_http_info(category_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_category_subcategories_top_products_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **category_id** | **String** |  |  |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_tiktok_shop_product_detail
+
+> Object tiktok_tiktok_shop_product_detail(product_id)
+
+TikTok Shop product detail
+
+Full TikTok Shop product page (US): description, images, price, SKUs with stock, reviews, shop and TikTok's AI summary.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+product_id = 'product_id_example' # String | 
+
+begin
+  # TikTok Shop product detail
+  result = api_instance.tiktok_tiktok_shop_product_detail(product_id)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_product_detail: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_product_detail_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_product_detail_with_http_info(product_id)
+
+```ruby
+begin
+  # TikTok Shop product detail
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_product_detail_with_http_info(product_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_product_detail_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **product_id** | **String** |  |  |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_tiktok_shop_root_categories
+
+> Object tiktok_tiktok_shop_root_categories
+
+TikTok Shop root categories
+
+Top-level TikTok Shop categories (US). Drill down with /shop/categories/{category_id}.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+
+begin
+  # TikTok Shop root categories
+  result = api_instance.tiktok_tiktok_shop_root_categories
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_root_categories: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_root_categories_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_root_categories_with_http_info
+
+```ruby
+begin
+  # TikTok Shop root categories
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_root_categories_with_http_info
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_root_categories_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
 
 ### Return type
 

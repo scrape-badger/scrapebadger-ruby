@@ -366,6 +366,18 @@ describe 'TikTokApi' do
     end
   end
 
+  # unit tests for tiktok_search_tiktok_shop_products
+  # Search TikTok Shop products
+  # Keyword search over TikTok Shop products (US): products with their bound video, matching shops, related searches and categories.
+  # @param q Keyword, e.g. &#39;wireless earbuds&#39;
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'tiktok_search_tiktok_shop_products test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for tiktok_search_users
   # Search users
   # Search TikTok users by keyword.
@@ -391,6 +403,53 @@ describe 'TikTokApi' do
   # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
   # @return [Object]
   describe 'tiktok_search_videos test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for tiktok_tiktok_shop_best_sellers
+  # TikTok Shop best sellers
+  # TikTok Shop&#39;s own ranking of the best-selling products of the past 30 days (US).
+  # @param [Hash] opts the optional parameters
+  # @option opts [Integer] :count Max products to return
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_best_sellers test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for tiktok_tiktok_shop_category_subcategories_top_products
+  # TikTok Shop category: subcategories + top products
+  # A category&#39;s subcategories and its top products as TikTok Shop ranks them (US).
+  # @param category_id 
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_category_subcategories_top_products test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for tiktok_tiktok_shop_product_detail
+  # TikTok Shop product detail
+  # Full TikTok Shop product page (US): description, images, price, SKUs with stock, reviews, shop and TikTok&#39;s AI summary.
+  # @param product_id 
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_product_detail test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for tiktok_tiktok_shop_root_categories
+  # TikTok Shop root categories
+  # Top-level TikTok Shop categories (US). Drill down with /shop/categories/{category_id}.
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_root_categories test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end

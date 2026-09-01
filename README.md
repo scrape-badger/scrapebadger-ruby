@@ -450,8 +450,13 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::TikTokApi* | [**tiktok_search_hashtags**](docs/TikTokApi.md#tiktok_search_hashtags) | **GET** /v1/tiktok/search/hashtags | Search hashtags
 *ScrapeBadger::TikTokApi* | [**tiktok_search_the_tiktok_ad_library**](docs/TikTokApi.md#tiktok_search_the_tiktok_ad_library) | **GET** /v1/tiktok/ads/search | Search the TikTok Ad Library
 *ScrapeBadger::TikTokApi* | [**tiktok_search_tiktok_advertisers**](docs/TikTokApi.md#tiktok_search_tiktok_advertisers) | **GET** /v1/tiktok/ads/advertisers | Search TikTok advertisers
+*ScrapeBadger::TikTokApi* | [**tiktok_search_tiktok_shop_products**](docs/TikTokApi.md#tiktok_search_tiktok_shop_products) | **GET** /v1/tiktok/shop/search | Search TikTok Shop products
 *ScrapeBadger::TikTokApi* | [**tiktok_search_users**](docs/TikTokApi.md#tiktok_search_users) | **GET** /v1/tiktok/search/users | Search users
 *ScrapeBadger::TikTokApi* | [**tiktok_search_videos**](docs/TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_best_sellers**](docs/TikTokApi.md#tiktok_tiktok_shop_best_sellers) | **GET** /v1/tiktok/shop/ranking | TikTok Shop best sellers
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_category_subcategories_top_products**](docs/TikTokApi.md#tiktok_tiktok_shop_category_subcategories_top_products) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_product_detail**](docs/TikTokApi.md#tiktok_tiktok_shop_product_detail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_root_categories**](docs/TikTokApi.md#tiktok_tiktok_shop_root_categories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_hashtags**](docs/TikTokApi.md#tiktok_trending_hashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_songs**](docs/TikTokApi.md#tiktok_trending_songs) | **GET** /v1/tiktok/trending/songs | Trending songs
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_videos**](docs/TikTokApi.md#tiktok_trending_videos) | **GET** /v1/tiktok/trending/videos | Trending videos
