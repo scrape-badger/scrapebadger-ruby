@@ -1833,11 +1833,11 @@ end
 
 ## google_multi_seller_offers_by_barcode
 
-> Object google_multi_seller_offers_by_barcode(barcode, opts)
+> Object google_multi_seller_offers_by_barcode(opts)
 
 Multi-seller offers by barcode
 
-Resolve a barcode to a product via Google web search, then return its Google Shopping seller offers (source + price per merchant).
+Google Shopping seller offers (source + price + link per merchant) for a product identified either by ``barcode`` (resolved via Google web search) or by its Google Shopping ``catalog_id`` (read straight off Google's product page, all seller pages fetched in parallel).
 
 ### Examples
 
@@ -1853,15 +1853,17 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::GoogleApi.new
-barcode = 'barcode_example' # String | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
 opts = {
+  barcode: 'barcode_example', # String | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+  catalog_id: 'catalog_id_example', # String | Google Shopping catalogid (the `catalog_id` on /shopping/search tiles, or `prds=catalogid:<id>` in a Google Shopping URL). Alternative to `barcode`; exactly one of the two is required
   gl: 'gl_example', # String | Country code (ISO 3166 alpha-2)
-  hl: 'hl_example' # String | Language code
+  hl: 'hl_example', # String | Language code
+  domain: 'domain_example' # String | Google domain
 }
 
 begin
   # Multi-seller offers by barcode
-  result = api_instance.google_multi_seller_offers_by_barcode(barcode, opts)
+  result = api_instance.google_multi_seller_offers_by_barcode(opts)
   p result
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling GoogleApi->google_multi_seller_offers_by_barcode: #{e}"
@@ -1872,12 +1874,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> google_multi_seller_offers_by_barcode_with_http_info(barcode, opts)
+> <Array(Object, Integer, Hash)> google_multi_seller_offers_by_barcode_with_http_info(opts)
 
 ```ruby
 begin
   # Multi-seller offers by barcode
-  data, status_code, headers = api_instance.google_multi_seller_offers_by_barcode_with_http_info(barcode, opts)
+  data, status_code, headers = api_instance.google_multi_seller_offers_by_barcode_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
@@ -1890,9 +1892,11 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **barcode** | **String** | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 |  |
+| **barcode** | **String** | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 | [optional] |
+| **catalog_id** | **String** | Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required | [optional] |
 | **gl** | **String** | Country code (ISO 3166 alpha-2) | [optional] |
 | **hl** | **String** | Language code | [optional][default to &#39;en&#39;] |
+| **domain** | **String** | Google domain | [optional][default to &#39;google.com&#39;] |
 
 ### Return type
 

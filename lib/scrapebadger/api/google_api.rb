@@ -1874,40 +1874,42 @@ module ScrapeBadger
     end
 
     # Multi-seller offers by barcode
-    # Resolve a barcode to a product via Google web search, then return its Google Shopping seller offers (source + price per merchant).
-    # @param barcode [String] Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+    # Google Shopping seller offers (source + price + link per merchant) for a product identified either by ``barcode`` (resolved via Google web search) or by its Google Shopping ``catalog_id`` (read straight off Google's product page, all seller pages fetched in parallel).
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :barcode Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+    # @option opts [String] :catalog_id Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required
     # @option opts [String] :gl Country code (ISO 3166 alpha-2)
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :domain Google domain (default to 'google.com')
     # @return [Object]
-    def google_multi_seller_offers_by_barcode(barcode, opts = {})
-      data, _status_code, _headers = google_multi_seller_offers_by_barcode_with_http_info(barcode, opts)
+    def google_multi_seller_offers_by_barcode(opts = {})
+      data, _status_code, _headers = google_multi_seller_offers_by_barcode_with_http_info(opts)
       data
     end
 
     # Multi-seller offers by barcode
-    # Resolve a barcode to a product via Google web search, then return its Google Shopping seller offers (source + price per merchant).
-    # @param barcode [String] Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+    # Google Shopping seller offers (source + price + link per merchant) for a product identified either by &#x60;&#x60;barcode&#x60;&#x60; (resolved via Google web search) or by its Google Shopping &#x60;&#x60;catalog_id&#x60;&#x60; (read straight off Google&#39;s product page, all seller pages fetched in parallel).
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :barcode Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+    # @option opts [String] :catalog_id Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required
     # @option opts [String] :gl Country code (ISO 3166 alpha-2)
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :domain Google domain (default to 'google.com')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def google_multi_seller_offers_by_barcode_with_http_info(barcode, opts = {})
+    def google_multi_seller_offers_by_barcode_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GoogleApi.google_multi_seller_offers_by_barcode ...'
-      end
-      # verify the required parameter 'barcode' is set
-      if @api_client.config.client_side_validation && barcode.nil?
-        fail ArgumentError, "Missing the required parameter 'barcode' when calling GoogleApi.google_multi_seller_offers_by_barcode"
       end
       # resource path
       local_var_path = '/v1/google/shopping/offers'
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'barcode'] = barcode
+      query_params[:'barcode'] = opts[:'barcode'] if !opts[:'barcode'].nil?
+      query_params[:'catalog_id'] = opts[:'catalog_id'] if !opts[:'catalog_id'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

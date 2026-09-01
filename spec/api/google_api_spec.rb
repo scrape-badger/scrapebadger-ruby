@@ -392,11 +392,13 @@ describe 'GoogleApi' do
 
   # unit tests for google_multi_seller_offers_by_barcode
   # Multi-seller offers by barcode
-  # Resolve a barcode to a product via Google web search, then return its Google Shopping seller offers (source + price per merchant).
-  # @param barcode Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+  # Google Shopping seller offers (source + price + link per merchant) for a product identified either by &#x60;&#x60;barcode&#x60;&#x60; (resolved via Google web search) or by its Google Shopping &#x60;&#x60;catalog_id&#x60;&#x60; (read straight off Google&#39;s product page, all seller pages fetched in parallel).
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :barcode Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+  # @option opts [String] :catalog_id Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required
   # @option opts [String] :gl Country code (ISO 3166 alpha-2)
   # @option opts [String] :hl Language code
+  # @option opts [String] :domain Google domain
   # @return [Object]
   describe 'google_multi_seller_offers_by_barcode test' do
     it 'should work' do
