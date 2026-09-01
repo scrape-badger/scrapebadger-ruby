@@ -102,7 +102,7 @@ describe 'WebApi' do
 
   # unit tests for web_take_a_screenshot
   # Take a screenshot
-  # Take a screenshot of a URL. (Phase 2 — patchright engine)
+  # Take a screenshot of a URL. (browser engine)
   # @param [Hash] opts the optional parameters
   # @return [Object]
   describe 'web_take_a_screenshot test' do

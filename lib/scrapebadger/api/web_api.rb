@@ -374,7 +374,7 @@ module ScrapeBadger
     end
 
     # Take a screenshot
-    # Take a screenshot of a URL. (Phase 2 — patchright engine)
+    # Take a screenshot of a URL. (browser engine)
     # @param [Hash] opts the optional parameters
     # @return [Object]
     def web_take_a_screenshot(opts = {})
@@ -383,7 +383,7 @@ module ScrapeBadger
     end
 
     # Take a screenshot
-    # Take a screenshot of a URL. (Phase 2 — patchright engine)
+    # Take a screenshot of a URL. (browser engine)
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def web_take_a_screenshot_with_http_info(opts = {})
