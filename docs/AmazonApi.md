@@ -339,7 +339,8 @@ api_instance = ScrapeBadger::AmazonApi.new
 asin = 'asin_example' # String | 
 opts = {
   domain: 'domain_example', # String | 
-  zip: 'zip_example' # String | 
+  zip: 'zip_example', # String | 
+  page: 56 # Integer | Offer page, 10 rows each
 }
 
 begin
@@ -376,6 +377,7 @@ end
 | **asin** | **String** |  |  |
 | **domain** | **String** |  | [optional][default to &#39;com&#39;] |
 | **zip** | **String** |  | [optional] |
+| **page** | **Integer** | Offer page, 10 rows each | [optional][default to 1] |
 
 ### Return type
 

@@ -294,6 +294,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain  (default to 'com')
     # @option opts [String] :zip 
+    # @option opts [Integer] :page Offer page, 10 rows each (default to 1)
     # @return [Object]
     def amazon_get_all_seller_offers_buybox(asin, opts = {})
       data, _status_code, _headers = amazon_get_all_seller_offers_buybox_with_http_info(asin, opts)
@@ -306,6 +307,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain  (default to 'com')
     # @option opts [String] :zip 
+    # @option opts [Integer] :page Offer page, 10 rows each (default to 1)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def amazon_get_all_seller_offers_buybox_with_http_info(asin, opts = {})
       if @api_client.config.debugging
@@ -315,6 +317,10 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && asin.nil?
         fail ArgumentError, "Missing the required parameter 'asin' when calling AmazonApi.amazon_get_all_seller_offers_buybox"
       end
+      if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling AmazonApi.amazon_get_all_seller_offers_buybox, must be greater than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/amazon/products/{asin}/offers'.sub('{' + 'asin' + '}', CGI.escape(asin.to_s))
 
@@ -322,6 +328,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
       query_params[:'zip'] = opts[:'zip'] if !opts[:'zip'].nil?
+      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

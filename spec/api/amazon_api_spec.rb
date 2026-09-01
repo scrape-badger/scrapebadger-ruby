@@ -90,6 +90,7 @@ describe 'AmazonApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :domain 
   # @option opts [String] :zip 
+  # @option opts [Integer] :page Offer page, 10 rows each
   # @return [Object]
   describe 'amazon_get_all_seller_offers_buybox test' do
     it 'should work' do
