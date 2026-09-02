@@ -20,7 +20,7 @@ module ScrapeBadger
       @api_client = api_client
     end
     # About this account
-    # Country, join date and former usernames.
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Country, join date and former usernames.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -30,7 +30,7 @@ module ScrapeBadger
     end
 
     # About this account
-    # Country, join date and former usernames.
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview. Country, join date and former usernames.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -83,6 +83,7 @@ module ScrapeBadger
     end
 
     # Blended top search
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -92,6 +93,7 @@ module ScrapeBadger
     end
 
     # Blended top search
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -149,7 +151,7 @@ module ScrapeBadger
     end
 
     # Get active stories
-    # Active stories (account pool only).
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Active stories (account pool only).
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -159,7 +161,7 @@ module ScrapeBadger
     end
 
     # Get active stories
-    # Active stories (account pool only).
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview. Active stories (account pool only).
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -212,6 +214,7 @@ module ScrapeBadger
     end
 
     # Get audio track
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param audio_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -221,6 +224,7 @@ module ScrapeBadger
     end
 
     # Get audio track
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param audio_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -348,7 +352,7 @@ module ScrapeBadger
     end
 
     # Get followers
-    # Followers list, paginated (account pool).
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Followers list, paginated (account pool).
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 50)
@@ -361,7 +365,7 @@ module ScrapeBadger
     end
 
     # Get followers
-    # Followers list, paginated (account pool).
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview. Followers list, paginated (account pool).
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 50)
@@ -428,6 +432,7 @@ module ScrapeBadger
     end
 
     # Get following
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 50)
@@ -439,6 +444,7 @@ module ScrapeBadger
     end
 
     # Get following
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 50)
@@ -503,6 +509,7 @@ module ScrapeBadger
     end
 
     # Get hashtag info
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param tag [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -512,6 +519,7 @@ module ScrapeBadger
     end
 
     # Get hashtag info
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param tag [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -564,6 +572,7 @@ module ScrapeBadger
     end
 
     # Get highlights
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -573,6 +582,7 @@ module ScrapeBadger
     end
 
     # Get highlights
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -625,6 +635,7 @@ module ScrapeBadger
     end
 
     # Get likers
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param code [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -634,6 +645,7 @@ module ScrapeBadger
     end
 
     # Get likers
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param code [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -686,6 +698,7 @@ module ScrapeBadger
     end
 
     # Get location
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param location_pk [Integer] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -695,6 +708,7 @@ module ScrapeBadger
     end
 
     # Get location
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param location_pk [Integer] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -873,6 +887,7 @@ module ScrapeBadger
     end
 
     # Get tagged posts
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -884,6 +899,7 @@ module ScrapeBadger
     end
 
     # Get tagged posts
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -1025,6 +1041,7 @@ module ScrapeBadger
     end
 
     # Get user reels
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -1036,6 +1053,7 @@ module ScrapeBadger
     end
 
     # Get user reels
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -1210,6 +1228,7 @@ module ScrapeBadger
     end
 
     # Recent hashtag posts
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param tag [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -1221,6 +1240,7 @@ module ScrapeBadger
     end
 
     # Recent hashtag posts
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param tag [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -1285,6 +1305,7 @@ module ScrapeBadger
     end
 
     # Related profiles
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -1294,6 +1315,7 @@ module ScrapeBadger
     end
 
     # Related profiles
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -1346,6 +1368,7 @@ module ScrapeBadger
     end
 
     # Search hashtags
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -1355,6 +1378,7 @@ module ScrapeBadger
     end
 
     # Search hashtags
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -1412,6 +1436,7 @@ module ScrapeBadger
     end
 
     # Search users
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -1421,6 +1446,7 @@ module ScrapeBadger
     end
 
     # Search users
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -1478,6 +1504,7 @@ module ScrapeBadger
     end
 
     # Top hashtag posts
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param tag [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
@@ -1489,6 +1516,7 @@ module ScrapeBadger
     end
 
     # Top hashtag posts
+    # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
     # @param tag [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :amount  (default to 20)
