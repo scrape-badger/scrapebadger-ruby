@@ -455,8 +455,11 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::TikTokApi* | [**tiktok_search_videos**](docs/TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_best_sellers**](docs/TikTokApi.md#tiktok_tiktok_shop_best_sellers) | **GET** /v1/tiktok/shop/ranking | TikTok Shop best sellers
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_category_subcategories_top_products**](docs/TikTokApi.md#tiktok_tiktok_shop_category_subcategories_top_products) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_deals_feed**](docs/TikTokApi.md#tiktok_tiktok_shop_deals_feed) | **GET** /v1/tiktok/shop/deals/{deal} | TikTok Shop deals feed
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_product_detail**](docs/TikTokApi.md#tiktok_tiktok_shop_product_detail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_product_reviews**](docs/TikTokApi.md#tiktok_tiktok_shop_product_reviews) | **GET** /v1/tiktok/shop/products/{product_id}/reviews | TikTok Shop product reviews
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_root_categories**](docs/TikTokApi.md#tiktok_tiktok_shop_root_categories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories
+*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_store_products**](docs/TikTokApi.md#tiktok_tiktok_shop_store_products) | **GET** /v1/tiktok/shop/stores/{seller_id} | TikTok Shop store + products
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_hashtags**](docs/TikTokApi.md#tiktok_trending_hashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_songs**](docs/TikTokApi.md#tiktok_trending_songs) | **GET** /v1/tiktok/trending/songs | Trending songs
 *ScrapeBadger::TikTokApi* | [**tiktok_trending_videos**](docs/TikTokApi.md#tiktok_trending_videos) | **GET** /v1/tiktok/trending/videos | Trending videos
