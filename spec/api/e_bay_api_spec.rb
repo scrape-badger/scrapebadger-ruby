@@ -199,6 +199,18 @@ describe 'EBayApi' do
     end
   end
 
+  # unit tests for ebay_search_by_image
+  # Search by image
+  # Search active listings by image, the way eBay&#39;s camera icon does.  No &#x60;&#x60;sort_by&#x60;&#x60;: eBay ignores it on a visual results page.
+  # @param request_body 
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'ebay_search_by_image test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for ebay_search_listings
   # Search listings
   # Search an eBay marketplace for active listings.

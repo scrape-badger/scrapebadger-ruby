@@ -16,6 +16,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**ebay_keyword_suggestions**](EBayApi.md#ebay_keyword_suggestions) | **GET** /v1/ebay/autocomplete | Keyword suggestions |
 | [**ebay_list_categories**](EBayApi.md#ebay_list_categories) | **GET** /v1/ebay/categories | List categories |
 | [**ebay_list_markets**](EBayApi.md#ebay_list_markets) | **GET** /v1/ebay/markets | List markets |
+| [**ebay_search_by_image**](EBayApi.md#ebay_search_by_image) | **POST** /v1/ebay/search/by-image | Search by image |
 | [**ebay_search_listings**](EBayApi.md#ebay_search_listings) | **GET** /v1/ebay/search | Search listings |
 
 
@@ -926,6 +927,77 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## ebay_search_by_image
+
+> Object ebay_search_by_image(request_body)
+
+Search by image
+
+Search active listings by image, the way eBay's camera icon does.  No ``sort_by``: eBay ignores it on a visual results page.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::EBayApi.new
+request_body = { key: 3.56} # Hash<String, Object> | 
+
+begin
+  # Search by image
+  result = api_instance.ebay_search_by_image(request_body)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling EBayApi->ebay_search_by_image: #{e}"
+end
+```
+
+#### Using the ebay_search_by_image_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> ebay_search_by_image_with_http_info(request_body)
+
+```ruby
+begin
+  # Search by image
+  data, status_code, headers = api_instance.ebay_search_by_image_with_http_info(request_body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling EBayApi->ebay_search_by_image_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, Object&gt;**](Object.md) |  |  |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 

@@ -230,6 +230,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::EBayApi* | [**ebay_keyword_suggestions**](docs/EBayApi.md#ebay_keyword_suggestions) | **GET** /v1/ebay/autocomplete | Keyword suggestions
 *ScrapeBadger::EBayApi* | [**ebay_list_categories**](docs/EBayApi.md#ebay_list_categories) | **GET** /v1/ebay/categories | List categories
 *ScrapeBadger::EBayApi* | [**ebay_list_markets**](docs/EBayApi.md#ebay_list_markets) | **GET** /v1/ebay/markets | List markets
+*ScrapeBadger::EBayApi* | [**ebay_search_by_image**](docs/EBayApi.md#ebay_search_by_image) | **POST** /v1/ebay/search/by-image | Search by image
 *ScrapeBadger::EBayApi* | [**ebay_search_listings**](docs/EBayApi.md#ebay_search_listings) | **GET** /v1/ebay/search | Search listings
 *ScrapeBadger::FacebookApi* | [**facebook_browse_a_marketplace_category**](docs/FacebookApi.md#facebook_browse_a_marketplace_category) | **GET** /v1/facebook/marketplace/category/{category} | Browse a Marketplace category
 *ScrapeBadger::FacebookApi* | [**facebook_get_a_marketplace_item**](docs/FacebookApi.md#facebook_get_a_marketplace_item) | **GET** /v1/facebook/marketplace/item/{item_id} | Get a Marketplace item
