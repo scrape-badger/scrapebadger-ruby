@@ -25,6 +25,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;.
     # @option opts [String] :web_search auto (let ChatGPT decide) | force (ask it to browse) | off (answer from memory). &#x60;web_search_triggered&#x60; in the response always reports what actually happened. (default to 'auto')
+    # @option opts [String] :image_url Public http(s) URL of an image to attach to the prompt. ChatGPT reads it and answers about it. POST also accepts &#x60;image_base64&#x60;. Exactly one of the two.
     # @return [Object]
     def chatgpt_ask_chatgpt_a_question(prompt, opts = {})
       data, _status_code, _headers = chatgpt_ask_chatgpt_a_question_with_http_info(prompt, opts)
@@ -37,6 +38,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;.
     # @option opts [String] :web_search auto (let ChatGPT decide) | force (ask it to browse) | off (answer from memory). &#x60;web_search_triggered&#x60; in the response always reports what actually happened. (default to 'auto')
+    # @option opts [String] :image_url Public http(s) URL of an image to attach to the prompt. ChatGPT reads it and answers about it. POST also accepts &#x60;image_base64&#x60;. Exactly one of the two.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def chatgpt_ask_chatgpt_a_question_with_http_info(prompt, opts = {})
       if @api_client.config.debugging
@@ -54,6 +56,7 @@ module ScrapeBadger
       query_params[:'prompt'] = prompt
       query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
       query_params[:'web_search'] = opts[:'web_search'] if !opts[:'web_search'].nil?
+      query_params[:'image_url'] = opts[:'image_url'] if !opts[:'image_url'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
