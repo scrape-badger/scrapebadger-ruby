@@ -137,6 +137,7 @@ module ScrapeBadger
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
     # @option opts [String] :location domestic|worldwide
+    # @option opts [String] :language english|japanese|chinese|korean
     # @return [Object]
     def ebay_completed_sold_listings(query, opts = {})
       data, _status_code, _headers = ebay_completed_sold_listings_with_http_info(query, opts)
@@ -156,6 +157,7 @@ module ScrapeBadger
     # @option opts [Float] :min_price 
     # @option opts [Float] :max_price 
     # @option opts [String] :location domestic|worldwide
+    # @option opts [String] :language english|japanese|chinese|korean
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def ebay_completed_sold_listings_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -204,6 +206,7 @@ module ScrapeBadger
       query_params[:'min_price'] = opts[:'min_price'] if !opts[:'min_price'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
+      query_params[:'language'] = opts[:'language'] if !opts[:'language'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -926,6 +929,7 @@ module ScrapeBadger
     # @option opts [Float] :max_price 
     # @option opts [Boolean] :free_shipping  (default to false)
     # @option opts [String] :location domestic|worldwide
+    # @option opts [String] :language english|japanese|chinese|korean
     # @return [Object]
     def ebay_search_listings(query, opts = {})
       data, _status_code, _headers = ebay_search_listings_with_http_info(query, opts)
@@ -947,6 +951,7 @@ module ScrapeBadger
     # @option opts [Float] :max_price 
     # @option opts [Boolean] :free_shipping  (default to false)
     # @option opts [String] :location domestic|worldwide
+    # @option opts [String] :language english|japanese|chinese|korean
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def ebay_search_listings_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -997,6 +1002,7 @@ module ScrapeBadger
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'free_shipping'] = opts[:'free_shipping'] if !opts[:'free_shipping'].nil?
       query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
+      query_params[:'language'] = opts[:'language'] if !opts[:'language'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

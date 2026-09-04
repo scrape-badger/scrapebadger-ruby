@@ -64,6 +64,7 @@ describe 'EBayApi' do
   # @option opts [Float] :min_price 
   # @option opts [Float] :max_price 
   # @option opts [String] :location domestic|worldwide
+  # @option opts [String] :language english|japanese|chinese|korean
   # @return [Object]
   describe 'ebay_completed_sold_listings test' do
     it 'should work' do
@@ -214,6 +215,7 @@ describe 'EBayApi' do
   # @option opts [Float] :max_price 
   # @option opts [Boolean] :free_shipping 
   # @option opts [String] :location domestic|worldwide
+  # @option opts [String] :language english|japanese|chinese|korean
   # @return [Object]
   describe 'ebay_search_listings test' do
     it 'should work' do

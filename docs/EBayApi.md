@@ -136,7 +136,8 @@ opts = {
   condition: 'condition_example', # String | new|open_box|refurbished|used|for_parts|graded|ungraded
   min_price: 8.14, # Float | 
   max_price: 8.14, # Float | 
-  location: 'location_example' # String | domestic|worldwide
+  location: 'location_example', # String | domestic|worldwide
+  language: 'language_example' # String | english|japanese|chinese|korean
 }
 
 begin
@@ -180,6 +181,7 @@ end
 | **min_price** | **Float** |  | [optional] |
 | **max_price** | **Float** |  | [optional] |
 | **location** | **String** | domestic|worldwide | [optional] |
+| **language** | **String** | english|japanese|chinese|korean | [optional] |
 
 ### Return type
 
@@ -961,7 +963,8 @@ opts = {
   min_price: 8.14, # Float | 
   max_price: 8.14, # Float | 
   free_shipping: true, # Boolean | 
-  location: 'location_example' # String | domestic|worldwide
+  location: 'location_example', # String | domestic|worldwide
+  language: 'language_example' # String | english|japanese|chinese|korean
 }
 
 begin
@@ -1007,6 +1010,7 @@ end
 | **max_price** | **Float** |  | [optional] |
 | **free_shipping** | **Boolean** |  | [optional][default to false] |
 | **location** | **String** | domestic|worldwide | [optional] |
+| **language** | **String** | english|japanese|chinese|korean | [optional] |
 
 ### Return type
 
