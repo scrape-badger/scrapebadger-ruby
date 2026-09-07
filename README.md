@@ -454,9 +454,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::TikTokApi* | [**tiktok_search_tiktok_shop_products**](docs/TikTokApi.md#tiktok_search_tiktok_shop_products) | **GET** /v1/tiktok/shop/search | Search TikTok Shop products
 *ScrapeBadger::TikTokApi* | [**tiktok_search_users**](docs/TikTokApi.md#tiktok_search_users) | **GET** /v1/tiktok/search/users | Search users
 *ScrapeBadger::TikTokApi* | [**tiktok_search_videos**](docs/TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos
-*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_best_sellers**](docs/TikTokApi.md#tiktok_tiktok_shop_best_sellers) | **GET** /v1/tiktok/shop/ranking | TikTok Shop best sellers
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_category_subcategories_top_products**](docs/TikTokApi.md#tiktok_tiktok_shop_category_subcategories_top_products) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products
-*ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_deals_feed**](docs/TikTokApi.md#tiktok_tiktok_shop_deals_feed) | **GET** /v1/tiktok/shop/deals/{deal} | TikTok Shop deals feed
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_product_detail**](docs/TikTokApi.md#tiktok_tiktok_shop_product_detail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_product_reviews**](docs/TikTokApi.md#tiktok_tiktok_shop_product_reviews) | **GET** /v1/tiktok/shop/products/{product_id}/reviews | TikTok Shop product reviews
 *ScrapeBadger::TikTokApi* | [**tiktok_tiktok_shop_root_categories**](docs/TikTokApi.md#tiktok_tiktok_shop_root_categories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories

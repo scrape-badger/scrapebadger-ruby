@@ -410,19 +410,6 @@ describe 'TikTokApi' do
     end
   end
 
-  # unit tests for tiktok_tiktok_shop_best_sellers
-  # TikTok Shop best sellers
-  # TikTok Shop&#39;s own ranking of the best-selling products of the past 30 days (US only).
-  # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
-  # @option opts [Integer] :count Max products to return
-  # @return [Object]
-  describe 'tiktok_tiktok_shop_best_sellers test' do
-    it 'should work' do
-      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
-    end
-  end
-
   # unit tests for tiktok_tiktok_shop_category_subcategories_top_products
   # TikTok Shop category: subcategories + top products
   # A category&#39;s subcategories and its top products as TikTok Shop ranks them.
@@ -431,19 +418,6 @@ describe 'TikTokApi' do
   # @option opts [String] :region Market: US, GB, ID
   # @return [Object]
   describe 'tiktok_tiktok_shop_category_subcategories_top_products test' do
-    it 'should work' do
-      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
-    end
-  end
-
-  # unit tests for tiktok_tiktok_shop_deals_feed
-  # TikTok Shop deals feed
-  # A curated storefront feed: recommended-for-you, or premium-offers (US only).
-  # @param deal 
-  # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
-  # @return [Object]
-  describe 'tiktok_tiktok_shop_deals_feed test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
