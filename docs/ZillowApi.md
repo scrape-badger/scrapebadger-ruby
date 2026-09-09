@@ -5,6 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**zillow_get_agent_profile_listings**](ZillowApi.md#zillow_get_agent_profile_listings) | **GET** /v1/zillow/agent | Get agent profile + listings |
+| [**zillow_get_multifamily_building**](ZillowApi.md#zillow_get_multifamily_building) | **GET** /v1/zillow/building | Get multifamily building |
 | [**zillow_get_property_detail**](ZillowApi.md#zillow_get_property_detail) | **GET** /v1/zillow/property/{zpid} | Get property detail |
 | [**zillow_get_property_detail_by_url**](ZillowApi.md#zillow_get_property_detail_by_url) | **GET** /v1/zillow/property | Get property detail by URL |
 | [**zillow_list_coverage_markets**](ZillowApi.md#zillow_list_coverage_markets) | **GET** /v1/zillow/markets | List coverage markets |
@@ -74,6 +75,77 @@ end
 | ---- | ---- | ----------- | ----- |
 | **username** | **String** | Zillow profile username | [optional] |
 | **url** | **String** | Full Zillow /profile/... URL | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## zillow_get_multifamily_building
+
+> Object zillow_get_multifamily_building(url)
+
+Get multifamily building
+
+Get a Zillow apartment community with per-unit pricing and availability.  Multi-unit rentals are served on `/apartments/...` and `/b/...` pages, which `/property` cannot read — pass a `home_type=BUILDING` search result's `detail_url` here instead.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::ZillowApi.new
+url = 'url_example' # String | Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/
+
+begin
+  # Get multifamily building
+  result = api_instance.zillow_get_multifamily_building(url)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling ZillowApi->zillow_get_multifamily_building: #{e}"
+end
+```
+
+#### Using the zillow_get_multifamily_building_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> zillow_get_multifamily_building_with_http_info(url)
+
+```ruby
+begin
+  # Get multifamily building
+  data, status_code, headers = api_instance.zillow_get_multifamily_building_with_http_info(url)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling ZillowApi->zillow_get_multifamily_building_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **url** | **String** | Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/ |  |
 
 ### Return type
 

@@ -45,6 +45,18 @@ describe 'ZillowApi' do
     end
   end
 
+  # unit tests for zillow_get_multifamily_building
+  # Get multifamily building
+  # Get a Zillow apartment community with per-unit pricing and availability.  Multi-unit rentals are served on &#x60;/apartments/...&#x60; and &#x60;/b/...&#x60; pages, which &#x60;/property&#x60; cannot read — pass a &#x60;home_type&#x3D;BUILDING&#x60; search result&#39;s &#x60;detail_url&#x60; here instead.
+  # @param url Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'zillow_get_multifamily_building test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for zillow_get_property_detail
   # Get property detail
   # Get a single Zillow property&#39;s full detail by zpid.

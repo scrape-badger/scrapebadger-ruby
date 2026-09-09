@@ -82,6 +82,70 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Get multifamily building
+    # Get a Zillow apartment community with per-unit pricing and availability.  Multi-unit rentals are served on `/apartments/...` and `/b/...` pages, which `/property` cannot read — pass a `home_type=BUILDING` search result's `detail_url` here instead.
+    # @param url [String] Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/
+    # @param [Hash] opts the optional parameters
+    # @return [Object]
+    def zillow_get_multifamily_building(url, opts = {})
+      data, _status_code, _headers = zillow_get_multifamily_building_with_http_info(url, opts)
+      data
+    end
+
+    # Get multifamily building
+    # Get a Zillow apartment community with per-unit pricing and availability.  Multi-unit rentals are served on &#x60;/apartments/...&#x60; and &#x60;/b/...&#x60; pages, which &#x60;/property&#x60; cannot read — pass a &#x60;home_type&#x3D;BUILDING&#x60; search result&#39;s &#x60;detail_url&#x60; here instead.
+    # @param url [String] Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def zillow_get_multifamily_building_with_http_info(url, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ZillowApi.zillow_get_multifamily_building ...'
+      end
+      # verify the required parameter 'url' is set
+      if @api_client.config.client_side_validation && url.nil?
+        fail ArgumentError, "Missing the required parameter 'url' when calling ZillowApi.zillow_get_multifamily_building"
+      end
+      # resource path
+      local_var_path = '/v1/zillow/building'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'url'] = url
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"ZillowApi.zillow_get_multifamily_building",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ZillowApi#zillow_get_multifamily_building\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get property detail
     # Get a single Zillow property's full detail by zpid.
     # @param zpid [String] 

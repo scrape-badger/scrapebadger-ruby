@@ -603,6 +603,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::YouTubeApi* | [**youtube_youtube_scraper_health_check**](docs/YouTubeApi.md#youtube_youtube_scraper_health_check) | **GET** /v1/youtube/health | YouTube scraper health check
 *ScrapeBadger::YouTubeApi* | [**youtube_youtube_scraper_health_check_head**](docs/YouTubeApi.md#youtube_youtube_scraper_health_check_head) | **HEAD** /v1/youtube/health | YouTube scraper health check
 *ScrapeBadger::ZillowApi* | [**zillow_get_agent_profile_listings**](docs/ZillowApi.md#zillow_get_agent_profile_listings) | **GET** /v1/zillow/agent | Get agent profile + listings
+*ScrapeBadger::ZillowApi* | [**zillow_get_multifamily_building**](docs/ZillowApi.md#zillow_get_multifamily_building) | **GET** /v1/zillow/building | Get multifamily building
 *ScrapeBadger::ZillowApi* | [**zillow_get_property_detail**](docs/ZillowApi.md#zillow_get_property_detail) | **GET** /v1/zillow/property/{zpid} | Get property detail
 *ScrapeBadger::ZillowApi* | [**zillow_get_property_detail_by_url**](docs/ZillowApi.md#zillow_get_property_detail_by_url) | **GET** /v1/zillow/property | Get property detail by URL
 *ScrapeBadger::ZillowApi* | [**zillow_list_coverage_markets**](docs/ZillowApi.md#zillow_list_coverage_markets) | **GET** /v1/zillow/markets | List coverage markets
