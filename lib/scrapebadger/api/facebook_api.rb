@@ -1194,16 +1194,17 @@ module ScrapeBadger
     end
 
     # Search Marketplace
-    # Search Facebook Marketplace listings by keyword and location.
+    # Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :location Marketplace location slug (default to 'nyc')
+    # @option opts [String] :location Marketplace location slug or numeric place id (default to 'nyc')
     # @option opts [Integer] :min_price 
     # @option opts [Integer] :max_price 
     # @option opts [Integer] :days_since_listed 
     # @option opts [String] :sort_by 
     # @option opts [String] :item_condition 
     # @option opts [String] :delivery_method 
+    # @option opts [Integer] :radius Search radius around the location (km, or miles in the US)
     # @option opts [String] :after 
     # @return [Object]
     def facebook_search_marketplace(query, opts = {})
@@ -1212,16 +1213,17 @@ module ScrapeBadger
     end
 
     # Search Marketplace
-    # Search Facebook Marketplace listings by keyword and location.
+    # Search Facebook Marketplace listings by keyword and location.  &#x60;&#x60;location&#x60;&#x60; must be a Facebook location slug (&#x60;&#x60;london&#x60;&#x60;, &#x60;&#x60;newcastleupontyne&#x60;&#x60;) or a numeric Facebook place id — the &#x60;&#x60;city_page_id&#x60;&#x60; on any listing is one. Human-readable names such as &#x60;&#x60;Durham, UK&#x60;&#x60; are rejected with a 400 rather than silently searching Facebook&#39;s San Francisco default.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :location Marketplace location slug (default to 'nyc')
+    # @option opts [String] :location Marketplace location slug or numeric place id (default to 'nyc')
     # @option opts [Integer] :min_price 
     # @option opts [Integer] :max_price 
     # @option opts [Integer] :days_since_listed 
     # @option opts [String] :sort_by 
     # @option opts [String] :item_condition 
     # @option opts [String] :delivery_method 
+    # @option opts [Integer] :radius Search radius around the location (km, or miles in the US)
     # @option opts [String] :after 
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def facebook_search_marketplace_with_http_info(query, opts = {})
@@ -1245,6 +1247,7 @@ module ScrapeBadger
       query_params[:'sort_by'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
       query_params[:'item_condition'] = opts[:'item_condition'] if !opts[:'item_condition'].nil?
       query_params[:'delivery_method'] = opts[:'delivery_method'] if !opts[:'delivery_method'].nil?
+      query_params[:'radius'] = opts[:'radius'] if !opts[:'radius'].nil?
       query_params[:'after'] = opts[:'after'] if !opts[:'after'].nil?
 
       # header parameters

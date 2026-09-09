@@ -264,16 +264,17 @@ describe 'FacebookApi' do
 
   # unit tests for facebook_search_marketplace
   # Search Marketplace
-  # Search Facebook Marketplace listings by keyword and location.
+  # Search Facebook Marketplace listings by keyword and location.  &#x60;&#x60;location&#x60;&#x60; must be a Facebook location slug (&#x60;&#x60;london&#x60;&#x60;, &#x60;&#x60;newcastleupontyne&#x60;&#x60;) or a numeric Facebook place id — the &#x60;&#x60;city_page_id&#x60;&#x60; on any listing is one. Human-readable names such as &#x60;&#x60;Durham, UK&#x60;&#x60; are rejected with a 400 rather than silently searching Facebook&#39;s San Francisco default.
   # @param query Search keywords
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :location Marketplace location slug
+  # @option opts [String] :location Marketplace location slug or numeric place id
   # @option opts [Integer] :min_price 
   # @option opts [Integer] :max_price 
   # @option opts [Integer] :days_since_listed 
   # @option opts [String] :sort_by 
   # @option opts [String] :item_condition 
   # @option opts [String] :delivery_method 
+  # @option opts [Integer] :radius Search radius around the location (km, or miles in the US)
   # @option opts [String] :after 
   # @return [Object]
   describe 'facebook_search_marketplace test' do

@@ -1362,7 +1362,7 @@ end
 
 Search Marketplace
 
-Search Facebook Marketplace listings by keyword and location.
+Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
 
 ### Examples
 
@@ -1380,13 +1380,14 @@ end
 api_instance = ScrapeBadger::FacebookApi.new
 query = 'query_example' # String | Search keywords
 opts = {
-  location: 'location_example', # String | Marketplace location slug
+  location: 'location_example', # String | Marketplace location slug or numeric place id
   min_price: 56, # Integer | 
   max_price: 56, # Integer | 
   days_since_listed: 56, # Integer | 
   sort_by: 'sort_by_example', # String | 
   item_condition: 'item_condition_example', # String | 
   delivery_method: 'delivery_method_example', # String | 
+  radius: 56, # Integer | Search radius around the location (km, or miles in the US)
   after: 'after_example' # String | 
 }
 
@@ -1422,13 +1423,14 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **query** | **String** | Search keywords |  |
-| **location** | **String** | Marketplace location slug | [optional][default to &#39;nyc&#39;] |
+| **location** | **String** | Marketplace location slug or numeric place id | [optional][default to &#39;nyc&#39;] |
 | **min_price** | **Integer** |  | [optional] |
 | **max_price** | **Integer** |  | [optional] |
 | **days_since_listed** | **Integer** |  | [optional] |
 | **sort_by** | **String** |  | [optional] |
 | **item_condition** | **String** |  | [optional] |
 | **delivery_method** | **String** |  | [optional] |
+| **radius** | **Integer** | Search radius around the location (km, or miles in the US) | [optional] |
 | **after** | **String** |  | [optional] |
 
 ### Return type
