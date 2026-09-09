@@ -139,11 +139,12 @@ describe 'FacebookApi' do
 
   # unit tests for facebook_get_post_comments
   # Get post comments
-  # Get a Facebook post&#39;s comment thread (paginated).
+  # Get a Facebook post&#39;s comment thread, 10 per page.  &#x60;&#x60;sort&#x60;&#x60; is &#x60;&#x60;relevance&#x60;&#x60; (Facebook&#39;s ranked order, the default) or &#x60;&#x60;newest&#x60;&#x60;. Follow &#x60;&#x60;end_cursor&#x60;&#x60; while &#x60;&#x60;has_next_page&#x60;&#x60; to walk the whole thread; &#x60;&#x60;total_count&#x60;&#x60; is how many the post has.
   # @param post_id 
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :url Full post permalink/reel URL — overrides post_id
   # @option opts [String] :after 
-  # @option opts [String] :sort 
+  # @option opts [String] :sort relevance | newest
   # @return [Object]
   describe 'facebook_get_post_comments test' do
     it 'should work' do
@@ -153,9 +154,10 @@ describe 'FacebookApi' do
 
   # unit tests for facebook_get_post_detail
   # Get post detail
-  # Get a Facebook post&#39;s detail plus its top comments.
+  # Get a Facebook post&#39;s detail: text, media, author, date and the reaction / comment / share counts. The comments themselves come from &#x60;&#x60;/posts/{post_id}/comments&#x60;&#x60;.
   # @param post_id 
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :url Full post permalink/reel URL — overrides post_id
   # @return [Object]
   describe 'facebook_get_post_detail test' do
     it 'should work' do

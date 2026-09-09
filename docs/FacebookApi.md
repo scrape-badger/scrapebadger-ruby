@@ -632,7 +632,7 @@ end
 
 Get post comments
 
-Get a Facebook post's comment thread (paginated).
+Get a Facebook post's comment thread, 10 per page.  ``sort`` is ``relevance`` (Facebook's ranked order, the default) or ``newest``. Follow ``end_cursor`` while ``has_next_page`` to walk the whole thread; ``total_count`` is how many the post has.
 
 ### Examples
 
@@ -650,8 +650,9 @@ end
 api_instance = ScrapeBadger::FacebookApi.new
 post_id = 'post_id_example' # String | 
 opts = {
+  url: 'url_example', # String | Full post permalink/reel URL — overrides post_id
   after: 'after_example', # String | 
-  sort: 'sort_example' # String | 
+  sort: 'sort_example' # String | relevance | newest
 }
 
 begin
@@ -686,8 +687,9 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **post_id** | **String** |  |  |
+| **url** | **String** | Full post permalink/reel URL — overrides post_id | [optional] |
 | **after** | **String** |  | [optional] |
-| **sort** | **String** |  | [optional][default to &#39;relevance&#39;] |
+| **sort** | **String** | relevance | newest | [optional][default to &#39;relevance&#39;] |
 
 ### Return type
 
@@ -705,11 +707,11 @@ end
 
 ## facebook_get_post_detail
 
-> Object facebook_get_post_detail(post_id)
+> Object facebook_get_post_detail(post_id, opts)
 
 Get post detail
 
-Get a Facebook post's detail plus its top comments.
+Get a Facebook post's detail: text, media, author, date and the reaction / comment / share counts. The comments themselves come from ``/posts/{post_id}/comments``.
 
 ### Examples
 
@@ -726,10 +728,13 @@ end
 
 api_instance = ScrapeBadger::FacebookApi.new
 post_id = 'post_id_example' # String | 
+opts = {
+  url: 'url_example' # String | Full post permalink/reel URL — overrides post_id
+}
 
 begin
   # Get post detail
-  result = api_instance.facebook_get_post_detail(post_id)
+  result = api_instance.facebook_get_post_detail(post_id, opts)
   p result
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling FacebookApi->facebook_get_post_detail: #{e}"
@@ -740,12 +745,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> facebook_get_post_detail_with_http_info(post_id)
+> <Array(Object, Integer, Hash)> facebook_get_post_detail_with_http_info(post_id, opts)
 
 ```ruby
 begin
   # Get post detail
-  data, status_code, headers = api_instance.facebook_get_post_detail_with_http_info(post_id)
+  data, status_code, headers = api_instance.facebook_get_post_detail_with_http_info(post_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
@@ -759,6 +764,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **post_id** | **String** |  |  |
+| **url** | **String** | Full post permalink/reel URL — overrides post_id | [optional] |
 
 ### Return type
 
