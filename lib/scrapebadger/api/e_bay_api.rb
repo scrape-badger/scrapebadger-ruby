@@ -125,7 +125,7 @@ module ScrapeBadger
     end
 
     # Completed / sold listings
-    # Search completed/sold listings — eBay's sold-price history.
+    # Search completed/sold listings — eBay's sold-price history.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain Marketplace domain (com, co.uk, de …) (default to 'com')
@@ -145,7 +145,7 @@ module ScrapeBadger
     end
 
     # Completed / sold listings
-    # Search completed/sold listings — eBay&#39;s sold-price history.
+    # Search completed/sold listings — eBay&#39;s sold-price history.  eBay pads a short result set with \&quot;results matching fewer words\&quot; and counts only the exact ones in &#x60;&#x60;pagination.total_results&#x60;&#x60;. Results come back in eBay&#39;s own ranking order with the exact matches first, and each one carries &#x60;&#x60;exact_match&#x60;&#x60; (true/false) so a price series can be built without parsing titles. An empty &#x60;&#x60;results&#x60;&#x60; with &#x60;&#x60;total_results: 0&#x60;&#x60; is eBay&#39;s own answer and costs 0 credits — a fetch failure is never a 200.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain Marketplace domain (com, co.uk, de …) (default to 'com')

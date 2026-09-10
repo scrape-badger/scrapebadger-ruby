@@ -52,7 +52,7 @@ describe 'EBayApi' do
 
   # unit tests for ebay_completed_sold_listings
   # Completed / sold listings
-  # Search completed/sold listings — eBay&#39;s sold-price history.
+  # Search completed/sold listings — eBay&#39;s sold-price history.  eBay pads a short result set with \&quot;results matching fewer words\&quot; and counts only the exact ones in &#x60;&#x60;pagination.total_results&#x60;&#x60;. Results come back in eBay&#39;s own ranking order with the exact matches first, and each one carries &#x60;&#x60;exact_match&#x60;&#x60; (true/false) so a price series can be built without parsing titles. An empty &#x60;&#x60;results&#x60;&#x60; with &#x60;&#x60;total_results: 0&#x60;&#x60; is eBay&#39;s own answer and costs 0 credits — a fetch failure is never a 200.
   # @param query Search keywords
   # @param [Hash] opts the optional parameters
   # @option opts [String] :domain Marketplace domain (com, co.uk, de …)
