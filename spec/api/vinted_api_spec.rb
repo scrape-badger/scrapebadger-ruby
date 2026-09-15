@@ -108,6 +108,30 @@ describe 'VintedApi' do
     end
   end
 
+  # unit tests for vinted_list_public_vinted_mobile_operations
+  # List public Vinted mobile operations
+  # Discover public read operations, parameters and runnable examples. Free.
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'vinted_list_public_vinted_mobile_operations test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for vinted_read_vinted_mobile_data
+  # Read Vinted mobile data
+  # Read catalog, listing, seller, review, sold-comparable, pricing, reference, shipping-reference, homepage or help data. No Vinted account is required. This is an allowlisted read API, including read-only upstream POST queries. Returns operation, market, and the upstream JSON under data. One credit. Sold comparable prices are not guaranteed final negotiated sale prices.
+  # @param operation 
+  # @param vinted_mobile_read_request 
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'vinted_read_vinted_mobile_data test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for vinted_search_brands
   # Search brands
   # Search Vinted brands.
@@ -135,6 +159,10 @@ describe 'VintedApi' do
   # @option opts [String] :brand_ids 
   # @option opts [String] :catalog_ids Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904).
   # @option opts [String] :color_ids Comma-separated color IDs
+  # @option opts [String] :size_ids Comma-separated size IDs
+  # @option opts [String] :material_ids Comma-separated material IDs
+  # @option opts [Integer] :time Pagination time returned by the preceding page
+  # @option opts [String] :search_session_id Reuse across pages of one search
   # @option opts [String] :status_ids Comma-separated condition/status IDs
   # @option opts [String] :order 
   # @return [Object]

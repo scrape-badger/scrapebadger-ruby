@@ -412,6 +412,137 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # List public Vinted mobile operations
+    # Discover public read operations, parameters and runnable examples. Free.
+    # @param [Hash] opts the optional parameters
+    # @return [Object]
+    def vinted_list_public_vinted_mobile_operations(opts = {})
+      data, _status_code, _headers = vinted_list_public_vinted_mobile_operations_with_http_info(opts)
+      data
+    end
+
+    # List public Vinted mobile operations
+    # Discover public read operations, parameters and runnable examples. Free.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def vinted_list_public_vinted_mobile_operations_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: VintedApi.vinted_list_public_vinted_mobile_operations ...'
+      end
+      # resource path
+      local_var_path = '/v1/vinted/mobile/operations'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"VintedApi.vinted_list_public_vinted_mobile_operations",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: VintedApi#vinted_list_public_vinted_mobile_operations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Read Vinted mobile data
+    # Read catalog, listing, seller, review, sold-comparable, pricing, reference, shipping-reference, homepage or help data. No Vinted account is required. This is an allowlisted read API, including read-only upstream POST queries. Returns operation, market, and the upstream JSON under data. One credit. Sold comparable prices are not guaranteed final negotiated sale prices.
+    # @param operation [String] 
+    # @param vinted_mobile_read_request [VintedMobileReadRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Object]
+    def vinted_read_vinted_mobile_data(operation, vinted_mobile_read_request, opts = {})
+      data, _status_code, _headers = vinted_read_vinted_mobile_data_with_http_info(operation, vinted_mobile_read_request, opts)
+      data
+    end
+
+    # Read Vinted mobile data
+    # Read catalog, listing, seller, review, sold-comparable, pricing, reference, shipping-reference, homepage or help data. No Vinted account is required. This is an allowlisted read API, including read-only upstream POST queries. Returns operation, market, and the upstream JSON under data. One credit. Sold comparable prices are not guaranteed final negotiated sale prices.
+    # @param operation [String] 
+    # @param vinted_mobile_read_request [VintedMobileReadRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def vinted_read_vinted_mobile_data_with_http_info(operation, vinted_mobile_read_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: VintedApi.vinted_read_vinted_mobile_data ...'
+      end
+      # verify the required parameter 'operation' is set
+      if @api_client.config.client_side_validation && operation.nil?
+        fail ArgumentError, "Missing the required parameter 'operation' when calling VintedApi.vinted_read_vinted_mobile_data"
+      end
+      # verify the required parameter 'vinted_mobile_read_request' is set
+      if @api_client.config.client_side_validation && vinted_mobile_read_request.nil?
+        fail ArgumentError, "Missing the required parameter 'vinted_mobile_read_request' when calling VintedApi.vinted_read_vinted_mobile_data"
+      end
+      # resource path
+      local_var_path = '/v1/vinted/mobile/{operation}'.sub('{' + 'operation' + '}', CGI.escape(operation.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(vinted_mobile_read_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"VintedApi.vinted_read_vinted_mobile_data",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: VintedApi#vinted_read_vinted_mobile_data\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Search brands
     # Search Vinted brands.
     # @param keyword [String] Brand search keyword
@@ -492,6 +623,10 @@ module ScrapeBadger
     # @option opts [String] :brand_ids 
     # @option opts [String] :catalog_ids Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904).
     # @option opts [String] :color_ids Comma-separated color IDs
+    # @option opts [String] :size_ids Comma-separated size IDs
+    # @option opts [String] :material_ids Comma-separated material IDs
+    # @option opts [Integer] :time Pagination time returned by the preceding page
+    # @option opts [String] :search_session_id Reuse across pages of one search
     # @option opts [String] :status_ids Comma-separated condition/status IDs
     # @option opts [String] :order 
     # @return [Object]
@@ -513,6 +648,10 @@ module ScrapeBadger
     # @option opts [String] :brand_ids 
     # @option opts [String] :catalog_ids Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904).
     # @option opts [String] :color_ids Comma-separated color IDs
+    # @option opts [String] :size_ids Comma-separated size IDs
+    # @option opts [String] :material_ids Comma-separated material IDs
+    # @option opts [Integer] :time Pagination time returned by the preceding page
+    # @option opts [String] :search_session_id Reuse across pages of one search
     # @option opts [String] :status_ids Comma-separated condition/status IDs
     # @option opts [String] :order 
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -536,6 +675,10 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"per_page"]" when calling VintedApi.vinted_search_vinted_items, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'time'].nil? && opts[:'time'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"time"]" when calling VintedApi.vinted_search_vinted_items, must be greater than or equal to 0.'
+      end
+
       # resource path
       local_var_path = '/v1/vinted/search'
 
@@ -551,6 +694,10 @@ module ScrapeBadger
       query_params[:'brand_ids'] = opts[:'brand_ids'] if !opts[:'brand_ids'].nil?
       query_params[:'catalog_ids'] = opts[:'catalog_ids'] if !opts[:'catalog_ids'].nil?
       query_params[:'color_ids'] = opts[:'color_ids'] if !opts[:'color_ids'].nil?
+      query_params[:'size_ids'] = opts[:'size_ids'] if !opts[:'size_ids'].nil?
+      query_params[:'material_ids'] = opts[:'material_ids'] if !opts[:'material_ids'].nil?
+      query_params[:'time'] = opts[:'time'] if !opts[:'time'].nil?
+      query_params[:'search_session_id'] = opts[:'search_session_id'] if !opts[:'search_session_id'].nil?
       query_params[:'status_ids'] = opts[:'status_ids'] if !opts[:'status_ids'].nil?
       query_params[:'order'] = opts[:'order'] if !opts[:'order'].nil?
 

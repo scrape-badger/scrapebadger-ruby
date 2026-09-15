@@ -10,6 +10,8 @@ All URIs are relative to *https://scrapebadger.com*
 | [**vinted_list_colors**](VintedApi.md#vinted_list_colors) | **GET** /v1/vinted/colors | List colors |
 | [**vinted_list_item_conditions**](VintedApi.md#vinted_list_item_conditions) | **GET** /v1/vinted/statuses | List item conditions |
 | [**vinted_list_markets**](VintedApi.md#vinted_list_markets) | **GET** /v1/vinted/markets | List markets |
+| [**vinted_list_public_vinted_mobile_operations**](VintedApi.md#vinted_list_public_vinted_mobile_operations) | **GET** /v1/vinted/mobile/operations | List public Vinted mobile operations |
+| [**vinted_read_vinted_mobile_data**](VintedApi.md#vinted_read_vinted_mobile_data) | **POST** /v1/vinted/mobile/{operation} | Read Vinted mobile data |
 | [**vinted_search_brands**](VintedApi.md#vinted_search_brands) | **GET** /v1/vinted/brands | Search brands |
 | [**vinted_search_vinted_items**](VintedApi.md#vinted_search_vinted_items) | **GET** /v1/vinted/search | Search Vinted items |
 | [**vinted_vinted_scraper_health_check**](VintedApi.md#vinted_vinted_scraper_health_check) | **GET** /v1/vinted/health | Vinted scraper health check |
@@ -459,6 +461,147 @@ This endpoint does not need any parameter.
 - **Accept**: application/json
 
 
+## vinted_list_public_vinted_mobile_operations
+
+> Object vinted_list_public_vinted_mobile_operations
+
+List public Vinted mobile operations
+
+Discover public read operations, parameters and runnable examples. Free.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::VintedApi.new
+
+begin
+  # List public Vinted mobile operations
+  result = api_instance.vinted_list_public_vinted_mobile_operations
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling VintedApi->vinted_list_public_vinted_mobile_operations: #{e}"
+end
+```
+
+#### Using the vinted_list_public_vinted_mobile_operations_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> vinted_list_public_vinted_mobile_operations_with_http_info
+
+```ruby
+begin
+  # List public Vinted mobile operations
+  data, status_code, headers = api_instance.vinted_list_public_vinted_mobile_operations_with_http_info
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling VintedApi->vinted_list_public_vinted_mobile_operations_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## vinted_read_vinted_mobile_data
+
+> Object vinted_read_vinted_mobile_data(operation, vinted_mobile_read_request)
+
+Read Vinted mobile data
+
+Read catalog, listing, seller, review, sold-comparable, pricing, reference, shipping-reference, homepage or help data. No Vinted account is required. This is an allowlisted read API, including read-only upstream POST queries. Returns operation, market, and the upstream JSON under data. One credit. Sold comparable prices are not guaranteed final negotiated sale prices.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::VintedApi.new
+operation = 'operation_example' # String | 
+vinted_mobile_read_request = ScrapeBadger::VintedMobileReadRequest.new # VintedMobileReadRequest | 
+
+begin
+  # Read Vinted mobile data
+  result = api_instance.vinted_read_vinted_mobile_data(operation, vinted_mobile_read_request)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling VintedApi->vinted_read_vinted_mobile_data: #{e}"
+end
+```
+
+#### Using the vinted_read_vinted_mobile_data_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> vinted_read_vinted_mobile_data_with_http_info(operation, vinted_mobile_read_request)
+
+```ruby
+begin
+  # Read Vinted mobile data
+  data, status_code, headers = api_instance.vinted_read_vinted_mobile_data_with_http_info(operation, vinted_mobile_read_request)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling VintedApi->vinted_read_vinted_mobile_data_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **operation** | **String** |  |  |
+| **vinted_mobile_read_request** | [**VintedMobileReadRequest**](VintedMobileReadRequest.md) |  |  |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
 ## vinted_search_brands
 
 > Object vinted_search_brands(keyword, opts)
@@ -567,6 +710,10 @@ opts = {
   brand_ids: 'brand_ids_example', # String | 
   catalog_ids: 'catalog_ids_example', # String | Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. '1904' or '1904,79'. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the `catalog[]` value in a Vinted category URL (vinted.fr/catalog?catalog[]=1904).
   color_ids: 'color_ids_example', # String | Comma-separated color IDs
+  size_ids: 'size_ids_example', # String | Comma-separated size IDs
+  material_ids: 'material_ids_example', # String | Comma-separated material IDs
+  time: 56, # Integer | Pagination time returned by the preceding page
+  search_session_id: 'search_session_id_example', # String | Reuse across pages of one search
   status_ids: 'status_ids_example', # String | Comma-separated condition/status IDs
   order: 'order_example' # String | 
 }
@@ -612,6 +759,10 @@ end
 | **brand_ids** | **String** |  | [optional] |
 | **catalog_ids** | **String** | Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904). | [optional] |
 | **color_ids** | **String** | Comma-separated color IDs | [optional] |
+| **size_ids** | **String** | Comma-separated size IDs | [optional] |
+| **material_ids** | **String** | Comma-separated material IDs | [optional] |
+| **time** | **Integer** | Pagination time returned by the preceding page | [optional] |
+| **search_session_id** | **String** | Reuse across pages of one search | [optional] |
 | **status_ids** | **String** | Comma-separated condition/status IDs | [optional] |
 | **order** | **String** |  | [optional] |
 
