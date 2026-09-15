@@ -145,6 +145,18 @@ describe 'VintedApi' do
     end
   end
 
+  # unit tests for vinted_search_by_image
+  # Search by image
+  # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking; no similarity score. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
+  # @param vinted_image_search_request 
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'vinted_search_by_image test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for vinted_search_vinted_items
   # Search Vinted items
   # Search Vinted catalog items with filters.

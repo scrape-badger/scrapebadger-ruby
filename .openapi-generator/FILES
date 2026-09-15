@@ -58,6 +58,7 @@ docs/TwitterApi.md
 docs/ValidationError.md
 docs/ValidationErrorLocInner.md
 docs/VintedApi.md
+docs/VintedImageSearchRequest.md
 docs/VintedMobileReadRequest.md
 docs/WalmartApi.md
 docs/WebApi.md
@@ -133,6 +134,7 @@ lib/scrapebadger/models/tweet_delivery_log_list_response.rb
 lib/scrapebadger/models/tweet_delivery_log_response.rb
 lib/scrapebadger/models/validation_error.rb
 lib/scrapebadger/models/validation_error_loc_inner.rb
+lib/scrapebadger/models/vinted_image_search_request.rb
 lib/scrapebadger/models/vinted_mobile_read_request.rb
 lib/scrapebadger/models/webhook_create.rb
 lib/scrapebadger/models/webhook_list_item.rb
@@ -199,6 +201,7 @@ spec/models/tweet_delivery_log_list_response_spec.rb
 spec/models/tweet_delivery_log_response_spec.rb
 spec/models/validation_error_loc_inner_spec.rb
 spec/models/validation_error_spec.rb
+spec/models/vinted_image_search_request_spec.rb
 spec/models/vinted_mobile_read_request_spec.rb
 spec/models/webhook_create_spec.rb
 spec/models/webhook_list_item_spec.rb

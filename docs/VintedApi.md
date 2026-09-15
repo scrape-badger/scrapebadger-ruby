@@ -13,6 +13,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**vinted_list_public_vinted_mobile_operations**](VintedApi.md#vinted_list_public_vinted_mobile_operations) | **GET** /v1/vinted/mobile/operations | List public Vinted mobile operations |
 | [**vinted_read_vinted_mobile_data**](VintedApi.md#vinted_read_vinted_mobile_data) | **POST** /v1/vinted/mobile/{operation} | Read Vinted mobile data |
 | [**vinted_search_brands**](VintedApi.md#vinted_search_brands) | **GET** /v1/vinted/brands | Search brands |
+| [**vinted_search_by_image**](VintedApi.md#vinted_search_by_image) | **POST** /v1/vinted/search_by_image | Search by image |
 | [**vinted_search_vinted_items**](VintedApi.md#vinted_search_vinted_items) | **GET** /v1/vinted/search | Search Vinted items |
 | [**vinted_vinted_scraper_health_check**](VintedApi.md#vinted_vinted_scraper_health_check) | **GET** /v1/vinted/health | Vinted scraper health check |
 | [**vinted_vinted_scraper_health_check_head**](VintedApi.md#vinted_vinted_scraper_health_check_head) | **HEAD** /v1/vinted/health | Vinted scraper health check |
@@ -674,6 +675,77 @@ end
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## vinted_search_by_image
+
+> Object vinted_search_by_image(vinted_image_search_request)
+
+Search by image
+
+Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking; no similarity score. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::VintedApi.new
+vinted_image_search_request = ScrapeBadger::VintedImageSearchRequest.new # VintedImageSearchRequest | 
+
+begin
+  # Search by image
+  result = api_instance.vinted_search_by_image(vinted_image_search_request)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling VintedApi->vinted_search_by_image: #{e}"
+end
+```
+
+#### Using the vinted_search_by_image_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> vinted_search_by_image_with_http_info(vinted_image_search_request)
+
+```ruby
+begin
+  # Search by image
+  data, status_code, headers = api_instance.vinted_search_by_image_with_http_info(vinted_image_search_request)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling VintedApi->vinted_search_by_image_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **vinted_image_search_request** | [**VintedImageSearchRequest**](VintedImageSearchRequest.md) |  |  |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 

@@ -610,6 +610,74 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Search by image
+    # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking; no similarity score. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
+    # @param vinted_image_search_request [VintedImageSearchRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Object]
+    def vinted_search_by_image(vinted_image_search_request, opts = {})
+      data, _status_code, _headers = vinted_search_by_image_with_http_info(vinted_image_search_request, opts)
+      data
+    end
+
+    # Search by image
+    # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking; no similarity score. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
+    # @param vinted_image_search_request [VintedImageSearchRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def vinted_search_by_image_with_http_info(vinted_image_search_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: VintedApi.vinted_search_by_image ...'
+      end
+      # verify the required parameter 'vinted_image_search_request' is set
+      if @api_client.config.client_side_validation && vinted_image_search_request.nil?
+        fail ArgumentError, "Missing the required parameter 'vinted_image_search_request' when calling VintedApi.vinted_search_by_image"
+      end
+      # resource path
+      local_var_path = '/v1/vinted/search_by_image'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(vinted_image_search_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"VintedApi.vinted_search_by_image",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: VintedApi#vinted_search_by_image\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Search Vinted items
     # Search Vinted catalog items with filters.
     # @param query [String] Search text
