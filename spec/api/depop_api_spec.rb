@@ -121,7 +121,7 @@ describe 'DepopApi' do
   # @option opts [String] :sizes Comma-separated size IDs
   # @option opts [String] :conditions Comma-separated condition slugs (brand_new, used_excellent, ...)
   # @option opts [String] :gender male | female
-  # @option opts [String] :sort relevance | newlyListed | priceAscending | priceDescending
+  # @option opts [String] :sort relevance (default) | priceAscending | priceDescending
   # @return [Object]
   describe 'depop_search_depop_products test' do
     it 'should work' do

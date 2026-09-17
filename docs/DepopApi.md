@@ -480,7 +480,7 @@ opts = {
   sizes: 'sizes_example', # String | Comma-separated size IDs
   conditions: 'conditions_example', # String | Comma-separated condition slugs (brand_new, used_excellent, ...)
   gender: 'gender_example', # String | male | female
-  sort: 'sort_example' # String | relevance | newlyListed | priceAscending | priceDescending
+  sort: 'sort_example' # String | relevance (default) | priceAscending | priceDescending
 }
 
 begin
@@ -525,7 +525,7 @@ end
 | **sizes** | **String** | Comma-separated size IDs | [optional] |
 | **conditions** | **String** | Comma-separated condition slugs (brand_new, used_excellent, ...) | [optional] |
 | **gender** | **String** | male | female | [optional] |
-| **sort** | **String** | relevance | newlyListed | priceAscending | priceDescending | [optional] |
+| **sort** | **String** | relevance (default) | priceAscending | priceDescending | [optional] |
 
 ### Return type
 
