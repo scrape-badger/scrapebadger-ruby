@@ -24,7 +24,7 @@ module ScrapeBadger
     # @param item_id [Integer] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Object]
+    # @return [ItemDetailResponse]
     def vinted_get_item_details(item_id, opts = {})
       data, _status_code, _headers = vinted_get_item_details_with_http_info(item_id, opts)
       data
@@ -35,7 +35,7 @@ module ScrapeBadger
     # @param item_id [Integer] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(ItemDetailResponse, Integer, Hash)>] ItemDetailResponse data, response status code and response headers
     def vinted_get_item_details_with_http_info(item_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_get_item_details ...'
@@ -63,7 +63,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'ItemDetailResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -90,7 +90,7 @@ module ScrapeBadger
     # @param user_id [Integer] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Object]
+    # @return [UserProfileResponse]
     def vinted_get_user_profile(user_id, opts = {})
       data, _status_code, _headers = vinted_get_user_profile_with_http_info(user_id, opts)
       data
@@ -101,7 +101,7 @@ module ScrapeBadger
     # @param user_id [Integer] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(UserProfileResponse, Integer, Hash)>] UserProfileResponse data, response status code and response headers
     def vinted_get_user_profile_with_http_info(user_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_get_user_profile ...'
@@ -129,7 +129,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'UserProfileResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -158,7 +158,7 @@ module ScrapeBadger
     # @option opts [String] :market  (default to 'fr')
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :per_page  (default to 20)
-    # @return [Object]
+    # @return [UserItemsResponse]
     def vinted_get_user_s_listed_items(user_id, opts = {})
       data, _status_code, _headers = vinted_get_user_s_listed_items_with_http_info(user_id, opts)
       data
@@ -171,7 +171,7 @@ module ScrapeBadger
     # @option opts [String] :market  (default to 'fr')
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :per_page  (default to 20)
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(UserItemsResponse, Integer, Hash)>] UserItemsResponse data, response status code and response headers
     def vinted_get_user_s_listed_items_with_http_info(user_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_get_user_s_listed_items ...'
@@ -213,7 +213,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'UserItemsResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -239,7 +239,7 @@ module ScrapeBadger
     # Get available Vinted colors for filtering.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Object]
+    # @return [ColorsResponse]
     def vinted_list_colors(opts = {})
       data, _status_code, _headers = vinted_list_colors_with_http_info(opts)
       data
@@ -249,7 +249,7 @@ module ScrapeBadger
     # Get available Vinted colors for filtering.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(ColorsResponse, Integer, Hash)>] ColorsResponse data, response status code and response headers
     def vinted_list_colors_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_list_colors ...'
@@ -273,7 +273,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'ColorsResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -299,7 +299,7 @@ module ScrapeBadger
     # Get available item condition statuses.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Object]
+    # @return [StatusesResponse]
     def vinted_list_item_conditions(opts = {})
       data, _status_code, _headers = vinted_list_item_conditions_with_http_info(opts)
       data
@@ -309,7 +309,7 @@ module ScrapeBadger
     # Get available item condition statuses.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(StatusesResponse, Integer, Hash)>] StatusesResponse data, response status code and response headers
     def vinted_list_item_conditions_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_list_item_conditions ...'
@@ -333,7 +333,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'StatusesResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -358,7 +358,7 @@ module ScrapeBadger
     # List markets
     # List all supported Vinted markets.
     # @param [Hash] opts the optional parameters
-    # @return [Object]
+    # @return [MarketsResponse]
     def vinted_list_markets(opts = {})
       data, _status_code, _headers = vinted_list_markets_with_http_info(opts)
       data
@@ -367,7 +367,7 @@ module ScrapeBadger
     # List markets
     # List all supported Vinted markets.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(MarketsResponse, Integer, Hash)>] MarketsResponse data, response status code and response headers
     def vinted_list_markets_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_list_markets ...'
@@ -390,7 +390,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'MarketsResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -548,7 +548,7 @@ module ScrapeBadger
     # @param keyword [String] Brand search keyword
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Object]
+    # @return [BrandsResponse]
     def vinted_search_brands(keyword, opts = {})
       data, _status_code, _headers = vinted_search_brands_with_http_info(keyword, opts)
       data
@@ -559,7 +559,7 @@ module ScrapeBadger
     # @param keyword [String] Brand search keyword
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'fr')
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(BrandsResponse, Integer, Hash)>] BrandsResponse data, response status code and response headers
     def vinted_search_brands_with_http_info(keyword, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_search_brands ...'
@@ -588,7 +588,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'BrandsResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -614,7 +614,7 @@ module ScrapeBadger
     # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking. Each item carries `similarity_score` on the calls where Vinted returns a ranking, and null on the ones where it does not -- a null says nothing about the item. The score sits on an unbounded scale that Vinted changes without notice (0-1 in Sep 2026, ~36-44 since): compare it only with the other items in the SAME response, never to a fixed cut-off. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
     # @param vinted_image_search_request [VintedImageSearchRequest] 
     # @param [Hash] opts the optional parameters
-    # @return [Object]
+    # @return [SearchResponse]
     def vinted_search_by_image(vinted_image_search_request, opts = {})
       data, _status_code, _headers = vinted_search_by_image_with_http_info(vinted_image_search_request, opts)
       data
@@ -624,7 +624,7 @@ module ScrapeBadger
     # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking. Each item carries &#x60;similarity_score&#x60; on the calls where Vinted returns a ranking, and null on the ones where it does not -- a null says nothing about the item. The score sits on an unbounded scale that Vinted changes without notice (0-1 in Sep 2026, ~36-44 since): compare it only with the other items in the SAME response, never to a fixed cut-off. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
     # @param vinted_image_search_request [VintedImageSearchRequest] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(SearchResponse, Integer, Hash)>] SearchResponse data, response status code and response headers
     def vinted_search_by_image_with_http_info(vinted_image_search_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_search_by_image ...'
@@ -656,7 +656,7 @@ module ScrapeBadger
       post_body = opts[:debug_body] || @api_client.object_to_http_body(vinted_image_search_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'SearchResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -697,7 +697,7 @@ module ScrapeBadger
     # @option opts [String] :search_session_id Reuse across pages of one search
     # @option opts [String] :status_ids Comma-separated condition/status IDs
     # @option opts [String] :order 
-    # @return [Object]
+    # @return [SearchResponse]
     def vinted_search_vinted_items(query, opts = {})
       data, _status_code, _headers = vinted_search_vinted_items_with_http_info(query, opts)
       data
@@ -722,7 +722,7 @@ module ScrapeBadger
     # @option opts [String] :search_session_id Reuse across pages of one search
     # @option opts [String] :status_ids Comma-separated condition/status IDs
     # @option opts [String] :order 
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(SearchResponse, Integer, Hash)>] SearchResponse data, response status code and response headers
     def vinted_search_vinted_items_with_http_info(query, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_search_vinted_items ...'
@@ -781,7 +781,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Object'
+      return_type = opts[:debug_return_type] || 'SearchResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']

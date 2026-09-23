@@ -38,7 +38,7 @@ describe 'VintedApi' do
   # @param item_id 
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market 
-  # @return [Object]
+  # @return [ItemDetailResponse]
   describe 'vinted_get_item_details test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -51,7 +51,7 @@ describe 'VintedApi' do
   # @param user_id 
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market 
-  # @return [Object]
+  # @return [UserProfileResponse]
   describe 'vinted_get_user_profile test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -66,7 +66,7 @@ describe 'VintedApi' do
   # @option opts [String] :market 
   # @option opts [Integer] :page 
   # @option opts [Integer] :per_page 
-  # @return [Object]
+  # @return [UserItemsResponse]
   describe 'vinted_get_user_s_listed_items test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -78,7 +78,7 @@ describe 'VintedApi' do
   # Get available Vinted colors for filtering.
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market 
-  # @return [Object]
+  # @return [ColorsResponse]
   describe 'vinted_list_colors test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -90,7 +90,7 @@ describe 'VintedApi' do
   # Get available item condition statuses.
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market 
-  # @return [Object]
+  # @return [StatusesResponse]
   describe 'vinted_list_item_conditions test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -101,7 +101,7 @@ describe 'VintedApi' do
   # List markets
   # List all supported Vinted markets.
   # @param [Hash] opts the optional parameters
-  # @return [Object]
+  # @return [MarketsResponse]
   describe 'vinted_list_markets test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -138,7 +138,7 @@ describe 'VintedApi' do
   # @param keyword Brand search keyword
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market 
-  # @return [Object]
+  # @return [BrandsResponse]
   describe 'vinted_search_brands test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -150,7 +150,7 @@ describe 'VintedApi' do
   # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking. Each item carries &#x60;similarity_score&#x60; on the calls where Vinted returns a ranking, and null on the ones where it does not -- a null says nothing about the item. The score sits on an unbounded scale that Vinted changes without notice (0-1 in Sep 2026, ~36-44 since): compare it only with the other items in the SAME response, never to a fixed cut-off. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
   # @param vinted_image_search_request 
   # @param [Hash] opts the optional parameters
-  # @return [Object]
+  # @return [SearchResponse]
   describe 'vinted_search_by_image test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -177,7 +177,7 @@ describe 'VintedApi' do
   # @option opts [String] :search_session_id Reuse across pages of one search
   # @option opts [String] :status_ids Comma-separated condition/status IDs
   # @option opts [String] :order 
-  # @return [Object]
+  # @return [SearchResponse]
   describe 'vinted_search_vinted_items test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/

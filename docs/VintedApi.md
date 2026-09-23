@@ -21,7 +21,7 @@ All URIs are relative to *https://scrapebadger.com*
 
 ## vinted_get_item_details
 
-> Object vinted_get_item_details(item_id, opts)
+> <ItemDetailResponse> vinted_get_item_details(item_id, opts)
 
 Get item details
 
@@ -59,7 +59,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_get_item_details_with_http_info(item_id, opts)
+> <Array(<ItemDetailResponse>, Integer, Hash)> vinted_get_item_details_with_http_info(item_id, opts)
 
 ```ruby
 begin
@@ -67,7 +67,7 @@ begin
   data, status_code, headers = api_instance.vinted_get_item_details_with_http_info(item_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <ItemDetailResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_get_item_details_with_http_info: #{e}"
 end
@@ -82,7 +82,7 @@ end
 
 ### Return type
 
-**Object**
+[**ItemDetailResponse**](ItemDetailResponse.md)
 
 ### Authorization
 
@@ -96,7 +96,7 @@ end
 
 ## vinted_get_user_profile
 
-> Object vinted_get_user_profile(user_id, opts)
+> <UserProfileResponse> vinted_get_user_profile(user_id, opts)
 
 Get user profile
 
@@ -134,7 +134,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_get_user_profile_with_http_info(user_id, opts)
+> <Array(<UserProfileResponse>, Integer, Hash)> vinted_get_user_profile_with_http_info(user_id, opts)
 
 ```ruby
 begin
@@ -142,7 +142,7 @@ begin
   data, status_code, headers = api_instance.vinted_get_user_profile_with_http_info(user_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <UserProfileResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_get_user_profile_with_http_info: #{e}"
 end
@@ -157,7 +157,7 @@ end
 
 ### Return type
 
-**Object**
+[**UserProfileResponse**](UserProfileResponse.md)
 
 ### Authorization
 
@@ -171,7 +171,7 @@ end
 
 ## vinted_get_user_s_listed_items
 
-> Object vinted_get_user_s_listed_items(user_id, opts)
+> <UserItemsResponse> vinted_get_user_s_listed_items(user_id, opts)
 
 Get user's listed items
 
@@ -211,7 +211,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_get_user_s_listed_items_with_http_info(user_id, opts)
+> <Array(<UserItemsResponse>, Integer, Hash)> vinted_get_user_s_listed_items_with_http_info(user_id, opts)
 
 ```ruby
 begin
@@ -219,7 +219,7 @@ begin
   data, status_code, headers = api_instance.vinted_get_user_s_listed_items_with_http_info(user_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <UserItemsResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_get_user_s_listed_items_with_http_info: #{e}"
 end
@@ -236,7 +236,7 @@ end
 
 ### Return type
 
-**Object**
+[**UserItemsResponse**](UserItemsResponse.md)
 
 ### Authorization
 
@@ -250,7 +250,7 @@ end
 
 ## vinted_list_colors
 
-> Object vinted_list_colors(opts)
+> <ColorsResponse> vinted_list_colors(opts)
 
 List colors
 
@@ -287,7 +287,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_list_colors_with_http_info(opts)
+> <Array(<ColorsResponse>, Integer, Hash)> vinted_list_colors_with_http_info(opts)
 
 ```ruby
 begin
@@ -295,7 +295,7 @@ begin
   data, status_code, headers = api_instance.vinted_list_colors_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <ColorsResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_list_colors_with_http_info: #{e}"
 end
@@ -309,7 +309,7 @@ end
 
 ### Return type
 
-**Object**
+[**ColorsResponse**](ColorsResponse.md)
 
 ### Authorization
 
@@ -323,7 +323,7 @@ end
 
 ## vinted_list_item_conditions
 
-> Object vinted_list_item_conditions(opts)
+> <StatusesResponse> vinted_list_item_conditions(opts)
 
 List item conditions
 
@@ -360,7 +360,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_list_item_conditions_with_http_info(opts)
+> <Array(<StatusesResponse>, Integer, Hash)> vinted_list_item_conditions_with_http_info(opts)
 
 ```ruby
 begin
@@ -368,7 +368,7 @@ begin
   data, status_code, headers = api_instance.vinted_list_item_conditions_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <StatusesResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_list_item_conditions_with_http_info: #{e}"
 end
@@ -382,7 +382,7 @@ end
 
 ### Return type
 
-**Object**
+[**StatusesResponse**](StatusesResponse.md)
 
 ### Authorization
 
@@ -396,7 +396,7 @@ end
 
 ## vinted_list_markets
 
-> Object vinted_list_markets
+> <MarketsResponse> vinted_list_markets
 
 List markets
 
@@ -430,7 +430,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_list_markets_with_http_info
+> <Array(<MarketsResponse>, Integer, Hash)> vinted_list_markets_with_http_info
 
 ```ruby
 begin
@@ -438,7 +438,7 @@ begin
   data, status_code, headers = api_instance.vinted_list_markets_with_http_info
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <MarketsResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_list_markets_with_http_info: #{e}"
 end
@@ -450,7 +450,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Object**
+[**MarketsResponse**](MarketsResponse.md)
 
 ### Authorization
 
@@ -605,7 +605,7 @@ end
 
 ## vinted_search_brands
 
-> Object vinted_search_brands(keyword, opts)
+> <BrandsResponse> vinted_search_brands(keyword, opts)
 
 Search brands
 
@@ -643,7 +643,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_search_brands_with_http_info(keyword, opts)
+> <Array(<BrandsResponse>, Integer, Hash)> vinted_search_brands_with_http_info(keyword, opts)
 
 ```ruby
 begin
@@ -651,7 +651,7 @@ begin
   data, status_code, headers = api_instance.vinted_search_brands_with_http_info(keyword, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <BrandsResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_search_brands_with_http_info: #{e}"
 end
@@ -666,7 +666,7 @@ end
 
 ### Return type
 
-**Object**
+[**BrandsResponse**](BrandsResponse.md)
 
 ### Authorization
 
@@ -680,7 +680,7 @@ end
 
 ## vinted_search_by_image
 
-> Object vinted_search_by_image(vinted_image_search_request)
+> <SearchResponse> vinted_search_by_image(vinted_image_search_request)
 
 Search by image
 
@@ -715,7 +715,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_search_by_image_with_http_info(vinted_image_search_request)
+> <Array(<SearchResponse>, Integer, Hash)> vinted_search_by_image_with_http_info(vinted_image_search_request)
 
 ```ruby
 begin
@@ -723,7 +723,7 @@ begin
   data, status_code, headers = api_instance.vinted_search_by_image_with_http_info(vinted_image_search_request)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <SearchResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_search_by_image_with_http_info: #{e}"
 end
@@ -737,7 +737,7 @@ end
 
 ### Return type
 
-**Object**
+[**SearchResponse**](SearchResponse.md)
 
 ### Authorization
 
@@ -751,7 +751,7 @@ end
 
 ## vinted_search_vinted_items
 
-> Object vinted_search_vinted_items(query, opts)
+> <SearchResponse> vinted_search_vinted_items(query, opts)
 
 Search Vinted items
 
@@ -803,7 +803,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> vinted_search_vinted_items_with_http_info(query, opts)
+> <Array(<SearchResponse>, Integer, Hash)> vinted_search_vinted_items_with_http_info(query, opts)
 
 ```ruby
 begin
@@ -811,7 +811,7 @@ begin
   data, status_code, headers = api_instance.vinted_search_vinted_items_with_http_info(query, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => Object
+  p data # => <SearchResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_search_vinted_items_with_http_info: #{e}"
 end
@@ -840,7 +840,7 @@ end
 
 ### Return type
 
-**Object**
+[**SearchResponse**](SearchResponse.md)
 
 ### Authorization
 
