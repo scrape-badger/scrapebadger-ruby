@@ -478,7 +478,7 @@ end
 
 Get product reviews
 
-Customer reviews for an ASIN (featured + paginated, with filters).
+Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
 
 ### Examples
 
@@ -497,9 +497,9 @@ api_instance = ScrapeBadger::AmazonApi.new
 asin = 'asin_example' # String | 
 opts = {
   domain: 'domain_example', # String | 
-  page: 56, # Integer | Review page (1-100, ~10 reviews/page)
+  page: 56, # Integer | Review page (10 reviews/page)
   sort_by: 'sort_by_example', # String | helpful | recent
-  star: 'star_example', # String | one_star..five_star | positive | critical
+  star: 'star_example', # String | 1-5 | one_star..five_star | positive | critical | all_stars
   verified_only: true, # Boolean | 
   media_only: true # Boolean | 
 }
@@ -537,9 +537,9 @@ end
 | ---- | ---- | ----------- | ----- |
 | **asin** | **String** |  |  |
 | **domain** | **String** |  | [optional][default to &#39;com&#39;] |
-| **page** | **Integer** | Review page (1-100, ~10 reviews/page) | [optional][default to 1] |
+| **page** | **Integer** | Review page (10 reviews/page) | [optional][default to 1] |
 | **sort_by** | **String** | helpful | recent | [optional][default to &#39;helpful&#39;] |
-| **star** | **String** | one_star..five_star | positive | critical | [optional] |
+| **star** | **String** | 1-5 | one_star..five_star | positive | critical | all_stars | [optional] |
 | **verified_only** | **Boolean** |  | [optional][default to false] |
 | **media_only** | **Boolean** |  | [optional][default to false] |
 

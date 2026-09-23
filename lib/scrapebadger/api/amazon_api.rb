@@ -437,13 +437,13 @@ module ScrapeBadger
     end
 
     # Get product reviews
-    # Customer reviews for an ASIN (featured + paginated, with filters).
+    # Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
     # @param asin [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain  (default to 'com')
-    # @option opts [Integer] :page Review page (1-100, ~10 reviews/page) (default to 1)
+    # @option opts [Integer] :page Review page (10 reviews/page) (default to 1)
     # @option opts [String] :sort_by helpful | recent (default to 'helpful')
-    # @option opts [String] :star one_star..five_star | positive | critical
+    # @option opts [String] :star 1-5 | one_star..five_star | positive | critical | all_stars
     # @option opts [Boolean] :verified_only  (default to false)
     # @option opts [Boolean] :media_only  (default to false)
     # @return [Object]
@@ -453,13 +453,13 @@ module ScrapeBadger
     end
 
     # Get product reviews
-    # Customer reviews for an ASIN (featured + paginated, with filters).
+    # Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page&#39;s public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (&#x60;&#x60;ratings_total&#x60;&#x60; reports the true total). &#x60;&#x60;pagination&#x60;&#x60; gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised &#x60;&#x60;star&#x60;&#x60; or &#x60;&#x60;sort_by&#x60;&#x60; is rejected with 422 rather than silently answered with unfiltered reviews.
     # @param asin [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain  (default to 'com')
-    # @option opts [Integer] :page Review page (1-100, ~10 reviews/page) (default to 1)
+    # @option opts [Integer] :page Review page (10 reviews/page) (default to 1)
     # @option opts [String] :sort_by helpful | recent (default to 'helpful')
-    # @option opts [String] :star one_star..five_star | positive | critical
+    # @option opts [String] :star 1-5 | one_star..five_star | positive | critical | all_stars
     # @option opts [Boolean] :verified_only  (default to false)
     # @option opts [Boolean] :media_only  (default to false)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
