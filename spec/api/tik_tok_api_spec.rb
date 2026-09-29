@@ -32,6 +32,21 @@ describe 'TikTokApi' do
     end
   end
 
+  # unit tests for tiktok_best_selling_tiktok_shop_products
+  # Best-selling TikTok Shop products
+  # Sales-ranked best-selling products, available for every operating market.  Ranked by real sold_count (source: sales_ranked); works for SG/MY/JP where TikTok&#39;s curated /shop/rankings are not exposed. Omit category_id for a market-wide list.
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  # @option opts [String] :category_id 
+  # @option opts [Integer] :pages 
+  # @option opts [Integer] :limit 
+  # @return [Object]
+  describe 'tiktok_best_selling_tiktok_shop_products test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for tiktok_general_search
   # General search
   # General TikTok search — video results from the Top feed.
@@ -371,7 +386,8 @@ describe 'TikTokApi' do
   # Keyword search over TikTok Shop products: 30 per page with offset pagination (US); the first page also carries matching shops and related searches.
   # @param q Keyword, e.g. &#39;wireless earbuds&#39;
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  # @option opts [String] :page_token 
   # @option opts [Integer] :offset Pass back next_offset for the next page (US)
   # @return [Object]
   describe 'tiktok_search_tiktok_shop_products test' do
@@ -410,12 +426,27 @@ describe 'TikTokApi' do
     end
   end
 
+  # unit tests for tiktok_tiktok_shop_category_products
+  # TikTok Shop category products
+  # Category recommendations. Pass accumulated exclusion IDs for the next page; these are not sales rankings.
+  # @param category_id 
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  # @option opts [Integer] :count 
+  # @option opts [Array<String>] :exclude_product_ids Repeat for every next_exclude_product_ids value
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_category_products test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for tiktok_tiktok_shop_category_subcategories_top_products
   # TikTok Shop category: subcategories + top products
   # A category&#39;s subcategories and its top products as TikTok Shop ranks them.
   # @param category_id 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   # @return [Object]
   describe 'tiktok_tiktok_shop_category_subcategories_top_products test' do
     it 'should work' do
@@ -428,7 +459,7 @@ describe 'TikTokApi' do
   # Full TikTok Shop product page: description, images, price, SKUs with stock, first reviews, shop and TikTok&#39;s AI summary.
   # @param product_id 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   # @return [Object]
   describe 'tiktok_tiktok_shop_product_detail test' do
     it 'should work' do
@@ -438,10 +469,10 @@ describe 'TikTokApi' do
 
   # unit tests for tiktok_tiktok_shop_product_reviews
   # TikTok Shop product reviews
-  # Paginated product reviews with the rating breakdown (US).
+  # Paginated product reviews with rating breakdown (US and ID). Indonesia supports recent/recommended ordering, star and media filters; verified&#x3D;true is not supported.
   # @param product_id 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   # @option opts [Integer] :page 
   # @option opts [Integer] :count 
   # @option opts [String] :sort recommended | recent
@@ -455,11 +486,25 @@ describe 'TikTokApi' do
     end
   end
 
+  # unit tests for tiktok_tiktok_shop_regional_mall_feed
+  # TikTok Shop regional mall feed
+  # Mall navigation and recommendations with a 15-minute continuation token.  ID, SG, MY, PH, TH, VN and JP are locally verified. Tabs are not a complete category taxonomy.
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  # @option opts [Integer] :tab_id 
+  # @option opts [String] :page_token 
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_regional_mall_feed test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for tiktok_tiktok_shop_root_categories
   # TikTok Shop root categories
   # Top-level TikTok Shop categories of a market. Drill down with /shop/categories/{id}.
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   # @return [Object]
   describe 'tiktok_tiktok_shop_root_categories test' do
     it 'should work' do
@@ -472,11 +517,27 @@ describe 'TikTokApi' do
   # A store&#39;s stats and its cursor-paginated product catalogue (US).
   # @param seller_id 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :region Market: US, GB, ID
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   # @option opts [String] :cursor Pass back next_cursor for the next page
   # @option opts [Integer] :count 
   # @return [Object]
   describe 'tiktok_tiktok_shop_store_products test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for tiktok_tiktok_shop_theme_ranking
+  # TikTok Shop theme ranking
+  # Native category/theme ranking. ID, PH, TH and VN are locally verified.  Types: 1 high seller, 2 trending, 3 ratings. Coverage depends on the configured guest profile; a category recommendation feed is not used as a substitute.
+  # @param rank_id 
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  # @option opts [Integer] :rank_type 
+  # @option opts [Integer] :cursor 
+  # @option opts [Integer] :count 
+  # @return [Object]
+  describe 'tiktok_tiktok_shop_theme_ranking test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end

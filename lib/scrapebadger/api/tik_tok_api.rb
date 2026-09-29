@@ -19,6 +19,96 @@ module ScrapeBadger
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # Best-selling TikTok Shop products
+    # Sales-ranked best-selling products, available for every operating market.  Ranked by real sold_count (source: sales_ranked); works for SG/MY/JP where TikTok's curated /shop/rankings are not exposed. Omit category_id for a market-wide list.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [String] :category_id 
+    # @option opts [Integer] :pages  (default to 2)
+    # @option opts [Integer] :limit  (default to 20)
+    # @return [Object]
+    def tiktok_best_selling_tiktok_shop_products(opts = {})
+      data, _status_code, _headers = tiktok_best_selling_tiktok_shop_products_with_http_info(opts)
+      data
+    end
+
+    # Best-selling TikTok Shop products
+    # Sales-ranked best-selling products, available for every operating market.  Ranked by real sold_count (source: sales_ranked); works for SG/MY/JP where TikTok&#39;s curated /shop/rankings are not exposed. Omit category_id for a market-wide list.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [String] :category_id 
+    # @option opts [Integer] :pages  (default to 2)
+    # @option opts [Integer] :limit  (default to 20)
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def tiktok_best_selling_tiktok_shop_products_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_best_selling_tiktok_shop_products ...'
+      end
+      pattern = Regexp.new(/^[1-9][0-9]{0,18}$/)
+      if @api_client.config.client_side_validation && !opts[:'category_id'].nil? && opts[:'category_id'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"category_id\"]' when calling TikTokApi.tiktok_best_selling_tiktok_shop_products, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'pages'].nil? && opts[:'pages'] > 4
+        fail ArgumentError, 'invalid value for "opts[:"pages"]" when calling TikTokApi.tiktok_best_selling_tiktok_shop_products, must be smaller than or equal to 4.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'pages'].nil? && opts[:'pages'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"pages"]" when calling TikTokApi.tiktok_best_selling_tiktok_shop_products, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling TikTokApi.tiktok_best_selling_tiktok_shop_products, must be smaller than or equal to 100.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling TikTokApi.tiktok_best_selling_tiktok_shop_products, must be greater than or equal to 1.'
+      end
+
+      # resource path
+      local_var_path = '/v1/tiktok/shop/bestsellers'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+      query_params[:'category_id'] = opts[:'category_id'] if !opts[:'category_id'].nil?
+      query_params[:'pages'] = opts[:'pages'] if !opts[:'pages'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"TikTokApi.tiktok_best_selling_tiktok_shop_products",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_best_selling_tiktok_shop_products\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # General search
     # General TikTok search — video results from the Top feed.
     # @param query [String] Search keyword
@@ -1797,7 +1887,8 @@ module ScrapeBadger
     # Keyword search over TikTok Shop products: 30 per page with offset pagination (US); the first page also carries matching shops and related searches.
     # @param q [String] Keyword, e.g. &#39;wireless earbuds&#39;
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [String] :page_token 
     # @option opts [Integer] :offset Pass back next_offset for the next page (US) (default to 0)
     # @return [Object]
     def tiktok_search_tiktok_shop_products(q, opts = {})
@@ -1809,7 +1900,8 @@ module ScrapeBadger
     # Keyword search over TikTok Shop products: 30 per page with offset pagination (US); the first page also carries matching shops and related searches.
     # @param q [String] Keyword, e.g. &#39;wireless earbuds&#39;
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [String] :page_token 
     # @option opts [Integer] :offset Pass back next_offset for the next page (US) (default to 0)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_search_tiktok_shop_products_with_http_info(q, opts = {})
@@ -1824,6 +1916,11 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "q" when calling TikTokApi.tiktok_search_tiktok_shop_products, the character length must be great than or equal to 1.'
       end
 
+      pattern = Regexp.new(/^[a-f0-9]{32}$/)
+      if @api_client.config.client_side_validation && !opts[:'page_token'].nil? && opts[:'page_token'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"page_token\"]' when calling TikTokApi.tiktok_search_tiktok_shop_products, must conform to the pattern #{pattern}."
+      end
+
       if @api_client.config.client_side_validation && !opts[:'offset'].nil? && opts[:'offset'] < 0
         fail ArgumentError, 'invalid value for "opts[:"offset"]" when calling TikTokApi.tiktok_search_tiktok_shop_products, must be greater than or equal to 0.'
       end
@@ -1835,6 +1932,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'q'] = q
       query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+      query_params[:'page_token'] = opts[:'page_token'] if !opts[:'page_token'].nil?
       query_params[:'offset'] = opts[:'offset'] if !opts[:'offset'].nil?
 
       # header parameters
@@ -2033,11 +2131,91 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # TikTok Shop category products
+    # Category recommendations. Pass accumulated exclusion IDs for the next page; these are not sales rankings.
+    # @param category_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [Integer] :count  (default to 20)
+    # @option opts [Array<String>] :exclude_product_ids Repeat for every next_exclude_product_ids value
+    # @return [Object]
+    def tiktok_tiktok_shop_category_products(category_id, opts = {})
+      data, _status_code, _headers = tiktok_tiktok_shop_category_products_with_http_info(category_id, opts)
+      data
+    end
+
+    # TikTok Shop category products
+    # Category recommendations. Pass accumulated exclusion IDs for the next page; these are not sales rankings.
+    # @param category_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [Integer] :count  (default to 20)
+    # @option opts [Array<String>] :exclude_product_ids Repeat for every next_exclude_product_ids value
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def tiktok_tiktok_shop_category_products_with_http_info(category_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_tiktok_shop_category_products ...'
+      end
+      # verify the required parameter 'category_id' is set
+      if @api_client.config.client_side_validation && category_id.nil?
+        fail ArgumentError, "Missing the required parameter 'category_id' when calling TikTokApi.tiktok_tiktok_shop_category_products"
+      end
+      if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] > 40
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_tiktok_shop_category_products, must be smaller than or equal to 40.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_tiktok_shop_category_products, must be greater than or equal to 1.'
+      end
+
+      # resource path
+      local_var_path = '/v1/tiktok/shop/categories/{category_id}/products'.sub('{' + 'category_id' + '}', CGI.escape(category_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+      query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'exclude_product_ids'] = @api_client.build_collection_param(opts[:'exclude_product_ids'], :multi) if !opts[:'exclude_product_ids'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"TikTokApi.tiktok_tiktok_shop_category_products",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_tiktok_shop_category_products\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # TikTok Shop category: subcategories + top products
     # A category's subcategories and its top products as TikTok Shop ranks them.
     # @param category_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @return [Object]
     def tiktok_tiktok_shop_category_subcategories_top_products(category_id, opts = {})
       data, _status_code, _headers = tiktok_tiktok_shop_category_subcategories_top_products_with_http_info(category_id, opts)
@@ -2048,7 +2226,7 @@ module ScrapeBadger
     # A category&#39;s subcategories and its top products as TikTok Shop ranks them.
     # @param category_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_tiktok_shop_category_subcategories_top_products_with_http_info(category_id, opts = {})
       if @api_client.config.debugging
@@ -2103,7 +2281,7 @@ module ScrapeBadger
     # Full TikTok Shop product page: description, images, price, SKUs with stock, first reviews, shop and TikTok's AI summary.
     # @param product_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @return [Object]
     def tiktok_tiktok_shop_product_detail(product_id, opts = {})
       data, _status_code, _headers = tiktok_tiktok_shop_product_detail_with_http_info(product_id, opts)
@@ -2114,7 +2292,7 @@ module ScrapeBadger
     # Full TikTok Shop product page: description, images, price, SKUs with stock, first reviews, shop and TikTok&#39;s AI summary.
     # @param product_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_tiktok_shop_product_detail_with_http_info(product_id, opts = {})
       if @api_client.config.debugging
@@ -2166,10 +2344,10 @@ module ScrapeBadger
     end
 
     # TikTok Shop product reviews
-    # Paginated product reviews with the rating breakdown (US).
+    # Paginated product reviews with rating breakdown (US and ID). Indonesia supports recent/recommended ordering, star and media filters; verified=true is not supported.
     # @param product_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :count  (default to 20)
     # @option opts [String] :sort recommended | recent (default to 'recommended')
@@ -2183,10 +2361,10 @@ module ScrapeBadger
     end
 
     # TikTok Shop product reviews
-    # Paginated product reviews with the rating breakdown (US).
+    # Paginated product reviews with rating breakdown (US and ID). Indonesia supports recent/recommended ordering, star and media filters; verified&#x3D;true is not supported.
     # @param product_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :count  (default to 20)
     # @option opts [String] :sort recommended | recent (default to 'recommended')
@@ -2269,10 +2447,85 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # TikTok Shop regional mall feed
+    # Mall navigation and recommendations with a 15-minute continuation token.  ID, SG, MY, PH, TH, VN and JP are locally verified. Tabs are not a complete category taxonomy.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [Integer] :tab_id  (default to 0)
+    # @option opts [String] :page_token 
+    # @return [Object]
+    def tiktok_tiktok_shop_regional_mall_feed(opts = {})
+      data, _status_code, _headers = tiktok_tiktok_shop_regional_mall_feed_with_http_info(opts)
+      data
+    end
+
+    # TikTok Shop regional mall feed
+    # Mall navigation and recommendations with a 15-minute continuation token.  ID, SG, MY, PH, TH, VN and JP are locally verified. Tabs are not a complete category taxonomy.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [Integer] :tab_id  (default to 0)
+    # @option opts [String] :page_token 
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def tiktok_tiktok_shop_regional_mall_feed_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_tiktok_shop_regional_mall_feed ...'
+      end
+      if @api_client.config.client_side_validation && !opts[:'tab_id'].nil? && opts[:'tab_id'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"tab_id"]" when calling TikTokApi.tiktok_tiktok_shop_regional_mall_feed, must be greater than or equal to 0.'
+      end
+
+      pattern = Regexp.new(/^[a-f0-9]{32}$/)
+      if @api_client.config.client_side_validation && !opts[:'page_token'].nil? && opts[:'page_token'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"page_token\"]' when calling TikTokApi.tiktok_tiktok_shop_regional_mall_feed, must conform to the pattern #{pattern}."
+      end
+
+      # resource path
+      local_var_path = '/v1/tiktok/shop/mall'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+      query_params[:'tab_id'] = opts[:'tab_id'] if !opts[:'tab_id'].nil?
+      query_params[:'page_token'] = opts[:'page_token'] if !opts[:'page_token'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"TikTokApi.tiktok_tiktok_shop_regional_mall_feed",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_tiktok_shop_regional_mall_feed\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # TikTok Shop root categories
     # Top-level TikTok Shop categories of a market. Drill down with /shop/categories/{id}.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @return [Object]
     def tiktok_tiktok_shop_root_categories(opts = {})
       data, _status_code, _headers = tiktok_tiktok_shop_root_categories_with_http_info(opts)
@@ -2282,7 +2535,7 @@ module ScrapeBadger
     # TikTok Shop root categories
     # Top-level TikTok Shop categories of a market. Drill down with /shop/categories/{id}.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_tiktok_shop_root_categories_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -2333,7 +2586,7 @@ module ScrapeBadger
     # A store's stats and its cursor-paginated product catalogue (US).
     # @param seller_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @option opts [String] :cursor Pass back next_cursor for the next page (default to '')
     # @option opts [Integer] :count  (default to 20)
     # @return [Object]
@@ -2346,7 +2599,7 @@ module ScrapeBadger
     # A store&#39;s stats and its cursor-paginated product catalogue (US).
     # @param seller_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :region Market: US, GB, ID (default to 'US')
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
     # @option opts [String] :cursor Pass back next_cursor for the next page (default to '')
     # @option opts [Integer] :count  (default to 20)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
@@ -2405,6 +2658,101 @@ module ScrapeBadger
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TikTokApi#tiktok_tiktok_shop_store_products\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # TikTok Shop theme ranking
+    # Native category/theme ranking. ID, PH, TH and VN are locally verified.  Types: 1 high seller, 2 trending, 3 ratings. Coverage depends on the configured guest profile; a category recommendation feed is not used as a substitute.
+    # @param rank_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [Integer] :rank_type  (default to 1)
+    # @option opts [Integer] :cursor  (default to 0)
+    # @option opts [Integer] :count  (default to 20)
+    # @return [Object]
+    def tiktok_tiktok_shop_theme_ranking(rank_id, opts = {})
+      data, _status_code, _headers = tiktok_tiktok_shop_theme_ranking_with_http_info(rank_id, opts)
+      data
+    end
+
+    # TikTok Shop theme ranking
+    # Native category/theme ranking. ID, PH, TH and VN are locally verified.  Types: 1 high seller, 2 trending, 3 ratings. Coverage depends on the configured guest profile; a category recommendation feed is not used as a substitute.
+    # @param rank_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :region Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (default to 'US')
+    # @option opts [Integer] :rank_type  (default to 1)
+    # @option opts [Integer] :cursor  (default to 0)
+    # @option opts [Integer] :count  (default to 20)
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def tiktok_tiktok_shop_theme_ranking_with_http_info(rank_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_tiktok_shop_theme_ranking ...'
+      end
+      # verify the required parameter 'rank_id' is set
+      if @api_client.config.client_side_validation && rank_id.nil?
+        fail ArgumentError, "Missing the required parameter 'rank_id' when calling TikTokApi.tiktok_tiktok_shop_theme_ranking"
+      end
+      if @api_client.config.client_side_validation && !opts[:'rank_type'].nil? && opts[:'rank_type'] > 3
+        fail ArgumentError, 'invalid value for "opts[:"rank_type"]" when calling TikTokApi.tiktok_tiktok_shop_theme_ranking, must be smaller than or equal to 3.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'rank_type'].nil? && opts[:'rank_type'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"rank_type"]" when calling TikTokApi.tiktok_tiktok_shop_theme_ranking, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'cursor'].nil? && opts[:'cursor'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"cursor"]" when calling TikTokApi.tiktok_tiktok_shop_theme_ranking, must be greater than or equal to 0.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] > 20
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_tiktok_shop_theme_ranking, must be smaller than or equal to 20.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_tiktok_shop_theme_ranking, must be greater than or equal to 1.'
+      end
+
+      # resource path
+      local_var_path = '/v1/tiktok/shop/rankings/{rank_id}'.sub('{' + 'rank_id' + '}', CGI.escape(rank_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
+      query_params[:'rank_type'] = opts[:'rank_type'] if !opts[:'rank_type'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"TikTokApi.tiktok_tiktok_shop_theme_ranking",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_tiktok_shop_theme_ranking\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

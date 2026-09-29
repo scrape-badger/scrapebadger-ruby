@@ -4,6 +4,7 @@ All URIs are relative to *https://scrapebadger.com*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
+| [**tiktok_best_selling_tiktok_shop_products**](TikTokApi.md#tiktok_best_selling_tiktok_shop_products) | **GET** /v1/tiktok/shop/bestsellers | Best-selling TikTok Shop products |
 | [**tiktok_general_search**](TikTokApi.md#tiktok_general_search) | **GET** /v1/tiktok/search | General search |
 | [**tiktok_get_comment_replies**](TikTokApi.md#tiktok_get_comment_replies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies |
 | [**tiktok_get_comments**](TikTokApi.md#tiktok_get_comments) | **GET** /v1/tiktok/videos/{video_id}/comments | Get comments |
@@ -31,14 +32,96 @@ All URIs are relative to *https://scrapebadger.com*
 | [**tiktok_search_tiktok_shop_products**](TikTokApi.md#tiktok_search_tiktok_shop_products) | **GET** /v1/tiktok/shop/search | Search TikTok Shop products |
 | [**tiktok_search_users**](TikTokApi.md#tiktok_search_users) | **GET** /v1/tiktok/search/users | Search users |
 | [**tiktok_search_videos**](TikTokApi.md#tiktok_search_videos) | **GET** /v1/tiktok/search/videos | Search videos |
+| [**tiktok_tiktok_shop_category_products**](TikTokApi.md#tiktok_tiktok_shop_category_products) | **GET** /v1/tiktok/shop/categories/{category_id}/products | TikTok Shop category products |
 | [**tiktok_tiktok_shop_category_subcategories_top_products**](TikTokApi.md#tiktok_tiktok_shop_category_subcategories_top_products) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products |
 | [**tiktok_tiktok_shop_product_detail**](TikTokApi.md#tiktok_tiktok_shop_product_detail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail |
 | [**tiktok_tiktok_shop_product_reviews**](TikTokApi.md#tiktok_tiktok_shop_product_reviews) | **GET** /v1/tiktok/shop/products/{product_id}/reviews | TikTok Shop product reviews |
+| [**tiktok_tiktok_shop_regional_mall_feed**](TikTokApi.md#tiktok_tiktok_shop_regional_mall_feed) | **GET** /v1/tiktok/shop/mall | TikTok Shop regional mall feed |
 | [**tiktok_tiktok_shop_root_categories**](TikTokApi.md#tiktok_tiktok_shop_root_categories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories |
 | [**tiktok_tiktok_shop_store_products**](TikTokApi.md#tiktok_tiktok_shop_store_products) | **GET** /v1/tiktok/shop/stores/{seller_id} | TikTok Shop store + products |
+| [**tiktok_tiktok_shop_theme_ranking**](TikTokApi.md#tiktok_tiktok_shop_theme_ranking) | **GET** /v1/tiktok/shop/rankings/{rank_id} | TikTok Shop theme ranking |
 | [**tiktok_trending_hashtags**](TikTokApi.md#tiktok_trending_hashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags |
 | [**tiktok_trending_songs**](TikTokApi.md#tiktok_trending_songs) | **GET** /v1/tiktok/trending/songs | Trending songs |
 | [**tiktok_trending_videos**](TikTokApi.md#tiktok_trending_videos) | **GET** /v1/tiktok/trending/videos | Trending videos |
+
+
+## tiktok_best_selling_tiktok_shop_products
+
+> Object tiktok_best_selling_tiktok_shop_products(opts)
+
+Best-selling TikTok Shop products
+
+Sales-ranked best-selling products, available for every operating market.  Ranked by real sold_count (source: sales_ranked); works for SG/MY/JP where TikTok's curated /shop/rankings are not exposed. Omit category_id for a market-wide list.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+opts = {
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  category_id: 'category_id_example', # String | 
+  pages: 56, # Integer | 
+  limit: 56 # Integer | 
+}
+
+begin
+  # Best-selling TikTok Shop products
+  result = api_instance.tiktok_best_selling_tiktok_shop_products(opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_best_selling_tiktok_shop_products: #{e}"
+end
+```
+
+#### Using the tiktok_best_selling_tiktok_shop_products_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_best_selling_tiktok_shop_products_with_http_info(opts)
+
+```ruby
+begin
+  # Best-selling TikTok Shop products
+  data, status_code, headers = api_instance.tiktok_best_selling_tiktok_shop_products_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_best_selling_tiktok_shop_products_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
+| **category_id** | **String** |  | [optional] |
+| **pages** | **Integer** |  | [optional][default to 2] |
+| **limit** | **Integer** |  | [optional][default to 20] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
 ## tiktok_general_search
@@ -1900,7 +1983,8 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 q = 'q_example' # String | Keyword, e.g. 'wireless earbuds'
 opts = {
-  region: 'region_example', # String | Market: US, GB, ID
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  page_token: 'page_token_example', # String | 
   offset: 56 # Integer | Pass back next_offset for the next page (US)
 }
 
@@ -1936,7 +2020,8 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **q** | **String** | Keyword, e.g. &#39;wireless earbuds&#39; |  |
-| **region** | **String** | Market: US, GB, ID | [optional][default to &#39;US&#39;] |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
+| **page_token** | **String** |  | [optional] |
 | **offset** | **Integer** | Pass back next_offset for the next page (US) | [optional][default to 0] |
 
 ### Return type
@@ -2111,6 +2196,85 @@ end
 - **Accept**: application/json
 
 
+## tiktok_tiktok_shop_category_products
+
+> Object tiktok_tiktok_shop_category_products(category_id, opts)
+
+TikTok Shop category products
+
+Category recommendations. Pass accumulated exclusion IDs for the next page; these are not sales rankings.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+category_id = 'category_id_example' # String | 
+opts = {
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  count: 56, # Integer | 
+  exclude_product_ids: ['inner_example'] # Array<String> | Repeat for every next_exclude_product_ids value
+}
+
+begin
+  # TikTok Shop category products
+  result = api_instance.tiktok_tiktok_shop_category_products(category_id, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_category_products: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_category_products_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_category_products_with_http_info(category_id, opts)
+
+```ruby
+begin
+  # TikTok Shop category products
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_category_products_with_http_info(category_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_category_products_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **category_id** | **String** |  |  |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
+| **count** | **Integer** |  | [optional][default to 20] |
+| **exclude_product_ids** | [**Array&lt;String&gt;**](String.md) | Repeat for every next_exclude_product_ids value | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## tiktok_tiktok_shop_category_subcategories_top_products
 
 > Object tiktok_tiktok_shop_category_subcategories_top_products(category_id, opts)
@@ -2135,7 +2299,7 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 category_id = 'category_id_example' # String | 
 opts = {
-  region: 'region_example' # String | Market: US, GB, ID
+  region: 'region_example' # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
 }
 
 begin
@@ -2170,7 +2334,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **category_id** | **String** |  |  |
-| **region** | **String** | Market: US, GB, ID | [optional][default to &#39;US&#39;] |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
 
 ### Return type
 
@@ -2210,7 +2374,7 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 product_id = 'product_id_example' # String | 
 opts = {
-  region: 'region_example' # String | Market: US, GB, ID
+  region: 'region_example' # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
 }
 
 begin
@@ -2245,7 +2409,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **product_id** | **String** |  |  |
-| **region** | **String** | Market: US, GB, ID | [optional][default to &#39;US&#39;] |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
 
 ### Return type
 
@@ -2267,7 +2431,7 @@ end
 
 TikTok Shop product reviews
 
-Paginated product reviews with the rating breakdown (US).
+Paginated product reviews with rating breakdown (US and ID). Indonesia supports recent/recommended ordering, star and media filters; verified=true is not supported.
 
 ### Examples
 
@@ -2285,7 +2449,7 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 product_id = 'product_id_example' # String | 
 opts = {
-  region: 'region_example', # String | Market: US, GB, ID
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   page: 56, # Integer | 
   count: 56, # Integer | 
   sort: 'sort_example', # String | recommended | recent
@@ -2326,13 +2490,90 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **product_id** | **String** |  |  |
-| **region** | **String** | Market: US, GB, ID | [optional][default to &#39;US&#39;] |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
 | **page** | **Integer** |  | [optional][default to 1] |
 | **count** | **Integer** |  | [optional][default to 20] |
 | **sort** | **String** | recommended | recent | [optional][default to &#39;recommended&#39;] |
 | **rating** | **Integer** | Only this star rating | [optional] |
 | **with_media** | **Boolean** | Only reviews with photos/videos | [optional][default to false] |
 | **verified** | **Boolean** | Only verified purchases | [optional][default to false] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_tiktok_shop_regional_mall_feed
+
+> Object tiktok_tiktok_shop_regional_mall_feed(opts)
+
+TikTok Shop regional mall feed
+
+Mall navigation and recommendations with a 15-minute continuation token.  ID, SG, MY, PH, TH, VN and JP are locally verified. Tabs are not a complete category taxonomy.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+opts = {
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  tab_id: 56, # Integer | 
+  page_token: 'page_token_example' # String | 
+}
+
+begin
+  # TikTok Shop regional mall feed
+  result = api_instance.tiktok_tiktok_shop_regional_mall_feed(opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_regional_mall_feed: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_regional_mall_feed_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_regional_mall_feed_with_http_info(opts)
+
+```ruby
+begin
+  # TikTok Shop regional mall feed
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_regional_mall_feed_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_regional_mall_feed_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
+| **tab_id** | **Integer** |  | [optional][default to 0] |
+| **page_token** | **String** |  | [optional] |
 
 ### Return type
 
@@ -2371,7 +2612,7 @@ end
 
 api_instance = ScrapeBadger::TikTokApi.new
 opts = {
-  region: 'region_example' # String | Market: US, GB, ID
+  region: 'region_example' # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
 }
 
 begin
@@ -2405,7 +2646,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **region** | **String** | Market: US, GB, ID | [optional][default to &#39;US&#39;] |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
 
 ### Return type
 
@@ -2445,7 +2686,7 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 seller_id = 'seller_id_example' # String | 
 opts = {
-  region: 'region_example', # String | Market: US, GB, ID
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
   cursor: 'cursor_example', # String | Pass back next_cursor for the next page
   count: 56 # Integer | 
 }
@@ -2482,8 +2723,89 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **seller_id** | **String** |  |  |
-| **region** | **String** | Market: US, GB, ID | [optional][default to &#39;US&#39;] |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
 | **cursor** | **String** | Pass back next_cursor for the next page | [optional][default to &#39;&#39;] |
+| **count** | **Integer** |  | [optional][default to 20] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## tiktok_tiktok_shop_theme_ranking
+
+> Object tiktok_tiktok_shop_theme_ranking(rank_id, opts)
+
+TikTok Shop theme ranking
+
+Native category/theme ranking. ID, PH, TH and VN are locally verified.  Types: 1 high seller, 2 trending, 3 ratings. Coverage depends on the configured guest profile; a category recommendation feed is not used as a substitute.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::TikTokApi.new
+rank_id = 'rank_id_example' # String | 
+opts = {
+  region: 'region_example', # String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint
+  rank_type: 56, # Integer | 
+  cursor: 56, # Integer | 
+  count: 56 # Integer | 
+}
+
+begin
+  # TikTok Shop theme ranking
+  result = api_instance.tiktok_tiktok_shop_theme_ranking(rank_id, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_theme_ranking: #{e}"
+end
+```
+
+#### Using the tiktok_tiktok_shop_theme_ranking_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> tiktok_tiktok_shop_theme_ranking_with_http_info(rank_id, opts)
+
+```ruby
+begin
+  # TikTok Shop theme ranking
+  data, status_code, headers = api_instance.tiktok_tiktok_shop_theme_ranking_with_http_info(rank_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling TikTokApi->tiktok_tiktok_shop_theme_ranking_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **rank_id** | **String** |  |  |
+| **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional][default to &#39;US&#39;] |
+| **rank_type** | **Integer** |  | [optional][default to 1] |
+| **cursor** | **Integer** |  | [optional][default to 0] |
 | **count** | **Integer** |  | [optional][default to 20] |
 
 ### Return type
