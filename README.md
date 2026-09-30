@@ -431,11 +431,11 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::TikTokApi* | [**tiktok_general_search**](docs/TikTokApi.md#tiktok_general_search) | **GET** /v1/tiktok/search | General search
 *ScrapeBadger::TikTokApi* | [**tiktok_get_comment_replies**](docs/TikTokApi.md#tiktok_get_comment_replies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies
 *ScrapeBadger::TikTokApi* | [**tiktok_get_comments**](docs/TikTokApi.md#tiktok_get_comments) | **GET** /v1/tiktok/videos/{video_id}/comments | Get comments
-*ScrapeBadger::TikTokApi* | [**tiktok_get_followers_deprecated**](docs/TikTokApi.md#tiktok_get_followers_deprecated) | **GET** /v1/tiktok/users/{username}/followers | Get followers (deprecated)
-*ScrapeBadger::TikTokApi* | [**tiktok_get_following_deprecated**](docs/TikTokApi.md#tiktok_get_following_deprecated) | **GET** /v1/tiktok/users/{username}/following | Get following (deprecated)
+*ScrapeBadger::TikTokApi* | [**tiktok_get_followers**](docs/TikTokApi.md#tiktok_get_followers) | **GET** /v1/tiktok/users/{username}/followers | Get followers
+*ScrapeBadger::TikTokApi* | [**tiktok_get_following**](docs/TikTokApi.md#tiktok_get_following) | **GET** /v1/tiktok/users/{username}/following | Get following
 *ScrapeBadger::TikTokApi* | [**tiktok_get_hashtag_detail**](docs/TikTokApi.md#tiktok_get_hashtag_detail) | **GET** /v1/tiktok/hashtags/{name} | Get hashtag detail
 *ScrapeBadger::TikTokApi* | [**tiktok_get_hashtag_videos**](docs/TikTokApi.md#tiktok_get_hashtag_videos) | **GET** /v1/tiktok/hashtags/{name}/videos | Get hashtag videos
-*ScrapeBadger::TikTokApi* | [**tiktok_get_liked_videos_deprecated**](docs/TikTokApi.md#tiktok_get_liked_videos_deprecated) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos (deprecated)
+*ScrapeBadger::TikTokApi* | [**tiktok_get_liked_videos**](docs/TikTokApi.md#tiktok_get_liked_videos) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos
 *ScrapeBadger::TikTokApi* | [**tiktok_get_music_sound_detail**](docs/TikTokApi.md#tiktok_get_music_sound_detail) | **GET** /v1/tiktok/music/{music_id} | Get music/sound detail
 *ScrapeBadger::TikTokApi* | [**tiktok_get_music_videos**](docs/TikTokApi.md#tiktok_get_music_videos) | **GET** /v1/tiktok/music/{music_id}/videos | Get music videos
 *ScrapeBadger::TikTokApi* | [**tiktok_get_oembed_metadata**](docs/TikTokApi.md#tiktok_get_oembed_metadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata

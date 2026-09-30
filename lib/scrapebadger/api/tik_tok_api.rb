@@ -115,7 +115,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Object]
     def tiktok_general_search(query, opts = {})
       data, _status_code, _headers = tiktok_general_search_with_http_info(query, opts)
@@ -128,7 +128,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_general_search_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -357,39 +357,41 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
-    # Get followers (deprecated)
-    # DEPRECATED — TikTok followers require an authenticated account session. Returns HTTP 410.
+    # Get followers
+    # Get publicly visible followers without an account.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Object]
-    def tiktok_get_followers_deprecated(username, opts = {})
-      data, _status_code, _headers = tiktok_get_followers_deprecated_with_http_info(username, opts)
+    def tiktok_get_followers(username, opts = {})
+      data, _status_code, _headers = tiktok_get_followers_with_http_info(username, opts)
       data
     end
 
-    # Get followers (deprecated)
-    # DEPRECATED — TikTok followers require an authenticated account session. Returns HTTP 410.
+    # Get followers
+    # Get publicly visible followers without an account.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def tiktok_get_followers_deprecated_with_http_info(username, opts = {})
+    def tiktok_get_followers_with_http_info(username, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_followers_deprecated ...'
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_followers ...'
       end
       # verify the required parameter 'username' is set
       if @api_client.config.client_side_validation && username.nil?
-        fail ArgumentError, "Missing the required parameter 'username' when calling TikTokApi.tiktok_get_followers_deprecated"
+        fail ArgumentError, "Missing the required parameter 'username' when calling TikTokApi.tiktok_get_followers"
       end
       if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] > 50
-        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_followers_deprecated, must be smaller than or equal to 50.'
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_followers, must be smaller than or equal to 50.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_followers_deprecated, must be greater than or equal to 1.'
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_followers, must be greater than or equal to 1.'
       end
 
       # resource path
@@ -399,6 +401,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -418,7 +421,7 @@ module ScrapeBadger
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
 
       new_options = opts.merge(
-        :operation => :"TikTokApi.tiktok_get_followers_deprecated",
+        :operation => :"TikTokApi.tiktok_get_followers",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -429,44 +432,46 @@ module ScrapeBadger
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_followers_deprecated\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_followers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
 
-    # Get following (deprecated)
-    # DEPRECATED — TikTok following requires an authenticated account session. Returns HTTP 410.
+    # Get following
+    # Get publicly visible followed accounts. Hidden lists return HTTP 403.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Object]
-    def tiktok_get_following_deprecated(username, opts = {})
-      data, _status_code, _headers = tiktok_get_following_deprecated_with_http_info(username, opts)
+    def tiktok_get_following(username, opts = {})
+      data, _status_code, _headers = tiktok_get_following_with_http_info(username, opts)
       data
     end
 
-    # Get following (deprecated)
-    # DEPRECATED — TikTok following requires an authenticated account session. Returns HTTP 410.
+    # Get following
+    # Get publicly visible followed accounts. Hidden lists return HTTP 403.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def tiktok_get_following_deprecated_with_http_info(username, opts = {})
+    def tiktok_get_following_with_http_info(username, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_following_deprecated ...'
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_following ...'
       end
       # verify the required parameter 'username' is set
       if @api_client.config.client_side_validation && username.nil?
-        fail ArgumentError, "Missing the required parameter 'username' when calling TikTokApi.tiktok_get_following_deprecated"
+        fail ArgumentError, "Missing the required parameter 'username' when calling TikTokApi.tiktok_get_following"
       end
       if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] > 50
-        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_following_deprecated, must be smaller than or equal to 50.'
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_following, must be smaller than or equal to 50.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_following_deprecated, must be greater than or equal to 1.'
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_following, must be greater than or equal to 1.'
       end
 
       # resource path
@@ -476,6 +481,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -495,7 +501,7 @@ module ScrapeBadger
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
 
       new_options = opts.merge(
-        :operation => :"TikTokApi.tiktok_get_following_deprecated",
+        :operation => :"TikTokApi.tiktok_get_following",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -506,7 +512,7 @@ module ScrapeBadger
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_following_deprecated\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_following\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -657,39 +663,41 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
-    # Get liked videos (deprecated)
-    # DEPRECATED — TikTok liked videos require an authenticated account session. Returns HTTP 410.
+    # Get liked videos
+    # Get public liked videos. Hidden liked lists return HTTP 403.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Object]
-    def tiktok_get_liked_videos_deprecated(username, opts = {})
-      data, _status_code, _headers = tiktok_get_liked_videos_deprecated_with_http_info(username, opts)
+    def tiktok_get_liked_videos(username, opts = {})
+      data, _status_code, _headers = tiktok_get_liked_videos_with_http_info(username, opts)
       data
     end
 
-    # Get liked videos (deprecated)
-    # DEPRECATED — TikTok liked videos require an authenticated account session. Returns HTTP 410.
+    # Get liked videos
+    # Get public liked videos. Hidden liked lists return HTTP 403.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def tiktok_get_liked_videos_deprecated_with_http_info(username, opts = {})
+    def tiktok_get_liked_videos_with_http_info(username, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_liked_videos_deprecated ...'
+        @api_client.config.logger.debug 'Calling API: TikTokApi.tiktok_get_liked_videos ...'
       end
       # verify the required parameter 'username' is set
       if @api_client.config.client_side_validation && username.nil?
-        fail ArgumentError, "Missing the required parameter 'username' when calling TikTokApi.tiktok_get_liked_videos_deprecated"
+        fail ArgumentError, "Missing the required parameter 'username' when calling TikTokApi.tiktok_get_liked_videos"
       end
       if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] > 50
-        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_liked_videos_deprecated, must be smaller than or equal to 50.'
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_liked_videos, must be smaller than or equal to 50.'
       end
 
       if @api_client.config.client_side_validation && !opts[:'count'].nil? && opts[:'count'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_liked_videos_deprecated, must be greater than or equal to 1.'
+        fail ArgumentError, 'invalid value for "opts[:"count"]" when calling TikTokApi.tiktok_get_liked_videos, must be greater than or equal to 1.'
       end
 
       # resource path
@@ -699,6 +707,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -718,7 +727,7 @@ module ScrapeBadger
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
 
       new_options = opts.merge(
-        :operation => :"TikTokApi.tiktok_get_liked_videos_deprecated",
+        :operation => :"TikTokApi.tiktok_get_liked_videos",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -729,7 +738,7 @@ module ScrapeBadger
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_liked_videos_deprecated\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: TikTokApi#tiktok_get_liked_videos\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -953,6 +962,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 16)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Object]
     def tiktok_get_related_videos(video_id, opts = {})
       data, _status_code, _headers = tiktok_get_related_videos_with_http_info(video_id, opts)
@@ -965,6 +975,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 16)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_get_related_videos_with_http_info(video_id, opts = {})
       if @api_client.config.debugging
@@ -989,6 +1000,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -1030,6 +1042,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Object]
     def tiktok_get_reposts(username, opts = {})
       data, _status_code, _headers = tiktok_get_reposts_with_http_info(username, opts)
@@ -1042,6 +1055,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
+    # @option opts [String] :cursor Continuation cursor from the previous page
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_get_reposts_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -1066,6 +1080,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'region'] = opts[:'region'] if !opts[:'region'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -1305,7 +1320,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
-    # @option opts [String] :cursor Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only).
+    # @option opts [String] :cursor Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes).
     # @return [Object]
     def tiktok_get_user_videos(username, opts = {})
       data, _status_code, _headers = tiktok_get_user_videos_with_http_info(username, opts)
@@ -1318,7 +1333,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 30)
-    # @option opts [String] :cursor Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only).
+    # @option opts [String] :cursor Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes).
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_get_user_videos_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -1625,7 +1640,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Object]
     def tiktok_search_hashtags(query, opts = {})
       data, _status_code, _headers = tiktok_search_hashtags_with_http_info(query, opts)
@@ -1638,7 +1653,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_search_hashtags_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -1975,7 +1990,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Object]
     def tiktok_search_users(query, opts = {})
       data, _status_code, _headers = tiktok_search_users_with_http_info(query, opts)
@@ -1988,7 +2003,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_search_users_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -2056,7 +2071,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Object]
     def tiktok_search_videos(query, opts = {})
       data, _status_code, _headers = tiktok_search_videos_with_http_info(query, opts)
@@ -2069,7 +2084,7 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
     # @option opts [Integer] :count  (default to 20)
-    # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+    # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_search_videos_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -2761,7 +2776,7 @@ module ScrapeBadger
     # Get trending hashtags (mobile Discover surface — view_count + creators).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
-    # @option opts [Integer] :period  (default to 7)
+    # @option opts [Integer] :period Historical windows are unavailable; omit period
     # @option opts [Integer] :count  (default to 20)
     # @return [Object]
     def tiktok_trending_hashtags(opts = {})
@@ -2773,7 +2788,7 @@ module ScrapeBadger
     # Get trending hashtags (mobile Discover surface — view_count + creators).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
-    # @option opts [Integer] :period  (default to 7)
+    # @option opts [Integer] :period Historical windows are unavailable; omit period
     # @option opts [Integer] :count  (default to 20)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_trending_hashtags_with_http_info(opts = {})
@@ -2835,7 +2850,7 @@ module ScrapeBadger
     # Get trending songs/sounds (mobile hot-music feed — ranked by usage).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
-    # @option opts [Integer] :period  (default to 7)
+    # @option opts [Integer] :period Historical windows are unavailable; omit period
     # @option opts [Integer] :count  (default to 20)
     # @return [Object]
     def tiktok_trending_songs(opts = {})
@@ -2847,7 +2862,7 @@ module ScrapeBadger
     # Get trending songs/sounds (mobile hot-music feed — ranked by usage).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :region  (default to 'US')
-    # @option opts [Integer] :period  (default to 7)
+    # @option opts [Integer] :period Historical windows are unavailable; omit period
     # @option opts [Integer] :count  (default to 20)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def tiktok_trending_songs_with_http_info(opts = {})

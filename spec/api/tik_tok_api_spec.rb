@@ -54,7 +54,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
-  # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+  # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
   # @return [Object]
   describe 'tiktok_general_search test' do
     it 'should work' do
@@ -93,29 +93,31 @@ describe 'TikTokApi' do
     end
   end
 
-  # unit tests for tiktok_get_followers_deprecated
-  # Get followers (deprecated)
-  # DEPRECATED — TikTok followers require an authenticated account session. Returns HTTP 410.
+  # unit tests for tiktok_get_followers
+  # Get followers
+  # Get publicly visible followers without an account.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
+  # @option opts [String] :cursor Continuation cursor from the previous page
   # @return [Object]
-  describe 'tiktok_get_followers_deprecated test' do
+  describe 'tiktok_get_followers test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
-  # unit tests for tiktok_get_following_deprecated
-  # Get following (deprecated)
-  # DEPRECATED — TikTok following requires an authenticated account session. Returns HTTP 410.
+  # unit tests for tiktok_get_following
+  # Get following
+  # Get publicly visible followed accounts. Hidden lists return HTTP 403.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
+  # @option opts [String] :cursor Continuation cursor from the previous page
   # @return [Object]
-  describe 'tiktok_get_following_deprecated test' do
+  describe 'tiktok_get_following test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
@@ -149,15 +151,16 @@ describe 'TikTokApi' do
     end
   end
 
-  # unit tests for tiktok_get_liked_videos_deprecated
-  # Get liked videos (deprecated)
-  # DEPRECATED — TikTok liked videos require an authenticated account session. Returns HTTP 410.
+  # unit tests for tiktok_get_liked_videos
+  # Get liked videos
+  # Get public liked videos. Hidden liked lists return HTTP 403.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
+  # @option opts [String] :cursor Continuation cursor from the previous page
   # @return [Object]
-  describe 'tiktok_get_liked_videos_deprecated test' do
+  describe 'tiktok_get_liked_videos test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
@@ -211,6 +214,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
+  # @option opts [String] :cursor Continuation cursor from the previous page
   # @return [Object]
   describe 'tiktok_get_related_videos test' do
     it 'should work' do
@@ -225,6 +229,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
+  # @option opts [String] :cursor Continuation cursor from the previous page
   # @return [Object]
   describe 'tiktok_get_reposts test' do
     it 'should work' do
@@ -278,7 +283,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
-  # @option opts [String] :cursor Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only).
+  # @option opts [String] :cursor Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes).
   # @return [Object]
   describe 'tiktok_get_user_videos test' do
     it 'should work' do
@@ -340,7 +345,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
-  # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+  # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
   # @return [Object]
   describe 'tiktok_search_hashtags test' do
     it 'should work' do
@@ -403,7 +408,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
-  # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+  # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
   # @return [Object]
   describe 'tiktok_search_users test' do
     it 'should work' do
@@ -418,7 +423,7 @@ describe 'TikTokApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
   # @option opts [Integer] :count 
-  # @option opts [String] :cursor Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor
+  # @option opts [String] :cursor Opaque continuation cursor from a prior page&#39;s pagination.cursor
   # @return [Object]
   describe 'tiktok_search_videos test' do
     it 'should work' do
@@ -548,7 +553,7 @@ describe 'TikTokApi' do
   # Get trending hashtags (mobile Discover surface — view_count + creators).
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
-  # @option opts [Integer] :period 
+  # @option opts [Integer] :period Historical windows are unavailable; omit period
   # @option opts [Integer] :count 
   # @return [Object]
   describe 'tiktok_trending_hashtags test' do
@@ -562,7 +567,7 @@ describe 'TikTokApi' do
   # Get trending songs/sounds (mobile hot-music feed — ranked by usage).
   # @param [Hash] opts the optional parameters
   # @option opts [String] :region 
-  # @option opts [Integer] :period 
+  # @option opts [Integer] :period Historical windows are unavailable; omit period
   # @option opts [Integer] :count 
   # @return [Object]
   describe 'tiktok_trending_songs test' do

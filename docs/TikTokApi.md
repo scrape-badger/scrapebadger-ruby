@@ -8,11 +8,11 @@ All URIs are relative to *https://scrapebadger.com*
 | [**tiktok_general_search**](TikTokApi.md#tiktok_general_search) | **GET** /v1/tiktok/search | General search |
 | [**tiktok_get_comment_replies**](TikTokApi.md#tiktok_get_comment_replies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies |
 | [**tiktok_get_comments**](TikTokApi.md#tiktok_get_comments) | **GET** /v1/tiktok/videos/{video_id}/comments | Get comments |
-| [**tiktok_get_followers_deprecated**](TikTokApi.md#tiktok_get_followers_deprecated) | **GET** /v1/tiktok/users/{username}/followers | Get followers (deprecated) |
-| [**tiktok_get_following_deprecated**](TikTokApi.md#tiktok_get_following_deprecated) | **GET** /v1/tiktok/users/{username}/following | Get following (deprecated) |
+| [**tiktok_get_followers**](TikTokApi.md#tiktok_get_followers) | **GET** /v1/tiktok/users/{username}/followers | Get followers |
+| [**tiktok_get_following**](TikTokApi.md#tiktok_get_following) | **GET** /v1/tiktok/users/{username}/following | Get following |
 | [**tiktok_get_hashtag_detail**](TikTokApi.md#tiktok_get_hashtag_detail) | **GET** /v1/tiktok/hashtags/{name} | Get hashtag detail |
 | [**tiktok_get_hashtag_videos**](TikTokApi.md#tiktok_get_hashtag_videos) | **GET** /v1/tiktok/hashtags/{name}/videos | Get hashtag videos |
-| [**tiktok_get_liked_videos_deprecated**](TikTokApi.md#tiktok_get_liked_videos_deprecated) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos (deprecated) |
+| [**tiktok_get_liked_videos**](TikTokApi.md#tiktok_get_liked_videos) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos |
 | [**tiktok_get_music_sound_detail**](TikTokApi.md#tiktok_get_music_sound_detail) | **GET** /v1/tiktok/music/{music_id} | Get music/sound detail |
 | [**tiktok_get_music_videos**](TikTokApi.md#tiktok_get_music_videos) | **GET** /v1/tiktok/music/{music_id}/videos | Get music videos |
 | [**tiktok_get_oembed_metadata**](TikTokApi.md#tiktok_get_oembed_metadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata |
@@ -150,7 +150,7 @@ query = 'query_example' # String | Search keyword
 opts = {
   region: 'region_example', # String | 
   count: 56, # Integer | 
-  cursor: 'cursor_example' # String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor
+  cursor: 'cursor_example' # String | Opaque continuation cursor from a prior page's pagination.cursor
 }
 
 begin
@@ -187,7 +187,7 @@ end
 | **query** | **String** | Search keyword |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 20] |
-| **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] |
+| **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] |
 
 ### Return type
 
@@ -363,13 +363,13 @@ end
 - **Accept**: application/json
 
 
-## tiktok_get_followers_deprecated
+## tiktok_get_followers
 
-> Object tiktok_get_followers_deprecated(username, opts)
+> Object tiktok_get_followers(username, opts)
 
-Get followers (deprecated)
+Get followers
 
-DEPRECATED — TikTok followers require an authenticated account session. Returns HTTP 410.
+Get publicly visible followers without an account.
 
 ### Examples
 
@@ -388,33 +388,34 @@ api_instance = ScrapeBadger::TikTokApi.new
 username = 'username_example' # String | 
 opts = {
   region: 'region_example', # String | 
-  count: 56 # Integer | 
+  count: 56, # Integer | 
+  cursor: 'cursor_example' # String | Continuation cursor from the previous page
 }
 
 begin
-  # Get followers (deprecated)
-  result = api_instance.tiktok_get_followers_deprecated(username, opts)
+  # Get followers
+  result = api_instance.tiktok_get_followers(username, opts)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling TikTokApi->tiktok_get_followers_deprecated: #{e}"
+  puts "Error when calling TikTokApi->tiktok_get_followers: #{e}"
 end
 ```
 
-#### Using the tiktok_get_followers_deprecated_with_http_info variant
+#### Using the tiktok_get_followers_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> tiktok_get_followers_deprecated_with_http_info(username, opts)
+> <Array(Object, Integer, Hash)> tiktok_get_followers_with_http_info(username, opts)
 
 ```ruby
 begin
-  # Get followers (deprecated)
-  data, status_code, headers = api_instance.tiktok_get_followers_deprecated_with_http_info(username, opts)
+  # Get followers
+  data, status_code, headers = api_instance.tiktok_get_followers_with_http_info(username, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling TikTokApi->tiktok_get_followers_deprecated_with_http_info: #{e}"
+  puts "Error when calling TikTokApi->tiktok_get_followers_with_http_info: #{e}"
 end
 ```
 
@@ -425,6 +426,7 @@ end
 | **username** | **String** |  |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 30] |
+| **cursor** | **String** | Continuation cursor from the previous page | [optional] |
 
 ### Return type
 
@@ -440,13 +442,13 @@ end
 - **Accept**: application/json
 
 
-## tiktok_get_following_deprecated
+## tiktok_get_following
 
-> Object tiktok_get_following_deprecated(username, opts)
+> Object tiktok_get_following(username, opts)
 
-Get following (deprecated)
+Get following
 
-DEPRECATED — TikTok following requires an authenticated account session. Returns HTTP 410.
+Get publicly visible followed accounts. Hidden lists return HTTP 403.
 
 ### Examples
 
@@ -465,33 +467,34 @@ api_instance = ScrapeBadger::TikTokApi.new
 username = 'username_example' # String | 
 opts = {
   region: 'region_example', # String | 
-  count: 56 # Integer | 
+  count: 56, # Integer | 
+  cursor: 'cursor_example' # String | Continuation cursor from the previous page
 }
 
 begin
-  # Get following (deprecated)
-  result = api_instance.tiktok_get_following_deprecated(username, opts)
+  # Get following
+  result = api_instance.tiktok_get_following(username, opts)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling TikTokApi->tiktok_get_following_deprecated: #{e}"
+  puts "Error when calling TikTokApi->tiktok_get_following: #{e}"
 end
 ```
 
-#### Using the tiktok_get_following_deprecated_with_http_info variant
+#### Using the tiktok_get_following_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> tiktok_get_following_deprecated_with_http_info(username, opts)
+> <Array(Object, Integer, Hash)> tiktok_get_following_with_http_info(username, opts)
 
 ```ruby
 begin
-  # Get following (deprecated)
-  data, status_code, headers = api_instance.tiktok_get_following_deprecated_with_http_info(username, opts)
+  # Get following
+  data, status_code, headers = api_instance.tiktok_get_following_with_http_info(username, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling TikTokApi->tiktok_get_following_deprecated_with_http_info: #{e}"
+  puts "Error when calling TikTokApi->tiktok_get_following_with_http_info: #{e}"
 end
 ```
 
@@ -502,6 +505,7 @@ end
 | **username** | **String** |  |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 30] |
+| **cursor** | **String** | Continuation cursor from the previous page | [optional] |
 
 ### Return type
 
@@ -671,13 +675,13 @@ end
 - **Accept**: application/json
 
 
-## tiktok_get_liked_videos_deprecated
+## tiktok_get_liked_videos
 
-> Object tiktok_get_liked_videos_deprecated(username, opts)
+> Object tiktok_get_liked_videos(username, opts)
 
-Get liked videos (deprecated)
+Get liked videos
 
-DEPRECATED — TikTok liked videos require an authenticated account session. Returns HTTP 410.
+Get public liked videos. Hidden liked lists return HTTP 403.
 
 ### Examples
 
@@ -696,33 +700,34 @@ api_instance = ScrapeBadger::TikTokApi.new
 username = 'username_example' # String | 
 opts = {
   region: 'region_example', # String | 
-  count: 56 # Integer | 
+  count: 56, # Integer | 
+  cursor: 'cursor_example' # String | Continuation cursor from the previous page
 }
 
 begin
-  # Get liked videos (deprecated)
-  result = api_instance.tiktok_get_liked_videos_deprecated(username, opts)
+  # Get liked videos
+  result = api_instance.tiktok_get_liked_videos(username, opts)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling TikTokApi->tiktok_get_liked_videos_deprecated: #{e}"
+  puts "Error when calling TikTokApi->tiktok_get_liked_videos: #{e}"
 end
 ```
 
-#### Using the tiktok_get_liked_videos_deprecated_with_http_info variant
+#### Using the tiktok_get_liked_videos_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> tiktok_get_liked_videos_deprecated_with_http_info(username, opts)
+> <Array(Object, Integer, Hash)> tiktok_get_liked_videos_with_http_info(username, opts)
 
 ```ruby
 begin
-  # Get liked videos (deprecated)
-  data, status_code, headers = api_instance.tiktok_get_liked_videos_deprecated_with_http_info(username, opts)
+  # Get liked videos
+  data, status_code, headers = api_instance.tiktok_get_liked_videos_with_http_info(username, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling TikTokApi->tiktok_get_liked_videos_deprecated_with_http_info: #{e}"
+  puts "Error when calling TikTokApi->tiktok_get_liked_videos_with_http_info: #{e}"
 end
 ```
 
@@ -733,6 +738,7 @@ end
 | **username** | **String** |  |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 30] |
+| **cursor** | **String** | Continuation cursor from the previous page | [optional] |
 
 ### Return type
 
@@ -1002,7 +1008,8 @@ api_instance = ScrapeBadger::TikTokApi.new
 video_id = 'video_id_example' # String | 
 opts = {
   region: 'region_example', # String | 
-  count: 56 # Integer | 
+  count: 56, # Integer | 
+  cursor: 'cursor_example' # String | Continuation cursor from the previous page
 }
 
 begin
@@ -1039,6 +1046,7 @@ end
 | **video_id** | **String** |  |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 16] |
+| **cursor** | **String** | Continuation cursor from the previous page | [optional] |
 
 ### Return type
 
@@ -1079,7 +1087,8 @@ api_instance = ScrapeBadger::TikTokApi.new
 username = 'username_example' # String | 
 opts = {
   region: 'region_example', # String | 
-  count: 56 # Integer | 
+  count: 56, # Integer | 
+  cursor: 'cursor_example' # String | Continuation cursor from the previous page
 }
 
 begin
@@ -1116,6 +1125,7 @@ end
 | **username** | **String** |  |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 30] |
+| **cursor** | **String** | Continuation cursor from the previous page | [optional] |
 
 ### Return type
 
@@ -1382,7 +1392,7 @@ username = 'username_example' # String |
 opts = {
   region: 'region_example', # String | 
   count: 56, # Integer | 
-  cursor: 'cursor_example' # String | Pagination cursor from a prior page's `pagination.cursor` (signer path only).
+  cursor: 'cursor_example' # String | Pagination cursor from a prior page's `pagination.cursor` (opaque; expires after 15 minutes).
 }
 
 begin
@@ -1419,7 +1429,7 @@ end
 | **username** | **String** |  |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 30] |
-| **cursor** | **String** | Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only). | [optional] |
+| **cursor** | **String** | Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes). | [optional] |
 
 ### Return type
 
@@ -1742,7 +1752,7 @@ query = 'query_example' # String | Search keyword
 opts = {
   region: 'region_example', # String | 
   count: 56, # Integer | 
-  cursor: 'cursor_example' # String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor
+  cursor: 'cursor_example' # String | Opaque continuation cursor from a prior page's pagination.cursor
 }
 
 begin
@@ -1779,7 +1789,7 @@ end
 | **query** | **String** | Search keyword |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 20] |
-| **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] |
+| **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] |
 
 ### Return type
 
@@ -2064,7 +2074,7 @@ query = 'query_example' # String | Search keyword
 opts = {
   region: 'region_example', # String | 
   count: 56, # Integer | 
-  cursor: 'cursor_example' # String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor
+  cursor: 'cursor_example' # String | Opaque continuation cursor from a prior page's pagination.cursor
 }
 
 begin
@@ -2101,7 +2111,7 @@ end
 | **query** | **String** | Search keyword |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 20] |
-| **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] |
+| **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] |
 
 ### Return type
 
@@ -2143,7 +2153,7 @@ query = 'query_example' # String | Search keyword
 opts = {
   region: 'region_example', # String | 
   count: 56, # Integer | 
-  cursor: 'cursor_example' # String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor
+  cursor: 'cursor_example' # String | Opaque continuation cursor from a prior page's pagination.cursor
 }
 
 begin
@@ -2180,7 +2190,7 @@ end
 | **query** | **String** | Search keyword |  |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
 | **count** | **Integer** |  | [optional][default to 20] |
-| **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] |
+| **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] |
 
 ### Return type
 
@@ -2846,7 +2856,7 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 opts = {
   region: 'region_example', # String | 
-  period: 56, # Integer | 
+  period: 56, # Integer | Historical windows are unavailable; omit period
   count: 56 # Integer | 
 }
 
@@ -2882,7 +2892,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
-| **period** | **Integer** |  | [optional][default to 7] |
+| **period** | **Integer** | Historical windows are unavailable; omit period | [optional] |
 | **count** | **Integer** |  | [optional][default to 20] |
 
 ### Return type
@@ -2923,7 +2933,7 @@ end
 api_instance = ScrapeBadger::TikTokApi.new
 opts = {
   region: 'region_example', # String | 
-  period: 56, # Integer | 
+  period: 56, # Integer | Historical windows are unavailable; omit period
   count: 56 # Integer | 
 }
 
@@ -2959,7 +2969,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **region** | **String** |  | [optional][default to &#39;US&#39;] |
-| **period** | **Integer** |  | [optional][default to 7] |
+| **period** | **Integer** | Historical windows are unavailable; omit period | [optional] |
 | **count** | **Integer** |  | [optional][default to 20] |
 
 ### Return type

@@ -1021,7 +1021,7 @@ end
 
 Google Lens visual search
 
-Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.
+Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text and is honoured. ``product`` and ``exact_matches`` are not yet supported, and ``visual_matches=false`` cannot be: visual matches are the only surface served. Setting any of the three adds a line to the ``warnings`` array on the response rather than changing the result — see SCR-177. The match grid still CONTAINS an image's exact matches; Google just does not label which they are.
 
 ### Examples
 
@@ -1044,9 +1044,9 @@ opts = {
   language: 'language_example', # String | Language code (alias for hl)
   gl: 'gl_example', # String | Country code
   hl: 'hl_example', # String | Language code
-  product: true, # Boolean | Bias towards shoppable product matches
-  visual_matches: true, # Boolean | Include the visual-matches carousel
-  exact_matches: true # Boolean | Restrict to exact-match results
+  product: true, # Boolean | NOT YET SUPPORTED — accepted, and reported back in `warnings`
+  visual_matches: true, # Boolean | Always true in practice — `false` is reported back in `warnings`
+  exact_matches: true # Boolean | NOT YET SUPPORTED — accepted, and reported back in `warnings`
 }
 
 begin
@@ -1086,9 +1086,9 @@ end
 | **language** | **String** | Language code (alias for hl) | [optional] |
 | **gl** | **String** | Country code | [optional][default to &#39;us&#39;] |
 | **hl** | **String** | Language code | [optional][default to &#39;en&#39;] |
-| **product** | **Boolean** | Bias towards shoppable product matches | [optional][default to false] |
-| **visual_matches** | **Boolean** | Include the visual-matches carousel | [optional][default to true] |
-| **exact_matches** | **Boolean** | Restrict to exact-match results | [optional][default to false] |
+| **product** | **Boolean** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional][default to false] |
+| **visual_matches** | **Boolean** | Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; | [optional][default to true] |
+| **exact_matches** | **Boolean** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional][default to false] |
 
 ### Return type
 
