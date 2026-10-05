@@ -1021,7 +1021,7 @@ end
 
 Google Lens visual search
 
-Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text. ``exact_matches=true`` returns just the pages hosting the image, each flagged ``exact_match: true``, instead of the broad grid — available for most images (7 of 10 in sampling) and falling back to the grid otherwise. ``product`` is not supported, and ``visual_matches=false`` cannot be: visual matches are the only grid served. Anything that could not be applied — including an exact-match lookup that came back empty — is named in the ``warnings`` array rather than silently dropped (SCR-177, SCR-180).
+Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text. ``exact_matches=true`` returns just the pages hosting the image, each flagged ``exact_match: true``, instead of the broad grid — available for most images (8 of 10 in sampling) and falling back to the grid otherwise. ``product=true`` narrows the grid to the tiles Google marked buyable. ``visual_matches=false`` cannot be honoured: ``visual_matches=false`` cannot be: visual matches are the only grid served. Anything that could not be applied — including an exact-match lookup that came back empty — is named in the ``warnings`` array rather than silently dropped (SCR-177, SCR-180).
 
 ### Examples
 
@@ -1044,9 +1044,9 @@ opts = {
   language: 'language_example', # String | Language code (alias for hl)
   gl: 'gl_example', # String | Country code
   hl: 'hl_example', # String | Language code
-  product: true, # Boolean | NOT YET SUPPORTED — accepted, and reported back in `warnings`
+  product: true, # Boolean | Only the tiles Google marked buyable (price + stock), drawn from the same grid
   visual_matches: true, # Boolean | Always true in practice — `false` is reported back in `warnings`
-  exact_matches: true # Boolean | Return only the pages hosting this image, flagged exact_match. Available for most images (7/10 in sampling); falls back to the full grid otherwise, saying so in warnings
+  exact_matches: true # Boolean | Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings
 }
 
 begin
@@ -1086,9 +1086,9 @@ end
 | **language** | **String** | Language code (alias for hl) | [optional] |
 | **gl** | **String** | Country code | [optional][default to &#39;us&#39;] |
 | **hl** | **String** | Language code | [optional][default to &#39;en&#39;] |
-| **product** | **Boolean** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional][default to false] |
+| **product** | **Boolean** | Only the tiles Google marked buyable (price + stock), drawn from the same grid | [optional][default to false] |
 | **visual_matches** | **Boolean** | Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; | [optional][default to true] |
-| **exact_matches** | **Boolean** | Return only the pages hosting this image, flagged exact_match. Available for most images (7/10 in sampling); falls back to the full grid otherwise, saying so in warnings | [optional][default to false] |
+| **exact_matches** | **Boolean** | Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings | [optional][default to false] |
 
 ### Return type
 
