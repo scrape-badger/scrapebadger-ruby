@@ -385,6 +385,19 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::LoopNetApi* | [**loopnet_loopnet_scraper_health_check**](docs/LoopNetApi.md#loopnet_loopnet_scraper_health_check) | **GET** /v1/loopnet/health | LoopNet scraper health check
 *ScrapeBadger::LoopNetApi* | [**loopnet_loopnet_scraper_health_check_head**](docs/LoopNetApi.md#loopnet_loopnet_scraper_health_check_head) | **HEAD** /v1/loopnet/health | LoopNet scraper health check
 *ScrapeBadger::LoopNetApi* | [**loopnet_search_commercial_real_estate**](docs/LoopNetApi.md#loopnet_search_commercial_real_estate) | **GET** /v1/loopnet/search | Search commercial real estate
+*ScrapeBadger::NaverApi* | [**naver_naver_blog_search**](docs/NaverApi.md#naver_naver_blog_search) | **GET** /v1/naver/blog | Naver blog search
+*ScrapeBadger::NaverApi* | [**naver_naver_datalab_shopping_keyword_insight**](docs/NaverApi.md#naver_naver_datalab_shopping_keyword_insight) | **GET** /v1/naver/shopping/insight | Naver DataLab shopping keyword insight
+*ScrapeBadger::NaverApi* | [**naver_naver_news_search**](docs/NaverApi.md#naver_naver_news_search) | **GET** /v1/naver/news | Naver news search
+*ScrapeBadger::NaverApi* | [**naver_naver_place_detail**](docs/NaverApi.md#naver_naver_place_detail) | **GET** /v1/naver/place/{place_id} | Naver place detail
+*ScrapeBadger::NaverApi* | [**naver_naver_place_local_search**](docs/NaverApi.md#naver_naver_place_local_search) | **GET** /v1/naver/local | Naver Place/Local search
+*ScrapeBadger::NaverApi* | [**naver_naver_place_visitor_reviews**](docs/NaverApi.md#naver_naver_place_visitor_reviews) | **GET** /v1/naver/place/{place_id}/reviews | Naver place visitor reviews
+*ScrapeBadger::NaverApi* | [**naver_naver_scraper_health_check**](docs/NaverApi.md#naver_naver_scraper_health_check) | **GET** /v1/naver/health | Naver scraper health check
+*ScrapeBadger::NaverApi* | [**naver_naver_scraper_health_check_head**](docs/NaverApi.md#naver_naver_scraper_health_check_head) | **HEAD** /v1/naver/health | Naver scraper health check
+*ScrapeBadger::NaverApi* | [**naver_naver_shopping_bestseller_rankings**](docs/NaverApi.md#naver_naver_shopping_bestseller_rankings) | **GET** /v1/naver/shopping/bestsellers | Naver Shopping bestseller rankings
+*ScrapeBadger::NaverApi* | [**naver_naver_shopping_category_reference**](docs/NaverApi.md#naver_naver_shopping_category_reference) | **GET** /v1/naver/shopping/categories | Naver Shopping category reference
+*ScrapeBadger::NaverApi* | [**naver_naver_shopping_trending_keyword_rankings**](docs/NaverApi.md#naver_naver_shopping_trending_keyword_rankings) | **GET** /v1/naver/shopping/keywords | Naver Shopping trending keyword rankings
+*ScrapeBadger::NaverApi* | [**naver_naver_web_search**](docs/NaverApi.md#naver_naver_web_search) | **GET** /v1/naver/search | Naver web search
+*ScrapeBadger::NaverApi* | [**naver_search_suggestions**](docs/NaverApi.md#naver_search_suggestions) | **GET** /v1/naver/autocomplete | Search suggestions
 *ScrapeBadger::PerplexityApi* | [**perplexity_ask_perplexity_a_question**](docs/PerplexityApi.md#perplexity_ask_perplexity_a_question) | **GET** /v1/perplexity/ask | Ask Perplexity a question
 *ScrapeBadger::PerplexityApi* | [**perplexity_ask_perplexity_a_question_post**](docs/PerplexityApi.md#perplexity_ask_perplexity_a_question_post) | **POST** /v1/perplexity/ask | Ask Perplexity a question (POST)
 *ScrapeBadger::PerplexityApi* | [**perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer**](docs/PerplexityApi.md#perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer) | **GET** /v1/perplexity/brand-visibility | Measure a brand's visibility in a Perplexity answer

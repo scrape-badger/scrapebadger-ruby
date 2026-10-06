@@ -45,6 +45,7 @@ docs/LeboncoinApi.md
 docs/LinkedInApi.md
 docs/LoopNetApi.md
 docs/MarketsResponse.md
+docs/NaverApi.md
 docs/PerplexityApi.md
 docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md
 docs/RealtorApi.md
@@ -115,6 +116,7 @@ lib/scrapebadger/api/instagram_api.rb
 lib/scrapebadger/api/leboncoin_api.rb
 lib/scrapebadger/api/linked_in_api.rb
 lib/scrapebadger/api/loop_net_api.rb
+lib/scrapebadger/api/naver_api.rb
 lib/scrapebadger/api/perplexity_api.rb
 lib/scrapebadger/api/realtor_api.rb
 lib/scrapebadger/api/reddit_api.rb
@@ -204,6 +206,7 @@ spec/api/instagram_api_spec.rb
 spec/api/leboncoin_api_spec.rb
 spec/api/linked_in_api_spec.rb
 spec/api/loop_net_api_spec.rb
+spec/api/naver_api_spec.rb
 spec/api/perplexity_api_spec.rb
 spec/api/realtor_api_spec.rb
 spec/api/reddit_api_spec.rb
