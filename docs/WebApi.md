@@ -6,10 +6,8 @@ All URIs are relative to *https://scrapebadger.com*
 | ------ | ------------ | ----------- |
 | [**web_detect_anti_bot_and_captcha_systems**](WebApi.md#web_detect_anti_bot_and_captcha_systems) | **POST** /v1/web/detect | Detect anti-bot and CAPTCHA systems |
 | [**web_extract_structured_data**](WebApi.md#web_extract_structured_data) | **POST** /v1/web/extract | Extract structured data |
-| [**web_get_batch_job_status**](WebApi.md#web_get_batch_job_status) | **GET** /v1/web/batch/{job_id} | Get batch job status |
 | [**web_poll_an_auto_unblock_discovery_job**](WebApi.md#web_poll_an_auto_unblock_discovery_job) | **GET** /v1/web/unblock/{job_id} | Poll an auto-unblock discovery job |
 | [**web_scrape_a_url**](WebApi.md#web_scrape_a_url) | **POST** /v1/web/scrape | Scrape a URL |
-| [**web_submit_batch_scraping_job**](WebApi.md#web_submit_batch_scraping_job) | **POST** /v1/web/batch | Submit batch scraping job |
 | [**web_take_a_screenshot**](WebApi.md#web_take_a_screenshot) | **POST** /v1/web/screenshot | Take a screenshot |
 | [**web_web_scraper_health_check**](WebApi.md#web_web_scraper_health_check) | **GET** /v1/web/health | Web scraper health check |
 | [**web_web_scraper_health_check_head**](WebApi.md#web_web_scraper_health_check_head) | **HEAD** /v1/web/health | Web scraper health check |
@@ -85,11 +83,11 @@ This endpoint does not need any parameter.
 
 ## web_extract_structured_data
 
-> Object web_extract_structured_data
+> Object web_extract_structured_data(extract_request)
 
 Extract structured data
 
-Extract structured data from a URL using CSS or XPath selectors. (Phase 6)
+Scrape a URL and extract fields with CSS/XPath selectors and/or AI.  ``extract_rules`` maps a field to a selector and returns ``data``; ``ai_extract_rules`` (field -> description) and ``ai_query`` return ``ai_extraction``. Billed as a scrape, plus the AI extraction credits when AI is asked for and succeeds.
 
 ### Examples
 
@@ -105,10 +103,11 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::WebApi.new
+extract_request = ScrapeBadger::ExtractRequest.new({url: 'url_example'}) # ExtractRequest | 
 
 begin
   # Extract structured data
-  result = api_instance.web_extract_structured_data
+  result = api_instance.web_extract_structured_data(extract_request)
   p result
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling WebApi->web_extract_structured_data: #{e}"
@@ -119,12 +118,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> web_extract_structured_data_with_http_info
+> <Array(Object, Integer, Hash)> web_extract_structured_data_with_http_info(extract_request)
 
 ```ruby
 begin
   # Extract structured data
-  data, status_code, headers = api_instance.web_extract_structured_data_with_http_info
+  data, status_code, headers = api_instance.web_extract_structured_data_with_http_info(extract_request)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
@@ -135,78 +134,9 @@ end
 
 ### Parameters
 
-This endpoint does not need any parameter.
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-## web_get_batch_job_status
-
-> Object web_get_batch_job_status(job_id)
-
-Get batch job status
-
-Get the status of a batch scraping job. (Phase 6)
-
-### Examples
-
-```ruby
-require 'time'
-require 'scrapebadger'
-# setup authorization
-ScrapeBadger.configure do |config|
-  # Configure API key authorization: ApiKeyAuth
-  config.api_key['X-API-Key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['X-API-Key'] = 'Bearer'
-end
-
-api_instance = ScrapeBadger::WebApi.new
-job_id = 'job_id_example' # String | 
-
-begin
-  # Get batch job status
-  result = api_instance.web_get_batch_job_status(job_id)
-  p result
-rescue ScrapeBadger::ApiError => e
-  puts "Error when calling WebApi->web_get_batch_job_status: #{e}"
-end
-```
-
-#### Using the web_get_batch_job_status_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(Object, Integer, Hash)> web_get_batch_job_status_with_http_info(job_id)
-
-```ruby
-begin
-  # Get batch job status
-  data, status_code, headers = api_instance.web_get_batch_job_status_with_http_info(job_id)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => Object
-rescue ScrapeBadger::ApiError => e
-  puts "Error when calling WebApi->web_get_batch_job_status_with_http_info: #{e}"
-end
-```
-
-### Parameters
-
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **job_id** | **String** |  |  |
+| **extract_request** | [**ExtractRequest**](ExtractRequest.md) |  |  |
 
 ### Return type
 
@@ -218,7 +148,7 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 
@@ -361,81 +291,13 @@ This endpoint does not need any parameter.
 - **Accept**: application/json
 
 
-## web_submit_batch_scraping_job
-
-> Object web_submit_batch_scraping_job
-
-Submit batch scraping job
-
-Submit a batch of URLs for scraping. (Phase 6)
-
-### Examples
-
-```ruby
-require 'time'
-require 'scrapebadger'
-# setup authorization
-ScrapeBadger.configure do |config|
-  # Configure API key authorization: ApiKeyAuth
-  config.api_key['X-API-Key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['X-API-Key'] = 'Bearer'
-end
-
-api_instance = ScrapeBadger::WebApi.new
-
-begin
-  # Submit batch scraping job
-  result = api_instance.web_submit_batch_scraping_job
-  p result
-rescue ScrapeBadger::ApiError => e
-  puts "Error when calling WebApi->web_submit_batch_scraping_job: #{e}"
-end
-```
-
-#### Using the web_submit_batch_scraping_job_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(Object, Integer, Hash)> web_submit_batch_scraping_job_with_http_info
-
-```ruby
-begin
-  # Submit batch scraping job
-  data, status_code, headers = api_instance.web_submit_batch_scraping_job_with_http_info
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => Object
-rescue ScrapeBadger::ApiError => e
-  puts "Error when calling WebApi->web_submit_batch_scraping_job_with_http_info: #{e}"
-end
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
 ## web_take_a_screenshot
 
-> Object web_take_a_screenshot
+> Object web_take_a_screenshot(screenshot_request)
 
 Take a screenshot
 
-Take a screenshot of a URL. (browser engine)
+Render a URL in the browser engine and return a PNG screenshot.  ``screenshot`` is the PNG, base64-encoded. ``width``/``height`` set the viewport; ``full_page`` captures the whole scrollable page. Billed as a browser scrape (plus the proxy tier); a page that loads without a screenshot is a 502 and costs nothing.
 
 ### Examples
 
@@ -451,10 +313,11 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::WebApi.new
+screenshot_request = ScrapeBadger::ScreenshotRequest.new({url: 'url_example'}) # ScreenshotRequest | 
 
 begin
   # Take a screenshot
-  result = api_instance.web_take_a_screenshot
+  result = api_instance.web_take_a_screenshot(screenshot_request)
   p result
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling WebApi->web_take_a_screenshot: #{e}"
@@ -465,12 +328,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> web_take_a_screenshot_with_http_info
+> <Array(Object, Integer, Hash)> web_take_a_screenshot_with_http_info(screenshot_request)
 
 ```ruby
 begin
   # Take a screenshot
-  data, status_code, headers = api_instance.web_take_a_screenshot_with_http_info
+  data, status_code, headers = api_instance.web_take_a_screenshot_with_http_info(screenshot_request)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
@@ -481,7 +344,9 @@ end
 
 ### Parameters
 
-This endpoint does not need any parameter.
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **screenshot_request** | [**ScreenshotRequest**](ScreenshotRequest.md) |  |  |
 
 ### Return type
 
@@ -493,7 +358,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 

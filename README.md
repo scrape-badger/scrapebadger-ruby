@@ -561,10 +561,8 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::WalmartApi* | [**walmart_walmart_scraper_health_check_head**](docs/WalmartApi.md#walmart_walmart_scraper_health_check_head) | **HEAD** /v1/walmart/health | Walmart scraper health check
 *ScrapeBadger::WebApi* | [**web_detect_anti_bot_and_captcha_systems**](docs/WebApi.md#web_detect_anti_bot_and_captcha_systems) | **POST** /v1/web/detect | Detect anti-bot and CAPTCHA systems
 *ScrapeBadger::WebApi* | [**web_extract_structured_data**](docs/WebApi.md#web_extract_structured_data) | **POST** /v1/web/extract | Extract structured data
-*ScrapeBadger::WebApi* | [**web_get_batch_job_status**](docs/WebApi.md#web_get_batch_job_status) | **GET** /v1/web/batch/{job_id} | Get batch job status
 *ScrapeBadger::WebApi* | [**web_poll_an_auto_unblock_discovery_job**](docs/WebApi.md#web_poll_an_auto_unblock_discovery_job) | **GET** /v1/web/unblock/{job_id} | Poll an auto-unblock discovery job
 *ScrapeBadger::WebApi* | [**web_scrape_a_url**](docs/WebApi.md#web_scrape_a_url) | **POST** /v1/web/scrape | Scrape a URL
-*ScrapeBadger::WebApi* | [**web_submit_batch_scraping_job**](docs/WebApi.md#web_submit_batch_scraping_job) | **POST** /v1/web/batch | Submit batch scraping job
 *ScrapeBadger::WebApi* | [**web_take_a_screenshot**](docs/WebApi.md#web_take_a_screenshot) | **POST** /v1/web/screenshot | Take a screenshot
 *ScrapeBadger::WebApi* | [**web_web_scraper_health_check**](docs/WebApi.md#web_web_scraper_health_check) | **GET** /v1/web/health | Web scraper health check
 *ScrapeBadger::WebApi* | [**web_web_scraper_health_check_head**](docs/WebApi.md#web_web_scraper_health_check_head) | **HEAD** /v1/web/health | Web scraper health check
@@ -640,6 +638,9 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::BillingLogResponse](docs/BillingLogResponse.md)
  - [ScrapeBadger::BrandsResponse](docs/BrandsResponse.md)
  - [ScrapeBadger::ColorsResponse](docs/ColorsResponse.md)
+ - [ScrapeBadger::ExtractRequest](docs/ExtractRequest.md)
+ - [ScrapeBadger::ExtractRequestExtractRulesValue](docs/ExtractRequestExtractRulesValue.md)
+ - [ScrapeBadger::ExtractRule](docs/ExtractRule.md)
  - [ScrapeBadger::FilterRuleCreate](docs/FilterRuleCreate.md)
  - [ScrapeBadger::FilterRuleDeliveryLogListResponse](docs/FilterRuleDeliveryLogListResponse.md)
  - [ScrapeBadger::FilterRuleDeliveryLogResponse](docs/FilterRuleDeliveryLogResponse.md)
@@ -652,6 +653,7 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::ItemDetailResponse](docs/ItemDetailResponse.md)
  - [ScrapeBadger::MarketsResponse](docs/MarketsResponse.md)
  - [ScrapeBadger::PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse](docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md)
+ - [ScrapeBadger::ScreenshotRequest](docs/ScreenshotRequest.md)
  - [ScrapeBadger::SearchResponse](docs/SearchResponse.md)
  - [ScrapeBadger::StatusesResponse](docs/StatusesResponse.md)
  - [ScrapeBadger::StreamMonitorCreate](docs/StreamMonitorCreate.md)

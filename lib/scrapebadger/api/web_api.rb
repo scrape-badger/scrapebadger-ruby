@@ -77,21 +77,27 @@ module ScrapeBadger
     end
 
     # Extract structured data
-    # Extract structured data from a URL using CSS or XPath selectors. (Phase 6)
+    # Scrape a URL and extract fields with CSS/XPath selectors and/or AI.  ``extract_rules`` maps a field to a selector and returns ``data``; ``ai_extract_rules`` (field -> description) and ``ai_query`` return ``ai_extraction``. Billed as a scrape, plus the AI extraction credits when AI is asked for and succeeds.
+    # @param extract_request [ExtractRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
-    def web_extract_structured_data(opts = {})
-      data, _status_code, _headers = web_extract_structured_data_with_http_info(opts)
+    def web_extract_structured_data(extract_request, opts = {})
+      data, _status_code, _headers = web_extract_structured_data_with_http_info(extract_request, opts)
       data
     end
 
     # Extract structured data
-    # Extract structured data from a URL using CSS or XPath selectors. (Phase 6)
+    # Scrape a URL and extract fields with CSS/XPath selectors and/or AI.  &#x60;&#x60;extract_rules&#x60;&#x60; maps a field to a selector and returns &#x60;&#x60;data&#x60;&#x60;; &#x60;&#x60;ai_extract_rules&#x60;&#x60; (field -&gt; description) and &#x60;&#x60;ai_query&#x60;&#x60; return &#x60;&#x60;ai_extraction&#x60;&#x60;. Billed as a scrape, plus the AI extraction credits when AI is asked for and succeeds.
+    # @param extract_request [ExtractRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def web_extract_structured_data_with_http_info(opts = {})
+    def web_extract_structured_data_with_http_info(extract_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: WebApi.web_extract_structured_data ...'
+      end
+      # verify the required parameter 'extract_request' is set
+      if @api_client.config.client_side_validation && extract_request.nil?
+        fail ArgumentError, "Missing the required parameter 'extract_request' when calling WebApi.web_extract_structured_data"
       end
       # resource path
       local_var_path = '/v1/web/extract'
@@ -103,12 +109,17 @@ module ScrapeBadger
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body]
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(extract_request)
 
       # return_type
       return_type = opts[:debug_return_type] || 'Object'
@@ -129,69 +140,6 @@ module ScrapeBadger
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: WebApi#web_extract_structured_data\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Get batch job status
-    # Get the status of a batch scraping job. (Phase 6)
-    # @param job_id [String] 
-    # @param [Hash] opts the optional parameters
-    # @return [Object]
-    def web_get_batch_job_status(job_id, opts = {})
-      data, _status_code, _headers = web_get_batch_job_status_with_http_info(job_id, opts)
-      data
-    end
-
-    # Get batch job status
-    # Get the status of a batch scraping job. (Phase 6)
-    # @param job_id [String] 
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def web_get_batch_job_status_with_http_info(job_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: WebApi.web_get_batch_job_status ...'
-      end
-      # verify the required parameter 'job_id' is set
-      if @api_client.config.client_side_validation && job_id.nil?
-        fail ArgumentError, "Missing the required parameter 'job_id' when calling WebApi.web_get_batch_job_status"
-      end
-      # resource path
-      local_var_path = '/v1/web/batch/{job_id}'.sub('{' + 'job_id' + '}', CGI.escape(job_id.to_s))
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:debug_body]
-
-      # return_type
-      return_type = opts[:debug_return_type] || 'Object'
-
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
-
-      new_options = opts.merge(
-        :operation => :"WebApi.web_get_batch_job_status",
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: WebApi#web_get_batch_job_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -316,79 +264,28 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
-    # Submit batch scraping job
-    # Submit a batch of URLs for scraping. (Phase 6)
-    # @param [Hash] opts the optional parameters
-    # @return [Object]
-    def web_submit_batch_scraping_job(opts = {})
-      data, _status_code, _headers = web_submit_batch_scraping_job_with_http_info(opts)
-      data
-    end
-
-    # Submit batch scraping job
-    # Submit a batch of URLs for scraping. (Phase 6)
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def web_submit_batch_scraping_job_with_http_info(opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: WebApi.web_submit_batch_scraping_job ...'
-      end
-      # resource path
-      local_var_path = '/v1/web/batch'
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:debug_body]
-
-      # return_type
-      return_type = opts[:debug_return_type] || 'Object'
-
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
-
-      new_options = opts.merge(
-        :operation => :"WebApi.web_submit_batch_scraping_job",
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: WebApi#web_submit_batch_scraping_job\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # Take a screenshot
-    # Take a screenshot of a URL. (browser engine)
+    # Render a URL in the browser engine and return a PNG screenshot.  ``screenshot`` is the PNG, base64-encoded. ``width``/``height`` set the viewport; ``full_page`` captures the whole scrollable page. Billed as a browser scrape (plus the proxy tier); a page that loads without a screenshot is a 502 and costs nothing.
+    # @param screenshot_request [ScreenshotRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
-    def web_take_a_screenshot(opts = {})
-      data, _status_code, _headers = web_take_a_screenshot_with_http_info(opts)
+    def web_take_a_screenshot(screenshot_request, opts = {})
+      data, _status_code, _headers = web_take_a_screenshot_with_http_info(screenshot_request, opts)
       data
     end
 
     # Take a screenshot
-    # Take a screenshot of a URL. (browser engine)
+    # Render a URL in the browser engine and return a PNG screenshot.  &#x60;&#x60;screenshot&#x60;&#x60; is the PNG, base64-encoded. &#x60;&#x60;width&#x60;&#x60;/&#x60;&#x60;height&#x60;&#x60; set the viewport; &#x60;&#x60;full_page&#x60;&#x60; captures the whole scrollable page. Billed as a browser scrape (plus the proxy tier); a page that loads without a screenshot is a 502 and costs nothing.
+    # @param screenshot_request [ScreenshotRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def web_take_a_screenshot_with_http_info(opts = {})
+    def web_take_a_screenshot_with_http_info(screenshot_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: WebApi.web_take_a_screenshot ...'
+      end
+      # verify the required parameter 'screenshot_request' is set
+      if @api_client.config.client_side_validation && screenshot_request.nil?
+        fail ArgumentError, "Missing the required parameter 'screenshot_request' when calling WebApi.web_take_a_screenshot"
       end
       # resource path
       local_var_path = '/v1/web/screenshot'
@@ -400,12 +297,17 @@ module ScrapeBadger
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body]
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(screenshot_request)
 
       # return_type
       return_type = opts[:debug_return_type] || 'Object'

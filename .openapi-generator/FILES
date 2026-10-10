@@ -24,6 +24,9 @@ docs/ColorsResponse.md
 docs/DepopApi.md
 docs/DuckDuckGoApi.md
 docs/EBayApi.md
+docs/ExtractRequest.md
+docs/ExtractRequestExtractRulesValue.md
+docs/ExtractRule.md
 docs/FacebookApi.md
 docs/FilterRuleCreate.md
 docs/FilterRuleDeliveryLogListResponse.md
@@ -51,6 +54,7 @@ docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md
 docs/RealtorApi.md
 docs/RedditApi.md
 docs/RedfinApi.md
+docs/ScreenshotRequest.md
 docs/SearchResponse.md
 docs/StatusesResponse.md
 docs/StreamMonitorCreate.md
@@ -138,6 +142,9 @@ lib/scrapebadger/models/billing_log_list_response.rb
 lib/scrapebadger/models/billing_log_response.rb
 lib/scrapebadger/models/brands_response.rb
 lib/scrapebadger/models/colors_response.rb
+lib/scrapebadger/models/extract_request.rb
+lib/scrapebadger/models/extract_request_extract_rules_value.rb
+lib/scrapebadger/models/extract_rule.rb
 lib/scrapebadger/models/filter_rule_create.rb
 lib/scrapebadger/models/filter_rule_delivery_log_list_response.rb
 lib/scrapebadger/models/filter_rule_delivery_log_response.rb
@@ -150,6 +157,7 @@ lib/scrapebadger/models/http_validation_error.rb
 lib/scrapebadger/models/item_detail_response.rb
 lib/scrapebadger/models/markets_response.rb
 lib/scrapebadger/models/portal_api_routers_v1_twitter_filter_rules_filter_rule_pricing_response.rb
+lib/scrapebadger/models/screenshot_request.rb
 lib/scrapebadger/models/search_response.rb
 lib/scrapebadger/models/statuses_response.rb
 lib/scrapebadger/models/stream_monitor_create.rb
@@ -225,6 +233,9 @@ spec/models/billing_log_list_response_spec.rb
 spec/models/billing_log_response_spec.rb
 spec/models/brands_response_spec.rb
 spec/models/colors_response_spec.rb
+spec/models/extract_request_extract_rules_value_spec.rb
+spec/models/extract_request_spec.rb
+spec/models/extract_rule_spec.rb
 spec/models/filter_rule_create_spec.rb
 spec/models/filter_rule_delivery_log_list_response_spec.rb
 spec/models/filter_rule_delivery_log_response_spec.rb
@@ -237,6 +248,7 @@ spec/models/http_validation_error_spec.rb
 spec/models/item_detail_response_spec.rb
 spec/models/markets_response_spec.rb
 spec/models/portal_api_routers_v1_twitter_filter_rules_filter_rule_pricing_response_spec.rb
+spec/models/screenshot_request_spec.rb
 spec/models/search_response_spec.rb
 spec/models/statuses_response_spec.rb
 spec/models/stream_monitor_create_spec.rb
