@@ -128,8 +128,8 @@ describe 'BingApi' do
   # @param query Search keywords, e.g. &#39;coffee machine&#39;
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market Bing market code, e.g. &#39;en-US&#39;, &#39;en-GB&#39;, &#39;de-DE&#39;. See /markets.
-  # @option opts [Integer] :count Results per page (1-50)
-  # @option opts [Integer] :offset Zero-based result offset for pagination
+  # @option opts [Integer] :count Organic results to return (1-50), merged from Bing&#39;s following pages when one page is short. May return fewer.
+  # @option opts [Integer] :offset Organic results to skip in Bing&#39;s ranking. Paginate with offset +&#x3D; count.
   # @option opts [String] :safe_search off | moderate | strict (default moderate)
   # @return [Object]
   describe 'bing_web_search test' do

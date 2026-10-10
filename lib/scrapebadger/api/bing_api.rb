@@ -494,8 +494,8 @@ module ScrapeBadger
     # @param query [String] Search keywords, e.g. &#39;coffee machine&#39;
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market Bing market code, e.g. &#39;en-US&#39;, &#39;en-GB&#39;, &#39;de-DE&#39;. See /markets. (default to 'en-US')
-    # @option opts [Integer] :count Results per page (1-50) (default to 10)
-    # @option opts [Integer] :offset Zero-based result offset for pagination (default to 0)
+    # @option opts [Integer] :count Organic results to return (1-50), merged from Bing&#39;s following pages when one page is short. May return fewer. (default to 10)
+    # @option opts [Integer] :offset Organic results to skip in Bing&#39;s ranking. Paginate with offset +&#x3D; count. (default to 0)
     # @option opts [String] :safe_search off | moderate | strict (default moderate)
     # @return [Object]
     def bing_web_search(query, opts = {})
@@ -508,8 +508,8 @@ module ScrapeBadger
     # @param query [String] Search keywords, e.g. &#39;coffee machine&#39;
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market Bing market code, e.g. &#39;en-US&#39;, &#39;en-GB&#39;, &#39;de-DE&#39;. See /markets. (default to 'en-US')
-    # @option opts [Integer] :count Results per page (1-50) (default to 10)
-    # @option opts [Integer] :offset Zero-based result offset for pagination (default to 0)
+    # @option opts [Integer] :count Organic results to return (1-50), merged from Bing&#39;s following pages when one page is short. May return fewer. (default to 10)
+    # @option opts [Integer] :offset Organic results to skip in Bing&#39;s ranking. Paginate with offset +&#x3D; count. (default to 0)
     # @option opts [String] :safe_search off | moderate | strict (default moderate)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def bing_web_search_with_http_info(query, opts = {})
