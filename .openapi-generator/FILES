@@ -84,6 +84,7 @@ docs/VintedSellerSummary.md
 docs/VintedStatus.md
 docs/VintedUserProfile.md
 docs/VintedUserSummary.md
+docs/WallapopApi.md
 docs/WalmartApi.md
 docs/WebApi.md
 docs/WebhookCreate.md
@@ -128,6 +129,7 @@ lib/scrapebadger/api/redfin_api.rb
 lib/scrapebadger/api/tik_tok_api.rb
 lib/scrapebadger/api/twitter_api.rb
 lib/scrapebadger/api/vinted_api.rb
+lib/scrapebadger/api/wallapop_api.rb
 lib/scrapebadger/api/walmart_api.rb
 lib/scrapebadger/api/web_api.rb
 lib/scrapebadger/api/yahoo_api.rb
@@ -222,6 +224,7 @@ spec/api/redfin_api_spec.rb
 spec/api/tik_tok_api_spec.rb
 spec/api/twitter_api_spec.rb
 spec/api/vinted_api_spec.rb
+spec/api/wallapop_api_spec.rb
 spec/api/walmart_api_spec.rb
 spec/api/web_api_spec.rb
 spec/api/yahoo_api_spec.rb
