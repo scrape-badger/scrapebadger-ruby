@@ -356,10 +356,11 @@ module ScrapeBadger
     end
 
     # Get group posts
-    # Get a Facebook group's post feed.
+    # Get a public Facebook group's post feed.  ``sort`` is ``newest`` (newest first by post time, the default) or ``relevance`` (Facebook's \"top posts\" ranking, which moves posts with fresh comments up). Facebook serves 3 posts per page to logged-out visitors; follow ``end_cursor`` while ``has_next_page`` for older posts.
     # @param group_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :after 
+    # @option opts [String] :sort newest | relevance (default to 'newest')
     # @return [Object]
     def facebook_get_group_posts(group_id, opts = {})
       data, _status_code, _headers = facebook_get_group_posts_with_http_info(group_id, opts)
@@ -367,10 +368,11 @@ module ScrapeBadger
     end
 
     # Get group posts
-    # Get a Facebook group&#39;s post feed.
+    # Get a public Facebook group&#39;s post feed.  &#x60;&#x60;sort&#x60;&#x60; is &#x60;&#x60;newest&#x60;&#x60; (newest first by post time, the default) or &#x60;&#x60;relevance&#x60;&#x60; (Facebook&#39;s \&quot;top posts\&quot; ranking, which moves posts with fresh comments up). Facebook serves 3 posts per page to logged-out visitors; follow &#x60;&#x60;end_cursor&#x60;&#x60; while &#x60;&#x60;has_next_page&#x60;&#x60; for older posts.
     # @param group_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :after 
+    # @option opts [String] :sort newest | relevance (default to 'newest')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def facebook_get_group_posts_with_http_info(group_id, opts = {})
       if @api_client.config.debugging
@@ -380,12 +382,17 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && group_id.nil?
         fail ArgumentError, "Missing the required parameter 'group_id' when calling FacebookApi.facebook_get_group_posts"
       end
+      allowable_values = ["newest", "relevance"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/v1/facebook/groups/{group_id}/posts'.sub('{' + 'group_id' + '}', CGI.escape(group_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'after'] = opts[:'after'] if !opts[:'after'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

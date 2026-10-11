@@ -411,7 +411,7 @@ end
 
 Get group posts
 
-Get a Facebook group's post feed.
+Get a public Facebook group's post feed.  ``sort`` is ``newest`` (newest first by post time, the default) or ``relevance`` (Facebook's \"top posts\" ranking, which moves posts with fresh comments up). Facebook serves 3 posts per page to logged-out visitors; follow ``end_cursor`` while ``has_next_page`` for older posts.
 
 ### Examples
 
@@ -429,7 +429,8 @@ end
 api_instance = ScrapeBadger::FacebookApi.new
 group_id = 'group_id_example' # String | 
 opts = {
-  after: 'after_example' # String | 
+  after: 'after_example', # String | 
+  sort: 'newest' # String | newest | relevance
 }
 
 begin
@@ -465,6 +466,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **group_id** | **String** |  |  |
 | **after** | **String** |  | [optional] |
+| **sort** | **String** | newest | relevance | [optional][default to &#39;newest&#39;] |
 
 ### Return type
 

@@ -101,10 +101,11 @@ describe 'FacebookApi' do
 
   # unit tests for facebook_get_group_posts
   # Get group posts
-  # Get a Facebook group&#39;s post feed.
+  # Get a public Facebook group&#39;s post feed.  &#x60;&#x60;sort&#x60;&#x60; is &#x60;&#x60;newest&#x60;&#x60; (newest first by post time, the default) or &#x60;&#x60;relevance&#x60;&#x60; (Facebook&#39;s \&quot;top posts\&quot; ranking, which moves posts with fresh comments up). Facebook serves 3 posts per page to logged-out visitors; follow &#x60;&#x60;end_cursor&#x60;&#x60; while &#x60;&#x60;has_next_page&#x60;&#x60; for older posts.
   # @param group_id 
   # @param [Hash] opts the optional parameters
   # @option opts [String] :after 
+  # @option opts [String] :sort newest | relevance
   # @return [Object]
   describe 'facebook_get_group_posts test' do
     it 'should work' do
