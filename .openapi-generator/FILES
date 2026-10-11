@@ -39,6 +39,7 @@ docs/FilterRuleValidateResponse.md
 docs/GeminiApi.md
 docs/GoogleApi.md
 docs/GooglePlayApi.md
+docs/GumtreeApi.md
 docs/HTTPValidationError.md
 docs/IdealistaApi.md
 docs/ImmobiliareApi.md
@@ -115,6 +116,7 @@ lib/scrapebadger/api/facebook_api.rb
 lib/scrapebadger/api/gemini_api.rb
 lib/scrapebadger/api/google_api.rb
 lib/scrapebadger/api/google_play_api.rb
+lib/scrapebadger/api/gumtree_api.rb
 lib/scrapebadger/api/idealista_api.rb
 lib/scrapebadger/api/immobiliare_api.rb
 lib/scrapebadger/api/instagram_api.rb
@@ -210,6 +212,7 @@ spec/api/facebook_api_spec.rb
 spec/api/gemini_api_spec.rb
 spec/api/google_api_spec.rb
 spec/api/google_play_api_spec.rb
+spec/api/gumtree_api_spec.rb
 spec/api/idealista_api_spec.rb
 spec/api/immobiliare_api_spec.rb
 spec/api/instagram_api_spec.rb

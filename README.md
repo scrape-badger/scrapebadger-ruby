@@ -311,6 +311,16 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::GooglePlayApi* | [**google_play_list_markets**](docs/GooglePlayApi.md#google_play_list_markets) | **GET** /v1/google-play/markets | List markets
 *ScrapeBadger::GooglePlayApi* | [**google_play_search_apps**](docs/GooglePlayApi.md#google_play_search_apps) | **GET** /v1/google-play/search | Search apps
 *ScrapeBadger::GooglePlayApi* | [**google_play_top_charts**](docs/GooglePlayApi.md#google_play_top_charts) | **GET** /v1/google-play/collections/{collection} | Top charts
+*ScrapeBadger::GumtreeApi* | [**gumtree_get_listing**](docs/GumtreeApi.md#gumtree_get_listing) | **GET** /v1/gumtree/listings/{listing_id} | Get listing
+*ScrapeBadger::GumtreeApi* | [**gumtree_get_search_filters**](docs/GumtreeApi.md#gumtree_get_search_filters) | **GET** /v1/gumtree/search/filters | Get search filters
+*ScrapeBadger::GumtreeApi* | [**gumtree_get_seller_listings**](docs/GumtreeApi.md#gumtree_get_seller_listings) | **GET** /v1/gumtree/listings/{listing_id}/seller-listings | Get seller listings
+*ScrapeBadger::GumtreeApi* | [**gumtree_gumtree_scraper_health_check**](docs/GumtreeApi.md#gumtree_gumtree_scraper_health_check) | **GET** /v1/gumtree/health | Gumtree scraper health check
+*ScrapeBadger::GumtreeApi* | [**gumtree_gumtree_scraper_health_check_head**](docs/GumtreeApi.md#gumtree_gumtree_scraper_health_check_head) | **HEAD** /v1/gumtree/health | Gumtree scraper health check
+*ScrapeBadger::GumtreeApi* | [**gumtree_list_categories**](docs/GumtreeApi.md#gumtree_list_categories) | **GET** /v1/gumtree/categories | List categories
+*ScrapeBadger::GumtreeApi* | [**gumtree_list_locations**](docs/GumtreeApi.md#gumtree_list_locations) | **GET** /v1/gumtree/locations | List locations
+*ScrapeBadger::GumtreeApi* | [**gumtree_location_suggestions**](docs/GumtreeApi.md#gumtree_location_suggestions) | **GET** /v1/gumtree/locations/autocomplete | Location suggestions
+*ScrapeBadger::GumtreeApi* | [**gumtree_search_listings**](docs/GumtreeApi.md#gumtree_search_listings) | **GET** /v1/gumtree/search | Search listings
+*ScrapeBadger::GumtreeApi* | [**gumtree_search_suggestions**](docs/GumtreeApi.md#gumtree_search_suggestions) | **GET** /v1/gumtree/autocomplete | Search suggestions
 *ScrapeBadger::IdealistaApi* | [**idealista_agency_by_phone**](docs/IdealistaApi.md#idealista_agency_by_phone) | **GET** /v1/idealista/agency/by-phone/{phone} | Agency by phone
 *ScrapeBadger::IdealistaApi* | [**idealista_agency_profile_listings**](docs/IdealistaApi.md#idealista_agency_profile_listings) | **GET** /v1/idealista/agency/{short_name} | Agency profile + listings
 *ScrapeBadger::IdealistaApi* | [**idealista_get_listing_engagement_stats**](docs/IdealistaApi.md#idealista_get_listing_engagement_stats) | **GET** /v1/idealista/properties/{property_code}/stats | Get listing engagement stats
