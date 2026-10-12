@@ -21,8 +21,9 @@ module ScrapeBadger
     end
     # Get listing
     # Full listing — description, attributes, images, seller, similar listings.
-    # @param listing_id [String] Gumtree listing id — the number at the end of a gumtree.com/p/... URL
+    # @param listing_id [String] Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one)
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_get_listing(listing_id, opts = {})
       data, _status_code, _headers = gumtree_get_listing_with_http_info(listing_id, opts)
@@ -31,8 +32,9 @@ module ScrapeBadger
 
     # Get listing
     # Full listing — description, attributes, images, seller, similar listings.
-    # @param listing_id [String] Gumtree listing id — the number at the end of a gumtree.com/p/... URL
+    # @param listing_id [String] Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one)
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_get_listing_with_http_info(listing_id, opts = {})
       if @api_client.config.debugging
@@ -42,16 +44,21 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && listing_id.nil?
         fail ArgumentError, "Missing the required parameter 'listing_id' when calling GumtreeApi.gumtree_get_listing"
       end
-      pattern = Regexp.new(/^\d{5,12}$/)
+      pattern = Regexp.new(/^\d{5,30}$/)
       if @api_client.config.client_side_validation && listing_id !~ pattern
         fail ArgumentError, "invalid value for 'listing_id' when calling GumtreeApi.gumtree_get_listing, must conform to the pattern #{pattern}."
       end
 
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/v1/gumtree/listings/{listing_id}'.sub('{' + 'listing_id' + '}', CGI.escape(listing_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -88,11 +95,13 @@ module ScrapeBadger
     end
 
     # Get search filters
-    # Filters, sort orders and radius options for a category, with live counts.
+    # Filters, sort orders and radius options for a category, with live counts.  Feed a `key` and a `value` back into `/search` as `filters=key:value`. au bills 2x (browser render).
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :category Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (default to 'all')
-    # @option opts [String] :location Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (default to 'uk')
-    # @option opts [String] :query 
+    # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
+    # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
+    # @option opts [String] :query Optional keywords to scope the counts
+    # @option opts [String] :filters za only: filters already applied (e.g. &#39;ma:toyota&#39; to list Toyota models)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_get_search_filters(opts = {})
       data, _status_code, _headers = gumtree_get_search_filters_with_http_info(opts)
@@ -100,15 +109,21 @@ module ScrapeBadger
     end
 
     # Get search filters
-    # Filters, sort orders and radius options for a category, with live counts.
+    # Filters, sort orders and radius options for a category, with live counts.  Feed a &#x60;key&#x60; and a &#x60;value&#x60; back into &#x60;/search&#x60; as &#x60;filters&#x3D;key:value&#x60;. au bills 2x (browser render).
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :category Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (default to 'all')
-    # @option opts [String] :location Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (default to 'uk')
-    # @option opts [String] :query 
+    # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
+    # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
+    # @option opts [String] :query Optional keywords to scope the counts
+    # @option opts [String] :filters za only: filters already applied (e.g. &#39;ma:toyota&#39; to list Toyota models)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_get_search_filters_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GumtreeApi.gumtree_get_search_filters ...'
+      end
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/v1/gumtree/search/filters'
@@ -118,6 +133,8 @@ module ScrapeBadger
       query_params[:'category'] = opts[:'category'] if !opts[:'category'].nil?
       query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
       query_params[:'query'] = opts[:'query'] if !opts[:'query'].nil?
+      query_params[:'filters'] = opts[:'filters'] if !opts[:'filters'].nil?
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -155,9 +172,10 @@ module ScrapeBadger
 
     # Get seller listings
     # Every live listing by the seller of the given listing.
-    # @param listing_id [String] Gumtree listing id — the number at the end of a gumtree.com/p/... URL
+    # @param listing_id [String] Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one)
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page  (default to 1)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_get_seller_listings(listing_id, opts = {})
       data, _status_code, _headers = gumtree_get_seller_listings_with_http_info(listing_id, opts)
@@ -166,9 +184,10 @@ module ScrapeBadger
 
     # Get seller listings
     # Every live listing by the seller of the given listing.
-    # @param listing_id [String] Gumtree listing id — the number at the end of a gumtree.com/p/... URL
+    # @param listing_id [String] Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one)
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page  (default to 1)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_get_seller_listings_with_http_info(listing_id, opts = {})
       if @api_client.config.debugging
@@ -178,7 +197,7 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && listing_id.nil?
         fail ArgumentError, "Missing the required parameter 'listing_id' when calling GumtreeApi.gumtree_get_seller_listings"
       end
-      pattern = Regexp.new(/^\d{5,12}$/)
+      pattern = Regexp.new(/^\d{5,30}$/)
       if @api_client.config.client_side_validation && listing_id !~ pattern
         fail ArgumentError, "invalid value for 'listing_id' when calling GumtreeApi.gumtree_get_seller_listings, must conform to the pattern #{pattern}."
       end
@@ -191,12 +210,17 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"page"]" when calling GumtreeApi.gumtree_get_seller_listings, must be greater than or equal to 1.'
       end
 
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/v1/gumtree/listings/{listing_id}/seller-listings'.sub('{' + 'listing_id' + '}', CGI.escape(listing_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -347,9 +371,10 @@ module ScrapeBadger
     end
 
     # List categories
-    # Browse Gumtree's category tree. A node's `slug` is the `/search` category.
+    # Browse Gumtree's category tree.  A node's `slug` (uk) or `id` (au/za) is the `/search` category.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :parent_id Parent category id (default: all) (default to 1)
+    # @option opts [Integer] :parent_id Category id to list the children of (default: all)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_list_categories(opts = {})
       data, _status_code, _headers = gumtree_list_categories_with_http_info(opts)
@@ -357,13 +382,18 @@ module ScrapeBadger
     end
 
     # List categories
-    # Browse Gumtree&#39;s category tree. A node&#39;s &#x60;slug&#x60; is the &#x60;/search&#x60; category.
+    # Browse Gumtree&#39;s category tree.  A node&#39;s &#x60;slug&#x60; (uk) or &#x60;id&#x60; (au/za) is the &#x60;/search&#x60; category.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :parent_id Parent category id (default: all) (default to 1)
+    # @option opts [Integer] :parent_id Category id to list the children of (default: all)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_list_categories_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GumtreeApi.gumtree_list_categories ...'
+      end
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/v1/gumtree/categories'
@@ -371,6 +401,7 @@ module ScrapeBadger
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'parent_id'] = opts[:'parent_id'] if !opts[:'parent_id'].nil?
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -407,9 +438,10 @@ module ScrapeBadger
     end
 
     # List locations
-    # Browse Gumtree's location tree.
+    # Browse Gumtree's location tree.  uk: UK -> nations -> counties -> towns. au: states -> regions -> areas, each with its live ad count (browser render, bills 5x). za: provinces -> towns.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :parent_id Parent location id (default: UK) (default to 10000392)
+    # @option opts [Integer] :parent_id Location id to list the children of (default: the whole country)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_list_locations(opts = {})
       data, _status_code, _headers = gumtree_list_locations_with_http_info(opts)
@@ -417,13 +449,18 @@ module ScrapeBadger
     end
 
     # List locations
-    # Browse Gumtree&#39;s location tree.
+    # Browse Gumtree&#39;s location tree.  uk: UK -&gt; nations -&gt; counties -&gt; towns. au: states -&gt; regions -&gt; areas, each with its live ad count (browser render, bills 5x). za: provinces -&gt; towns.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :parent_id Parent location id (default: UK) (default to 10000392)
+    # @option opts [Integer] :parent_id Location id to list the children of (default: the whole country)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_list_locations_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GumtreeApi.gumtree_list_locations ...'
+      end
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/v1/gumtree/locations'
@@ -431,6 +468,7 @@ module ScrapeBadger
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'parent_id'] = opts[:'parent_id'] if !opts[:'parent_id'].nil?
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -466,10 +504,68 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
-    # Location suggestions
-    # Resolve a place name or postcode to Gumtree locations with coordinates.
-    # @param query [String] Town or postcode prefix, e.g. &#39;manch&#39;
+    # List markets
+    # The Gumtree sites this API covers (uk, au, za) with currency and id formats.
     # @param [Hash] opts the optional parameters
+    # @return [Object]
+    def gumtree_list_markets(opts = {})
+      data, _status_code, _headers = gumtree_list_markets_with_http_info(opts)
+      data
+    end
+
+    # List markets
+    # The Gumtree sites this API covers (uk, au, za) with currency and id formats.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def gumtree_list_markets_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: GumtreeApi.gumtree_list_markets ...'
+      end
+      # resource path
+      local_var_path = '/v1/gumtree/markets'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"GumtreeApi.gumtree_list_markets",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: GumtreeApi#gumtree_list_markets\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Location suggestions
+    # Resolve a place name or postcode to Gumtree location ids (uk: with coordinates).  The `id` (au/za) or `name` (uk) is what `/search` takes as `location`.
+    # @param query [String] Town, area or postcode prefix, e.g. &#39;manch&#39; or &#39;SW1A&#39;
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_location_suggestions(query, opts = {})
       data, _status_code, _headers = gumtree_location_suggestions_with_http_info(query, opts)
@@ -477,9 +573,10 @@ module ScrapeBadger
     end
 
     # Location suggestions
-    # Resolve a place name or postcode to Gumtree locations with coordinates.
-    # @param query [String] Town or postcode prefix, e.g. &#39;manch&#39;
+    # Resolve a place name or postcode to Gumtree location ids (uk: with coordinates).  The &#x60;id&#x60; (au/za) or &#x60;name&#x60; (uk) is what &#x60;/search&#x60; takes as &#x60;location&#x60;.
+    # @param query [String] Town, area or postcode prefix, e.g. &#39;manch&#39; or &#39;SW1A&#39;
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_location_suggestions_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -493,12 +590,17 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "query" when calling GumtreeApi.gumtree_location_suggestions, the character length must be great than or equal to 2.'
       end
 
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/v1/gumtree/locations/autocomplete'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'query'] = query
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -535,20 +637,21 @@ module ScrapeBadger
     end
 
     # Search listings
-    # Search gumtree.com listings. ~25-30 per page, up to 50 pages.
+    # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20. An au search runs a real browser (~10-20 s) and bills 2x.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :query Search keywords, e.g. &#39;mountain bike&#39;
-    # @option opts [String] :category Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (default to 'all')
-    # @option opts [String] :location Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (default to 'uk')
-    # @option opts [Float] :distance Radius in miles
-    # @option opts [Integer] :min_price GBP; needs a category
-    # @option opts [Integer] :max_price GBP; needs a category
-    # @option opts [String] :sort 
-    # @option opts [String] :seller_type 
-    # @option opts [Boolean] :urgent_only  (default to false)
-    # @option opts [Boolean] :with_photos  (default to false)
-    # @option opts [String] :filters Category filters as key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol&#39;
+    # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
+    # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
+    # @option opts [Float] :distance Radius around &#x60;location&#x60;: miles (uk) or km (au). Not offered by za.
+    # @option opts [Integer] :min_price Minimum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;)
+    # @option opts [Integer] :max_price Maximum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;)
+    # @option opts [String] :sort Result ordering (default relevance). &#39;distance&#39; needs uk, or au with a location.
+    # @option opts [String] :seller_type uk/za: &#39;trade&#39; covers dealers, agencies and recruiters. au: not supported — use a category filter such as &#39;cars.forsaleby_s:ownr&#39;.
+    # @option opts [Boolean] :urgent_only uk only: only ads marked urgent (default to false)
+    # @option opts [Boolean] :with_photos uk only: only ads with photos (default to false)
+    # @option opts [String] :filters Category-specific filters as comma-separated key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol,min_vehicle_mileage:10000&#39; (uk), &#39;cars.carmake_s:toyota,cars.forsaleby_s:ownr&#39; (au) or &#39;ma:toyota,fu:petrol,max_km:100000&#39; (za). Range filters take min_&lt;key&gt;/max_&lt;key&gt;. Discover keys and values with /search/filters for the same market.
     # @option opts [Integer] :page  (default to 1)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_search_listings(opts = {})
       data, _status_code, _headers = gumtree_search_listings_with_http_info(opts)
@@ -556,20 +659,21 @@ module ScrapeBadger
     end
 
     # Search listings
-    # Search gumtree.com listings. ~25-30 per page, up to 50 pages.
+    # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20. An au search runs a real browser (~10-20 s) and bills 2x.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :query Search keywords, e.g. &#39;mountain bike&#39;
-    # @option opts [String] :category Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (default to 'all')
-    # @option opts [String] :location Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (default to 'uk')
-    # @option opts [Float] :distance Radius in miles
-    # @option opts [Integer] :min_price GBP; needs a category
-    # @option opts [Integer] :max_price GBP; needs a category
-    # @option opts [String] :sort 
-    # @option opts [String] :seller_type 
-    # @option opts [Boolean] :urgent_only  (default to false)
-    # @option opts [Boolean] :with_photos  (default to false)
-    # @option opts [String] :filters Category filters as key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol&#39;
+    # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
+    # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
+    # @option opts [Float] :distance Radius around &#x60;location&#x60;: miles (uk) or km (au). Not offered by za.
+    # @option opts [Integer] :min_price Minimum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;)
+    # @option opts [Integer] :max_price Maximum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;)
+    # @option opts [String] :sort Result ordering (default relevance). &#39;distance&#39; needs uk, or au with a location.
+    # @option opts [String] :seller_type uk/za: &#39;trade&#39; covers dealers, agencies and recruiters. au: not supported — use a category filter such as &#39;cars.forsaleby_s:ownr&#39;.
+    # @option opts [Boolean] :urgent_only uk only: only ads marked urgent (default to false)
+    # @option opts [Boolean] :with_photos uk only: only ads with photos (default to false)
+    # @option opts [String] :filters Category-specific filters as comma-separated key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol,min_vehicle_mileage:10000&#39; (uk), &#39;cars.carmake_s:toyota,cars.forsaleby_s:ownr&#39; (au) or &#39;ma:toyota,fu:petrol,max_km:100000&#39; (za). Range filters take min_&lt;key&gt;/max_&lt;key&gt;. Discover keys and values with /search/filters for the same market.
     # @option opts [Integer] :page  (default to 1)
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_search_listings_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -603,6 +707,10 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"page"]" when calling GumtreeApi.gumtree_search_listings, must be greater than or equal to 1.'
       end
 
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/v1/gumtree/search'
 
@@ -620,6 +728,7 @@ module ScrapeBadger
       query_params[:'with_photos'] = opts[:'with_photos'] if !opts[:'with_photos'].nil?
       query_params[:'filters'] = opts[:'filters'] if !opts[:'filters'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -659,6 +768,7 @@ module ScrapeBadger
     # Gumtree search-box keyword suggestions with their categories.
     # @param query [String] Partial search term, e.g. &#39;iph&#39;
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Object]
     def gumtree_search_suggestions(query, opts = {})
       data, _status_code, _headers = gumtree_search_suggestions_with_http_info(query, opts)
@@ -669,6 +779,7 @@ module ScrapeBadger
     # Gumtree search-box keyword suggestions with their categories.
     # @param query [String] Partial search term, e.g. &#39;iph&#39;
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def gumtree_search_suggestions_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -682,12 +793,17 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "query" when calling GumtreeApi.gumtree_search_suggestions, the character length must be great than or equal to 1.'
       end
 
+      allowable_values = ["uk", "au", "za"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/v1/gumtree/autocomplete'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'query'] = query
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

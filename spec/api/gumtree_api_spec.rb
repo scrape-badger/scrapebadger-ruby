@@ -35,8 +35,9 @@ describe 'GumtreeApi' do
   # unit tests for gumtree_get_listing
   # Get listing
   # Full listing — description, attributes, images, seller, similar listings.
-  # @param listing_id Gumtree listing id — the number at the end of a gumtree.com/p/... URL
+  # @param listing_id Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one)
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_get_listing test' do
     it 'should work' do
@@ -46,11 +47,13 @@ describe 'GumtreeApi' do
 
   # unit tests for gumtree_get_search_filters
   # Get search filters
-  # Filters, sort orders and radius options for a category, with live counts.
+  # Filters, sort orders and radius options for a category, with live counts.  Feed a &#x60;key&#x60; and a &#x60;value&#x60; back into &#x60;/search&#x60; as &#x60;filters&#x3D;key:value&#x60;. au bills 2x (browser render).
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :category Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;.
-  # @option opts [String] :location Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;.
-  # @option opts [String] :query 
+  # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;.
+  # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
+  # @option opts [String] :query Optional keywords to scope the counts
+  # @option opts [String] :filters za only: filters already applied (e.g. &#39;ma:toyota&#39; to list Toyota models)
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_get_search_filters test' do
     it 'should work' do
@@ -61,9 +64,10 @@ describe 'GumtreeApi' do
   # unit tests for gumtree_get_seller_listings
   # Get seller listings
   # Every live listing by the seller of the given listing.
-  # @param listing_id Gumtree listing id — the number at the end of a gumtree.com/p/... URL
+  # @param listing_id Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one)
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :page 
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_get_seller_listings test' do
     it 'should work' do
@@ -95,9 +99,10 @@ describe 'GumtreeApi' do
 
   # unit tests for gumtree_list_categories
   # List categories
-  # Browse Gumtree&#39;s category tree. A node&#39;s &#x60;slug&#x60; is the &#x60;/search&#x60; category.
+  # Browse Gumtree&#39;s category tree.  A node&#39;s &#x60;slug&#x60; (uk) or &#x60;id&#x60; (au/za) is the &#x60;/search&#x60; category.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :parent_id Parent category id (default: all)
+  # @option opts [Integer] :parent_id Category id to list the children of (default: all)
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_list_categories test' do
     it 'should work' do
@@ -107,9 +112,10 @@ describe 'GumtreeApi' do
 
   # unit tests for gumtree_list_locations
   # List locations
-  # Browse Gumtree&#39;s location tree.
+  # Browse Gumtree&#39;s location tree.  uk: UK -&gt; nations -&gt; counties -&gt; towns. au: states -&gt; regions -&gt; areas, each with its live ad count (browser render, bills 5x). za: provinces -&gt; towns.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :parent_id Parent location id (default: UK)
+  # @option opts [Integer] :parent_id Location id to list the children of (default: the whole country)
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_list_locations test' do
     it 'should work' do
@@ -117,11 +123,23 @@ describe 'GumtreeApi' do
     end
   end
 
+  # unit tests for gumtree_list_markets
+  # List markets
+  # The Gumtree sites this API covers (uk, au, za) with currency and id formats.
+  # @param [Hash] opts the optional parameters
+  # @return [Object]
+  describe 'gumtree_list_markets test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for gumtree_location_suggestions
   # Location suggestions
-  # Resolve a place name or postcode to Gumtree locations with coordinates.
-  # @param query Town or postcode prefix, e.g. &#39;manch&#39;
+  # Resolve a place name or postcode to Gumtree location ids (uk: with coordinates).  The &#x60;id&#x60; (au/za) or &#x60;name&#x60; (uk) is what &#x60;/search&#x60; takes as &#x60;location&#x60;.
+  # @param query Town, area or postcode prefix, e.g. &#39;manch&#39; or &#39;SW1A&#39;
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_location_suggestions test' do
     it 'should work' do
@@ -131,20 +149,21 @@ describe 'GumtreeApi' do
 
   # unit tests for gumtree_search_listings
   # Search listings
-  # Search gumtree.com listings. ~25-30 per page, up to 50 pages.
+  # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20. An au search runs a real browser (~10-20 s) and bills 2x.
   # @param [Hash] opts the optional parameters
   # @option opts [String] :query Search keywords, e.g. &#39;mountain bike&#39;
-  # @option opts [String] :category Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;.
-  # @option opts [String] :location Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;.
-  # @option opts [Float] :distance Radius in miles
-  # @option opts [Integer] :min_price GBP; needs a category
-  # @option opts [Integer] :max_price GBP; needs a category
-  # @option opts [String] :sort 
-  # @option opts [String] :seller_type 
-  # @option opts [Boolean] :urgent_only 
-  # @option opts [Boolean] :with_photos 
-  # @option opts [String] :filters Category filters as key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol&#39;
+  # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;.
+  # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
+  # @option opts [Float] :distance Radius around &#x60;location&#x60;: miles (uk) or km (au). Not offered by za.
+  # @option opts [Integer] :min_price Minimum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;)
+  # @option opts [Integer] :max_price Maximum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;)
+  # @option opts [String] :sort Result ordering (default relevance). &#39;distance&#39; needs uk, or au with a location.
+  # @option opts [String] :seller_type uk/za: &#39;trade&#39; covers dealers, agencies and recruiters. au: not supported — use a category filter such as &#39;cars.forsaleby_s:ownr&#39;.
+  # @option opts [Boolean] :urgent_only uk only: only ads marked urgent
+  # @option opts [Boolean] :with_photos uk only: only ads with photos
+  # @option opts [String] :filters Category-specific filters as comma-separated key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol,min_vehicle_mileage:10000&#39; (uk), &#39;cars.carmake_s:toyota,cars.forsaleby_s:ownr&#39; (au) or &#39;ma:toyota,fu:petrol,max_km:100000&#39; (za). Range filters take min_&lt;key&gt;/max_&lt;key&gt;. Discover keys and values with /search/filters for the same market.
   # @option opts [Integer] :page 
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_search_listings test' do
     it 'should work' do
@@ -157,6 +176,7 @@ describe 'GumtreeApi' do
   # Gumtree search-box keyword suggestions with their categories.
   # @param query Partial search term, e.g. &#39;iph&#39;
   # @param [Hash] opts the optional parameters
+  # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another.
   # @return [Object]
   describe 'gumtree_search_suggestions test' do
     it 'should work' do
