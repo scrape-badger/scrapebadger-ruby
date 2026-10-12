@@ -95,7 +95,7 @@ module ScrapeBadger
     end
 
     # Get search filters
-    # Filters, sort orders and radius options for a category, with live counts.  Feed a `key` and a `value` back into `/search` as `filters=key:value`. au bills 2x (browser render).
+    # Filters, sort orders and radius options for a category, with live counts.  Feed a `key` and a `value` back into `/search` as `filters=key:value`.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
     # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
@@ -109,7 +109,7 @@ module ScrapeBadger
     end
 
     # Get search filters
-    # Filters, sort orders and radius options for a category, with live counts.  Feed a &#x60;key&#x60; and a &#x60;value&#x60; back into &#x60;/search&#x60; as &#x60;filters&#x3D;key:value&#x60;. au bills 2x (browser render).
+    # Filters, sort orders and radius options for a category, with live counts.  Feed a &#x60;key&#x60; and a &#x60;value&#x60; back into &#x60;/search&#x60; as &#x60;filters&#x3D;key:value&#x60;.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
     # @option opts [String] :location uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country.
@@ -438,7 +438,7 @@ module ScrapeBadger
     end
 
     # List locations
-    # Browse Gumtree's location tree.  uk: UK -> nations -> counties -> towns. au: states -> regions -> areas, each with its live ad count (browser render, bills 5x). za: provinces -> towns.
+    # Browse Gumtree's location tree.  uk: UK -> nations -> counties -> towns. au: states -> regions -> areas, each with its live ad count. za: provinces -> towns.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :parent_id Location id to list the children of (default: the whole country)
     # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
@@ -449,7 +449,7 @@ module ScrapeBadger
     end
 
     # List locations
-    # Browse Gumtree&#39;s location tree.  uk: UK -&gt; nations -&gt; counties -&gt; towns. au: states -&gt; regions -&gt; areas, each with its live ad count (browser render, bills 5x). za: provinces -&gt; towns.
+    # Browse Gumtree&#39;s location tree.  uk: UK -&gt; nations -&gt; counties -&gt; towns. au: states -&gt; regions -&gt; areas, each with its live ad count. za: provinces -&gt; towns.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :parent_id Location id to list the children of (default: the whole country)
     # @option opts [String] :market Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (default to 'uk')
@@ -637,7 +637,7 @@ module ScrapeBadger
     end
 
     # Search listings
-    # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20. An au search runs a real browser (~10-20 s) and bills 2x.
+    # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :query Search keywords, e.g. &#39;mountain bike&#39;
     # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
@@ -659,7 +659,7 @@ module ScrapeBadger
     end
 
     # Search listings
-    # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20. An au search runs a real browser (~10-20 s) and bills 2x.
+    # Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :query Search keywords, e.g. &#39;mountain bike&#39;
     # @option opts [String] :category uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (default to 'all')
