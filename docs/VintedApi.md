@@ -680,7 +680,7 @@ end
 
 ## vinted_search_by_image
 
-> <SearchResponse> vinted_search_by_image(vinted_image_search_request)
+> <PortalApiRoutersVintedSchemasSearchResponse> vinted_search_by_image(vinted_image_search_request)
 
 Search by image
 
@@ -715,7 +715,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<SearchResponse>, Integer, Hash)> vinted_search_by_image_with_http_info(vinted_image_search_request)
+> <Array(<PortalApiRoutersVintedSchemasSearchResponse>, Integer, Hash)> vinted_search_by_image_with_http_info(vinted_image_search_request)
 
 ```ruby
 begin
@@ -723,7 +723,7 @@ begin
   data, status_code, headers = api_instance.vinted_search_by_image_with_http_info(vinted_image_search_request)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => <SearchResponse>
+  p data # => <PortalApiRoutersVintedSchemasSearchResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_search_by_image_with_http_info: #{e}"
 end
@@ -737,7 +737,7 @@ end
 
 ### Return type
 
-[**SearchResponse**](SearchResponse.md)
+[**PortalApiRoutersVintedSchemasSearchResponse**](PortalApiRoutersVintedSchemasSearchResponse.md)
 
 ### Authorization
 
@@ -751,7 +751,7 @@ end
 
 ## vinted_search_vinted_items
 
-> <SearchResponse> vinted_search_vinted_items(query, opts)
+> <PortalApiRoutersVintedSchemasSearchResponse> vinted_search_vinted_items(query, opts)
 
 Search Vinted items
 
@@ -803,7 +803,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<SearchResponse>, Integer, Hash)> vinted_search_vinted_items_with_http_info(query, opts)
+> <Array(<PortalApiRoutersVintedSchemasSearchResponse>, Integer, Hash)> vinted_search_vinted_items_with_http_info(query, opts)
 
 ```ruby
 begin
@@ -811,7 +811,7 @@ begin
   data, status_code, headers = api_instance.vinted_search_vinted_items_with_http_info(query, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => <SearchResponse>
+  p data # => <PortalApiRoutersVintedSchemasSearchResponse>
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling VintedApi->vinted_search_vinted_items_with_http_info: #{e}"
 end
@@ -840,7 +840,7 @@ end
 
 ### Return type
 
-[**SearchResponse**](SearchResponse.md)
+[**PortalApiRoutersVintedSchemasSearchResponse**](PortalApiRoutersVintedSchemasSearchResponse.md)
 
 ### Authorization
 

@@ -1,4 +1,4 @@
-# ScrapeBadger::SearchResponse
+# ScrapeBadger::PortalApiRoutersVintedSchemasSearchResponse
 
 ## Properties
 
@@ -14,7 +14,7 @@
 ```ruby
 require 'scrapebadger'
 
-instance = ScrapeBadger::SearchResponse.new(
+instance = ScrapeBadger::PortalApiRoutersVintedSchemasSearchResponse.new(
   items: null,
   pagination: null,
   market: null,

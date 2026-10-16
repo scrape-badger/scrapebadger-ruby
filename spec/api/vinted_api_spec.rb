@@ -150,7 +150,7 @@ describe 'VintedApi' do
   # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking. Each item carries &#x60;similarity_score&#x60; on the calls where Vinted returns a ranking, and null on the ones where it does not -- a null says nothing about the item. The score sits on an unbounded scale that Vinted changes without notice (0-1 in Sep 2026, ~36-44 since): compare it only with the other items in the SAME response, never to a fixed cut-off. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
   # @param vinted_image_search_request 
   # @param [Hash] opts the optional parameters
-  # @return [SearchResponse]
+  # @return [PortalApiRoutersVintedSchemasSearchResponse]
   describe 'vinted_search_by_image test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -177,7 +177,7 @@ describe 'VintedApi' do
   # @option opts [String] :search_session_id Reuse across pages of one search
   # @option opts [String] :status_ids Comma-separated condition/status IDs
   # @option opts [String] :order 
-  # @return [SearchResponse]
+  # @return [PortalApiRoutersVintedSchemasSearchResponse]
   describe 'vinted_search_vinted_items test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/

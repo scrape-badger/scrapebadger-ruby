@@ -119,14 +119,22 @@ ScrapeBadger.configure do |config|
   # config.api_key_prefix['X-API-Key'] = 'Bearer'
 end
 
-api_instance = ScrapeBadger::AccountApi.new
+api_instance = ScrapeBadger::ASOSApi.new
+product_id = 56 # Integer | 
+opts = {
+  market: 'market_example', # String | Storefront: uk, us, au, de, fr, it, es, nl, se, dk, pl
+  store: 'store_example', # String | Override store, e.g. COM or US
+  country: 'country_example', # String | ISO country override
+  currency: 'currency_example', # String | Currency override
+  language: 'language_example' # String | Locale override, e.g. en-GB
+}
 
 begin
-  #Get account info
-  result = api_instance.account_get_account_info
+  #Get product detail
+  result = api_instance.asos_get_product_detail(product_id, opts)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Exception when calling AccountApi->account_get_account_info: #{e}"
+  puts "Exception when calling ASOSApi->asos_get_product_detail: #{e}"
 end
 
 ```
@@ -137,6 +145,13 @@ All URIs are relative to *https://scrapebadger.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*ScrapeBadger::ASOSApi* | [**asos_get_product_detail**](docs/ASOSApi.md#asos_get_product_detail) | **GET** /v1/asos/products/{product_id} | Get product detail
+*ScrapeBadger::ASOSApi* | [**asos_get_stock_and_prices**](docs/ASOSApi.md#asos_get_stock_and_prices) | **GET** /v1/asos/stock-price | Get stock and prices
+*ScrapeBadger::ASOSApi* | [**asos_list_categories**](docs/ASOSApi.md#asos_list_categories) | **GET** /v1/asos/categories | List categories
+*ScrapeBadger::ASOSApi* | [**asos_list_markets**](docs/ASOSApi.md#asos_list_markets) | **GET** /v1/asos/markets | List markets
+*ScrapeBadger::ASOSApi* | [**asos_list_search_filters**](docs/ASOSApi.md#asos_list_search_filters) | **GET** /v1/asos/filters | List search filters
+*ScrapeBadger::ASOSApi* | [**asos_search_products**](docs/ASOSApi.md#asos_search_products) | **GET** /v1/asos/search | Search products
+*ScrapeBadger::ASOSApi* | [**asos_search_suggestions**](docs/ASOSApi.md#asos_search_suggestions) | **GET** /v1/asos/autocomplete | Search suggestions
 *ScrapeBadger::AccountApi* | [**account_get_account_info**](docs/AccountApi.md#account_get_account_info) | **GET** /v1/account/me | Get account info
 *ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check) | **GET** /v1/airbnb/health | Airbnb scraper health check
 *ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check_head**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check_head) | **HEAD** /v1/airbnb/health | Airbnb scraper health check
@@ -146,6 +161,14 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::AirbnbApi* | [**airbnb_get_listing_reviews**](docs/AirbnbApi.md#airbnb_get_listing_reviews) | **GET** /v1/airbnb/listings/{room_id}/reviews | Get listing reviews
 *ScrapeBadger::AirbnbApi* | [**airbnb_search_experiences**](docs/AirbnbApi.md#airbnb_search_experiences) | **GET** /v1/airbnb/experiences | Search experiences
 *ScrapeBadger::AirbnbApi* | [**airbnb_search_stays**](docs/AirbnbApi.md#airbnb_search_stays) | **GET** /v1/airbnb/search | Search stays
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_category_navigation**](docs/AliExpressApi.md#aliexpress_get_category_navigation) | **GET** /v1/aliexpress/categories | Get category navigation
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_product_detail**](docs/AliExpressApi.md#aliexpress_get_product_detail) | **GET** /v1/aliexpress/products/{product_id} | Get product detail
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_product_reviews**](docs/AliExpressApi.md#aliexpress_get_product_reviews) | **GET** /v1/aliexpress/products/{product_id}/reviews | Get product reviews
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_search_suggestions**](docs/AliExpressApi.md#aliexpress_get_search_suggestions) | **GET** /v1/aliexpress/autocomplete | Get search suggestions
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_store_product_categories**](docs/AliExpressApi.md#aliexpress_get_store_product_categories) | **GET** /v1/aliexpress/stores/{store_id}/categories | Get store product categories
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_store_products**](docs/AliExpressApi.md#aliexpress_get_store_products) | **GET** /v1/aliexpress/stores/{store_id}/products | Get store products
+*ScrapeBadger::AliExpressApi* | [**aliexpress_get_store_profile**](docs/AliExpressApi.md#aliexpress_get_store_profile) | **GET** /v1/aliexpress/stores/{store_id} | Get store profile
+*ScrapeBadger::AliExpressApi* | [**aliexpress_search_products**](docs/AliExpressApi.md#aliexpress_search_products) | **GET** /v1/aliexpress/search | Search products
 *ScrapeBadger::AmazonApi* | [**amazon_amazon_scraper_health_check**](docs/AmazonApi.md#amazon_amazon_scraper_health_check) | **GET** /v1/amazon/health | Amazon scraper health check
 *ScrapeBadger::AmazonApi* | [**amazon_amazon_scraper_health_check_head**](docs/AmazonApi.md#amazon_amazon_scraper_health_check_head) | **HEAD** /v1/amazon/health | Amazon scraper health check
 *ScrapeBadger::AmazonApi* | [**amazon_bestsellers_by_category**](docs/AmazonApi.md#amazon_bestsellers_by_category) | **GET** /v1/amazon/bestsellers | Bestsellers by category
@@ -180,6 +203,16 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_scraper_health_check_head**](docs/BaiduApi.md#baidu_baidu_scraper_health_check_head) | **HEAD** /v1/baidu/health | Baidu scraper health check
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_web_search**](docs/BaiduApi.md#baidu_baidu_web_search) | **GET** /v1/baidu/search | Baidu web search
 *ScrapeBadger::BaiduApi* | [**baidu_search_suggestions**](docs/BaiduApi.md#baidu_search_suggestions) | **GET** /v1/baidu/autocomplete | Search suggestions
+*ScrapeBadger::BestBuyApi* | [**bestbuy_browse_a_category**](docs/BestBuyApi.md#bestbuy_browse_a_category) | **GET** /v1/bestbuy/category | Browse a category
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_categories**](docs/BestBuyApi.md#bestbuy_get_categories) | **GET** /v1/bestbuy/categories | Get categories
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_laptop_and_computer_deals**](docs/BestBuyApi.md#bestbuy_get_laptop_and_computer_deals) | **GET** /v1/bestbuy/deals | Get laptop and computer deals
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_product_availability**](docs/BestBuyApi.md#bestbuy_get_product_availability) | **GET** /v1/bestbuy/products/{sku}/availability | Get product availability
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_product_detail**](docs/BestBuyApi.md#bestbuy_get_product_detail) | **GET** /v1/bestbuy/products/{sku} | Get product detail
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_product_questions**](docs/BestBuyApi.md#bestbuy_get_product_questions) | **GET** /v1/bestbuy/products/{sku}/questions | Get product questions
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_product_reviews**](docs/BestBuyApi.md#bestbuy_get_product_reviews) | **GET** /v1/bestbuy/products/{sku}/reviews | Get product reviews
+*ScrapeBadger::BestBuyApi* | [**bestbuy_get_search_suggestions**](docs/BestBuyApi.md#bestbuy_get_search_suggestions) | **GET** /v1/bestbuy/autocomplete | Get search suggestions
+*ScrapeBadger::BestBuyApi* | [**bestbuy_list_supported_markets**](docs/BestBuyApi.md#bestbuy_list_supported_markets) | **GET** /v1/bestbuy/markets | List supported markets
+*ScrapeBadger::BestBuyApi* | [**bestbuy_search_products**](docs/BestBuyApi.md#bestbuy_search_products) | **GET** /v1/bestbuy/search | Search products
 *ScrapeBadger::BingApi* | [**bing_bing_scraper_health_check**](docs/BingApi.md#bing_bing_scraper_health_check) | **GET** /v1/bing/health | Bing scraper health check
 *ScrapeBadger::BingApi* | [**bing_bing_scraper_health_check_head**](docs/BingApi.md#bing_bing_scraper_health_check_head) | **HEAD** /v1/bing/health | Bing scraper health check
 *ScrapeBadger::BingApi* | [**bing_image_search**](docs/BingApi.md#bing_image_search) | **GET** /v1/bing/images | Image search
@@ -232,6 +265,14 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::EBayApi* | [**ebay_list_markets**](docs/EBayApi.md#ebay_list_markets) | **GET** /v1/ebay/markets | List markets
 *ScrapeBadger::EBayApi* | [**ebay_search_by_image**](docs/EBayApi.md#ebay_search_by_image) | **POST** /v1/ebay/search/by-image | Search by image
 *ScrapeBadger::EBayApi* | [**ebay_search_listings**](docs/EBayApi.md#ebay_search_listings) | **GET** /v1/ebay/search | Search listings
+*ScrapeBadger::EtsyApi* | [**etsy_get_categories**](docs/EtsyApi.md#etsy_get_categories) | **GET** /v1/etsy/categories | Get categories
+*ScrapeBadger::EtsyApi* | [**etsy_get_listing_detail**](docs/EtsyApi.md#etsy_get_listing_detail) | **GET** /v1/etsy/listings/{listing_id} | Get listing detail
+*ScrapeBadger::EtsyApi* | [**etsy_get_listing_reviews**](docs/EtsyApi.md#etsy_get_listing_reviews) | **GET** /v1/etsy/listings/{listing_id}/reviews | Get listing reviews
+*ScrapeBadger::EtsyApi* | [**etsy_get_search_suggestions**](docs/EtsyApi.md#etsy_get_search_suggestions) | **GET** /v1/etsy/autocomplete | Get search suggestions
+*ScrapeBadger::EtsyApi* | [**etsy_get_shop_listings**](docs/EtsyApi.md#etsy_get_shop_listings) | **GET** /v1/etsy/shops/{shop_name}/listings | Get shop listings
+*ScrapeBadger::EtsyApi* | [**etsy_get_shop_profile**](docs/EtsyApi.md#etsy_get_shop_profile) | **GET** /v1/etsy/shops/{shop_name} | Get shop profile
+*ScrapeBadger::EtsyApi* | [**etsy_get_shop_reviews**](docs/EtsyApi.md#etsy_get_shop_reviews) | **GET** /v1/etsy/shops/{shop_name}/reviews | Get shop reviews
+*ScrapeBadger::EtsyApi* | [**etsy_search_listings**](docs/EtsyApi.md#etsy_search_listings) | **GET** /v1/etsy/search | Search listings
 *ScrapeBadger::FacebookApi* | [**facebook_browse_a_marketplace_category**](docs/FacebookApi.md#facebook_browse_a_marketplace_category) | **GET** /v1/facebook/marketplace/category/{category} | Browse a Marketplace category
 *ScrapeBadger::FacebookApi* | [**facebook_get_a_marketplace_item**](docs/FacebookApi.md#facebook_get_a_marketplace_item) | **GET** /v1/facebook/marketplace/item/{item_id} | Get a Marketplace item
 *ScrapeBadger::FacebookApi* | [**facebook_get_advertiser_page_info**](docs/FacebookApi.md#facebook_get_advertiser_page_info) | **GET** /v1/facebook/ads/pages/{page_id} | Get advertiser page info
@@ -451,6 +492,17 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::RedfinApi* | [**redfin_redfin_scraper_health_check_head**](docs/RedfinApi.md#redfin_redfin_scraper_health_check_head) | **HEAD** /v1/redfin/health | Redfin scraper health check
 *ScrapeBadger::RedfinApi* | [**redfin_region_address_suggestions**](docs/RedfinApi.md#redfin_region_address_suggestions) | **GET** /v1/redfin/autocomplete | Region/address suggestions
 *ScrapeBadger::RedfinApi* | [**redfin_search_properties**](docs/RedfinApi.md#redfin_search_properties) | **GET** /v1/redfin/search | Search properties
+*ScrapeBadger::TargetApi* | [**target_browse_a_category**](docs/TargetApi.md#target_browse_a_category) | **GET** /v1/target/category | Browse a category
+*ScrapeBadger::TargetApi* | [**target_find_nearby_stores**](docs/TargetApi.md#target_find_nearby_stores) | **GET** /v1/target/stores | Find nearby stores
+*ScrapeBadger::TargetApi* | [**target_get_categories**](docs/TargetApi.md#target_get_categories) | **GET** /v1/target/categories | Get categories
+*ScrapeBadger::TargetApi* | [**target_get_product_availability**](docs/TargetApi.md#target_get_product_availability) | **GET** /v1/target/products/{tcin}/availability | Get product availability
+*ScrapeBadger::TargetApi* | [**target_get_product_detail**](docs/TargetApi.md#target_get_product_detail) | **GET** /v1/target/products/{tcin} | Get product detail
+*ScrapeBadger::TargetApi* | [**target_get_product_questions**](docs/TargetApi.md#target_get_product_questions) | **GET** /v1/target/products/{tcin}/questions | Get product questions
+*ScrapeBadger::TargetApi* | [**target_get_product_reviews**](docs/TargetApi.md#target_get_product_reviews) | **GET** /v1/target/products/{tcin}/reviews | Get product reviews
+*ScrapeBadger::TargetApi* | [**target_get_search_suggestions**](docs/TargetApi.md#target_get_search_suggestions) | **GET** /v1/target/autocomplete | Get search suggestions
+*ScrapeBadger::TargetApi* | [**target_get_store_detail**](docs/TargetApi.md#target_get_store_detail) | **GET** /v1/target/stores/{store_id} | Get store detail
+*ScrapeBadger::TargetApi* | [**target_list_supported_markets**](docs/TargetApi.md#target_list_supported_markets) | **GET** /v1/target/markets | List supported markets
+*ScrapeBadger::TargetApi* | [**target_search_products**](docs/TargetApi.md#target_search_products) | **GET** /v1/target/search | Search products
 *ScrapeBadger::TikTokApi* | [**tiktok_best_selling_tiktok_shop_products**](docs/TikTokApi.md#tiktok_best_selling_tiktok_shop_products) | **GET** /v1/tiktok/shop/bestsellers | Best-selling TikTok Shop products
 *ScrapeBadger::TikTokApi* | [**tiktok_general_search**](docs/TikTokApi.md#tiktok_general_search) | **GET** /v1/tiktok/search | General search
 *ScrapeBadger::TikTokApi* | [**tiktok_get_comment_replies**](docs/TikTokApi.md#tiktok_get_comment_replies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies
@@ -659,8 +711,14 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::AccountInfo](docs/AccountInfo.md)
  - [ScrapeBadger::BillingLogListResponse](docs/BillingLogListResponse.md)
  - [ScrapeBadger::BillingLogResponse](docs/BillingLogResponse.md)
+ - [ScrapeBadger::Brandid](docs/Brandid.md)
+ - [ScrapeBadger::Brandname](docs/Brandname.md)
  - [ScrapeBadger::BrandsResponse](docs/BrandsResponse.md)
+ - [ScrapeBadger::Categoryname](docs/Categoryname.md)
  - [ScrapeBadger::ColorsResponse](docs/ColorsResponse.md)
+ - [ScrapeBadger::Colour](docs/Colour.md)
+ - [ScrapeBadger::Colourwayid](docs/Colourwayid.md)
+ - [ScrapeBadger::Description](docs/Description.md)
  - [ScrapeBadger::ExtractRequest](docs/ExtractRequest.md)
  - [ScrapeBadger::ExtractRequestExtractRulesValue](docs/ExtractRequestExtractRulesValue.md)
  - [ScrapeBadger::ExtractRule](docs/ExtractRule.md)
@@ -672,13 +730,30 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::FilterRuleUpdate](docs/FilterRuleUpdate.md)
  - [ScrapeBadger::FilterRuleValidateRequest](docs/FilterRuleValidateRequest.md)
  - [ScrapeBadger::FilterRuleValidateResponse](docs/FilterRuleValidateResponse.md)
+ - [ScrapeBadger::Gender](docs/Gender.md)
  - [ScrapeBadger::HTTPValidationError](docs/HTTPValidationError.md)
+ - [ScrapeBadger::Imageurl](docs/Imageurl.md)
+ - [ScrapeBadger::Isinstock](docs/Isinstock.md)
+ - [ScrapeBadger::Isrestockingsoon](docs/Isrestockingsoon.md)
+ - [ScrapeBadger::Issellingfast](docs/Issellingfast.md)
  - [ScrapeBadger::ItemDetailResponse](docs/ItemDetailResponse.md)
  - [ScrapeBadger::MarketsResponse](docs/MarketsResponse.md)
+ - [ScrapeBadger::NextOffset](docs/NextOffset.md)
+ - [ScrapeBadger::PortalApiRoutersV1AsosSearchResponse](docs/PortalApiRoutersV1AsosSearchResponse.md)
  - [ScrapeBadger::PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse](docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md)
+ - [ScrapeBadger::PortalApiRoutersVintedSchemasSearchResponse](docs/PortalApiRoutersVintedSchemasSearchResponse.md)
+ - [ScrapeBadger::Price](docs/Price.md)
+ - [ScrapeBadger::PriceValue](docs/PriceValue.md)
+ - [ScrapeBadger::Product](docs/Product.md)
+ - [ScrapeBadger::ProductPrice](docs/ProductPrice.md)
+ - [ScrapeBadger::ProductResponse](docs/ProductResponse.md)
+ - [ScrapeBadger::Productcode](docs/Productcode.md)
+ - [ScrapeBadger::Ratings](docs/Ratings.md)
  - [ScrapeBadger::ScreenshotRequest](docs/ScreenshotRequest.md)
- - [ScrapeBadger::SearchResponse](docs/SearchResponse.md)
+ - [ScrapeBadger::Searchterm](docs/Searchterm.md)
  - [ScrapeBadger::StatusesResponse](docs/StatusesResponse.md)
+ - [ScrapeBadger::StockProduct](docs/StockProduct.md)
+ - [ScrapeBadger::StockResponse](docs/StockResponse.md)
  - [ScrapeBadger::StreamMonitorCreate](docs/StreamMonitorCreate.md)
  - [ScrapeBadger::StreamMonitorListResponse](docs/StreamMonitorListResponse.md)
  - [ScrapeBadger::StreamMonitorResponse](docs/StreamMonitorResponse.md)
@@ -686,10 +761,12 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::SubscriptionInfo](docs/SubscriptionInfo.md)
  - [ScrapeBadger::TweetDeliveryLogListResponse](docs/TweetDeliveryLogListResponse.md)
  - [ScrapeBadger::TweetDeliveryLogResponse](docs/TweetDeliveryLogResponse.md)
+ - [ScrapeBadger::Url](docs/Url.md)
  - [ScrapeBadger::UserItemsResponse](docs/UserItemsResponse.md)
  - [ScrapeBadger::UserProfileResponse](docs/UserProfileResponse.md)
  - [ScrapeBadger::ValidationError](docs/ValidationError.md)
  - [ScrapeBadger::ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
+ - [ScrapeBadger::Variant](docs/Variant.md)
  - [ScrapeBadger::VintedBrand](docs/VintedBrand.md)
  - [ScrapeBadger::VintedColor](docs/VintedColor.md)
  - [ScrapeBadger::VintedImageSearchRequest](docs/VintedImageSearchRequest.md)

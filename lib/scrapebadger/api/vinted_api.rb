@@ -614,7 +614,7 @@ module ScrapeBadger
     # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking. Each item carries `similarity_score` on the calls where Vinted returns a ranking, and null on the ones where it does not -- a null says nothing about the item. The score sits on an unbounded scale that Vinted changes without notice (0-1 in Sep 2026, ~36-44 since): compare it only with the other items in the SAME response, never to a fixed cut-off. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
     # @param vinted_image_search_request [VintedImageSearchRequest] 
     # @param [Hash] opts the optional parameters
-    # @return [SearchResponse]
+    # @return [PortalApiRoutersVintedSchemasSearchResponse]
     def vinted_search_by_image(vinted_image_search_request, opts = {})
       data, _status_code, _headers = vinted_search_by_image_with_http_info(vinted_image_search_request, opts)
       data
@@ -624,7 +624,7 @@ module ScrapeBadger
     # Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking. Each item carries &#x60;similarity_score&#x60; on the calls where Vinted returns a ranking, and null on the ones where it does not -- a null says nothing about the item. The score sits on an unbounded scale that Vinted changes without notice (0-1 in Sep 2026, ~36-44 since): compare it only with the other items in the SAME response, never to a fixed cut-off. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
     # @param vinted_image_search_request [VintedImageSearchRequest] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(SearchResponse, Integer, Hash)>] SearchResponse data, response status code and response headers
+    # @return [Array<(PortalApiRoutersVintedSchemasSearchResponse, Integer, Hash)>] PortalApiRoutersVintedSchemasSearchResponse data, response status code and response headers
     def vinted_search_by_image_with_http_info(vinted_image_search_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_search_by_image ...'
@@ -656,7 +656,7 @@ module ScrapeBadger
       post_body = opts[:debug_body] || @api_client.object_to_http_body(vinted_image_search_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'SearchResponse'
+      return_type = opts[:debug_return_type] || 'PortalApiRoutersVintedSchemasSearchResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -697,7 +697,7 @@ module ScrapeBadger
     # @option opts [String] :search_session_id Reuse across pages of one search
     # @option opts [String] :status_ids Comma-separated condition/status IDs
     # @option opts [String] :order 
-    # @return [SearchResponse]
+    # @return [PortalApiRoutersVintedSchemasSearchResponse]
     def vinted_search_vinted_items(query, opts = {})
       data, _status_code, _headers = vinted_search_vinted_items_with_http_info(query, opts)
       data
@@ -722,7 +722,7 @@ module ScrapeBadger
     # @option opts [String] :search_session_id Reuse across pages of one search
     # @option opts [String] :status_ids Comma-separated condition/status IDs
     # @option opts [String] :order 
-    # @return [Array<(SearchResponse, Integer, Hash)>] SearchResponse data, response status code and response headers
+    # @return [Array<(PortalApiRoutersVintedSchemasSearchResponse, Integer, Hash)>] PortalApiRoutersVintedSchemasSearchResponse data, response status code and response headers
     def vinted_search_vinted_items_with_http_info(query, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: VintedApi.vinted_search_vinted_items ...'
@@ -781,7 +781,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'SearchResponse'
+      return_type = opts[:debug_return_type] || 'PortalApiRoutersVintedSchemasSearchResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']

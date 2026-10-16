@@ -14,23 +14,22 @@ require 'date'
 require 'time'
 
 module ScrapeBadger
-  # Envelope returned by search and search_by_image.
-  class SearchResponse
-    attr_accessor :items
+  class StockProduct
+    attr_accessor :product_id
 
-    attr_accessor :pagination
+    attr_accessor :product_price
 
-    attr_accessor :market
+    attr_accessor :is_in_stock
 
-    attr_accessor :seller_country
+    attr_accessor :variants
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'items' => :'items',
-        :'pagination' => :'pagination',
-        :'market' => :'market',
-        :'seller_country' => :'seller_country'
+        :'product_id' => :'productId',
+        :'product_price' => :'productPrice',
+        :'is_in_stock' => :'isInStock',
+        :'variants' => :'variants'
       }
     end
 
@@ -42,17 +41,17 @@ module ScrapeBadger
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'items' => :'Array<VintedItemSummary>',
-        :'pagination' => :'VintedPagination',
-        :'market' => :'String',
-        :'seller_country' => :'String'
+        :'product_id' => :'Integer',
+        :'product_price' => :'Price',
+        :'is_in_stock' => :'Boolean',
+        :'variants' => :'Array<Variant>'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'seller_country'
+        :'product_price',
       ])
     end
 
@@ -60,39 +59,37 @@ module ScrapeBadger
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `ScrapeBadger::SearchResponse` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `ScrapeBadger::StockProduct` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `ScrapeBadger::SearchResponse`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `ScrapeBadger::StockProduct`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'items')
-        if (value = attributes[:'items']).is_a?(Array)
-          self.items = value
+      if attributes.key?(:'product_id')
+        self.product_id = attributes[:'product_id']
+      else
+        self.product_id = nil
+      end
+
+      if attributes.key?(:'product_price')
+        self.product_price = attributes[:'product_price']
+      end
+
+      if attributes.key?(:'is_in_stock')
+        self.is_in_stock = attributes[:'is_in_stock']
+      else
+        self.is_in_stock = nil
+      end
+
+      if attributes.key?(:'variants')
+        if (value = attributes[:'variants']).is_a?(Array)
+          self.variants = value
         end
-      else
-        self.items = nil
-      end
-
-      if attributes.key?(:'pagination')
-        self.pagination = attributes[:'pagination']
-      else
-        self.pagination = nil
-      end
-
-      if attributes.key?(:'market')
-        self.market = attributes[:'market']
-      else
-        self.market = nil
-      end
-
-      if attributes.key?(:'seller_country')
-        self.seller_country = attributes[:'seller_country']
       end
     end
 
@@ -101,16 +98,12 @@ module ScrapeBadger
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @items.nil?
-        invalid_properties.push('invalid value for "items", items cannot be nil.')
+      if @product_id.nil?
+        invalid_properties.push('invalid value for "product_id", product_id cannot be nil.')
       end
 
-      if @pagination.nil?
-        invalid_properties.push('invalid value for "pagination", pagination cannot be nil.')
-      end
-
-      if @market.nil?
-        invalid_properties.push('invalid value for "market", market cannot be nil.')
+      if @is_in_stock.nil?
+        invalid_properties.push('invalid value for "is_in_stock", is_in_stock cannot be nil.')
       end
 
       invalid_properties
@@ -120,9 +113,8 @@ module ScrapeBadger
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @items.nil?
-      return false if @pagination.nil?
-      return false if @market.nil?
+      return false if @product_id.nil?
+      return false if @is_in_stock.nil?
       true
     end
 
@@ -131,10 +123,10 @@ module ScrapeBadger
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          items == o.items &&
-          pagination == o.pagination &&
-          market == o.market &&
-          seller_country == o.seller_country
+          product_id == o.product_id &&
+          product_price == o.product_price &&
+          is_in_stock == o.is_in_stock &&
+          variants == o.variants
     end
 
     # @see the `==` method
@@ -146,7 +138,7 @@ module ScrapeBadger
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [items, pagination, market, seller_country].hash
+      [product_id, product_price, is_in_stock, variants].hash
     end
 
     # Builds the object from hash
