@@ -1433,7 +1433,7 @@ module ScrapeBadger
     # @option opts [String] :si Cached search params
     # @option opts [String] :ibp Layout control
     # @option opts [String] :uds Google filter string
-    # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. (default to false)
+    # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (default to false)
     # @return [Object]
     def google_google_web_search(q, opts = {})
       data, _status_code, _headers = google_google_web_search_with_http_info(q, opts)
@@ -1466,7 +1466,7 @@ module ScrapeBadger
     # @option opts [String] :si Cached search params
     # @option opts [String] :ibp Layout control
     # @option opts [String] :uds Google filter string
-    # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. (default to false)
+    # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (default to false)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_web_search_with_http_info(q, opts = {})
       if @api_client.config.debugging

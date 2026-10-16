@@ -1446,7 +1446,7 @@ opts = {
   si: 'si_example', # String | Cached search params
   ibp: 'ibp_example', # String | Layout control
   uds: 'uds_example', # String | Google filter string
-  ai_overview: true # Boolean | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview.
+  ai_overview: true # Boolean | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged.
 }
 
 begin
@@ -1503,7 +1503,7 @@ end
 | **si** | **String** | Cached search params | [optional] |
 | **ibp** | **String** | Layout control | [optional] |
 | **uds** | **String** | Google filter string | [optional] |
-| **ai_overview** | **Boolean** | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. | [optional][default to false] |
+| **ai_overview** | **Boolean** | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. | [optional][default to false] |
 
 ### Return type
 

@@ -323,7 +323,7 @@ describe 'GoogleApi' do
   # @option opts [String] :si Cached search params
   # @option opts [String] :ibp Layout control
   # @option opts [String] :uds Google filter string
-  # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview.
+  # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged.
   # @return [Object]
   describe 'google_google_web_search test' do
     it 'should work' do
