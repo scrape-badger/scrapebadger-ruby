@@ -243,6 +243,31 @@ describe 'GoogleApi' do
     end
   end
 
+  # unit tests for google_google_light_web_search
+  # Google Light web search
+  # Organic results and related searches only. Costs 10 credits per successful uncached request, compared with 20 credits for regular Google Search. Light always skips rich SERP blocks; mode and ai_overview cannot enable them.
+  # @param q Search query (supports Google operators)
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :gl Country code
+  # @option opts [String] :hl Language code
+  # @option opts [Integer] :num 
+  # @option opts [Integer] :start Page offset (0, 10, 20...)
+  # @option opts [String] :domain Google domain
+  # @option opts [String] :location City-level geo-targeting
+  # @option opts [String] :uule Encoded location
+  # @option opts [String] :lr Language restrict (e.g. lang_en)
+  # @option opts [String] :tbs Time filter (e.g. qdr:d)
+  # @option opts [String] :safe Safe search: off or active
+  # @option opts [Integer] :filter 
+  # @option opts [Integer] :nfpr Disable auto-correction
+  # @option opts [String] :output 
+  # @return [Object]
+  describe 'google_google_light_web_search test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for google_google_scraper_health_check
   # Google scraper health check
   # Check health of the Google scraper service.  Accepts &#x60;&#x60;HEAD&#x60;&#x60; so external uptime checkers (UptimeRobot uses HEAD by default for HTTP monitors) don&#39;t get a 405 Method Not Allowed.

@@ -1132,6 +1132,133 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Google Light web search
+    # Organic results and related searches only. Costs 10 credits per successful uncached request, compared with 20 credits for regular Google Search. Light always skips rich SERP blocks; mode and ai_overview cannot enable them.
+    # @param q [String] Search query (supports Google operators)
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :gl Country code (default to 'us')
+    # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [Integer] :num  (default to 10)
+    # @option opts [Integer] :start Page offset (0, 10, 20...) (default to 0)
+    # @option opts [String] :domain Google domain (default to 'google.com')
+    # @option opts [String] :location City-level geo-targeting
+    # @option opts [String] :uule Encoded location
+    # @option opts [String] :lr Language restrict (e.g. lang_en)
+    # @option opts [String] :tbs Time filter (e.g. qdr:d)
+    # @option opts [String] :safe Safe search: off or active (default to 'off')
+    # @option opts [Integer] :filter 
+    # @option opts [Integer] :nfpr Disable auto-correction (default to 0)
+    # @option opts [String] :output  (default to 'json')
+    # @return [Object]
+    def google_google_light_web_search(q, opts = {})
+      data, _status_code, _headers = google_google_light_web_search_with_http_info(q, opts)
+      data
+    end
+
+    # Google Light web search
+    # Organic results and related searches only. Costs 10 credits per successful uncached request, compared with 20 credits for regular Google Search. Light always skips rich SERP blocks; mode and ai_overview cannot enable them.
+    # @param q [String] Search query (supports Google operators)
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :gl Country code (default to 'us')
+    # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [Integer] :num  (default to 10)
+    # @option opts [Integer] :start Page offset (0, 10, 20...) (default to 0)
+    # @option opts [String] :domain Google domain (default to 'google.com')
+    # @option opts [String] :location City-level geo-targeting
+    # @option opts [String] :uule Encoded location
+    # @option opts [String] :lr Language restrict (e.g. lang_en)
+    # @option opts [String] :tbs Time filter (e.g. qdr:d)
+    # @option opts [String] :safe Safe search: off or active (default to 'off')
+    # @option opts [Integer] :filter 
+    # @option opts [Integer] :nfpr Disable auto-correction (default to 0)
+    # @option opts [String] :output  (default to 'json')
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def google_google_light_web_search_with_http_info(q, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: GoogleApi.google_google_light_web_search ...'
+      end
+      # verify the required parameter 'q' is set
+      if @api_client.config.client_side_validation && q.nil?
+        fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_google_light_web_search"
+      end
+      if @api_client.config.client_side_validation && !opts[:'num'].nil? && opts[:'num'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GoogleApi.google_google_light_web_search, must be smaller than or equal to 100.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'num'].nil? && opts[:'num'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GoogleApi.google_google_light_web_search, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'start'].nil? && opts[:'start'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"start"]" when calling GoogleApi.google_google_light_web_search, must be greater than or equal to 0.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'filter'].nil? && opts[:'filter'] > 1
+        fail ArgumentError, 'invalid value for "opts[:"filter"]" when calling GoogleApi.google_google_light_web_search, must be smaller than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'filter'].nil? && opts[:'filter'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"filter"]" when calling GoogleApi.google_google_light_web_search, must be greater than or equal to 0.'
+      end
+
+      allowable_values = ["json", "html"]
+      if @api_client.config.client_side_validation && opts[:'output'] && !allowable_values.include?(opts[:'output'])
+        fail ArgumentError, "invalid value for \"output\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/v1/google/light/search'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = q
+      query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
+      query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'num'] = opts[:'num'] if !opts[:'num'].nil?
+      query_params[:'start'] = opts[:'start'] if !opts[:'start'].nil?
+      query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
+      query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
+      query_params[:'uule'] = opts[:'uule'] if !opts[:'uule'].nil?
+      query_params[:'lr'] = opts[:'lr'] if !opts[:'lr'].nil?
+      query_params[:'tbs'] = opts[:'tbs'] if !opts[:'tbs'].nil?
+      query_params[:'safe'] = opts[:'safe'] if !opts[:'safe'].nil?
+      query_params[:'filter'] = opts[:'filter'] if !opts[:'filter'].nil?
+      query_params[:'nfpr'] = opts[:'nfpr'] if !opts[:'nfpr'].nil?
+      query_params[:'output'] = opts[:'output'] if !opts[:'output'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"GoogleApi.google_google_light_web_search",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: GoogleApi#google_google_light_web_search\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Google scraper health check
     # Check health of the Google scraper service.  Accepts ``HEAD`` so external uptime checkers (UptimeRobot uses HEAD by default for HTTP monitors) don't get a 405 Method Not Allowed.
     # @param [Hash] opts the optional parameters

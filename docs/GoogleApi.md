@@ -17,6 +17,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**google_google_flights_calendar_cheapest_fare_per_date**](GoogleApi.md#google_google_flights_calendar_cheapest_fare_per_date) | **GET** /v1/google/flights/calendar | Google Flights calendar — cheapest fare per date |
 | [**google_google_flights_search**](GoogleApi.md#google_google_flights_search) | **GET** /v1/google/flights/search | Google Flights search |
 | [**google_google_lens_visual_search**](GoogleApi.md#google_google_lens_visual_search) | **GET** /v1/google/lens/search | Google Lens visual search |
+| [**google_google_light_web_search**](GoogleApi.md#google_google_light_web_search) | **GET** /v1/google/light/search | Google Light web search |
 | [**google_google_scraper_health_check**](GoogleApi.md#google_google_scraper_health_check) | **GET** /v1/google/health | Google scraper health check |
 | [**google_google_scraper_health_check_head**](GoogleApi.md#google_google_scraper_health_check_head) | **HEAD** /v1/google/health | Google scraper health check |
 | [**google_google_search_suggestions**](GoogleApi.md#google_google_search_suggestions) | **GET** /v1/google/autocomplete | Google search suggestions |
@@ -1089,6 +1090,105 @@ end
 | **product** | **Boolean** | Only the tiles Google marked buyable (price + stock), drawn from the same grid | [optional][default to false] |
 | **visual_matches** | **Boolean** | Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; | [optional][default to true] |
 | **exact_matches** | **Boolean** | Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings | [optional][default to false] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## google_google_light_web_search
+
+> Object google_google_light_web_search(q, opts)
+
+Google Light web search
+
+Organic results and related searches only. Costs 10 credits per successful uncached request, compared with 20 credits for regular Google Search. Light always skips rich SERP blocks; mode and ai_overview cannot enable them.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::GoogleApi.new
+q = 'q_example' # String | Search query (supports Google operators)
+opts = {
+  gl: 'gl_example', # String | Country code
+  hl: 'hl_example', # String | Language code
+  num: 56, # Integer | 
+  start: 56, # Integer | Page offset (0, 10, 20...)
+  domain: 'domain_example', # String | Google domain
+  location: 'location_example', # String | City-level geo-targeting
+  uule: 'uule_example', # String | Encoded location
+  lr: 'lr_example', # String | Language restrict (e.g. lang_en)
+  tbs: 'tbs_example', # String | Time filter (e.g. qdr:d)
+  safe: 'safe_example', # String | Safe search: off or active
+  filter: 56, # Integer | 
+  nfpr: 56, # Integer | Disable auto-correction
+  output: 'json' # String | 
+}
+
+begin
+  # Google Light web search
+  result = api_instance.google_google_light_web_search(q, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling GoogleApi->google_google_light_web_search: #{e}"
+end
+```
+
+#### Using the google_google_light_web_search_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> google_google_light_web_search_with_http_info(q, opts)
+
+```ruby
+begin
+  # Google Light web search
+  data, status_code, headers = api_instance.google_google_light_web_search_with_http_info(q, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling GoogleApi->google_google_light_web_search_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **q** | **String** | Search query (supports Google operators) |  |
+| **gl** | **String** | Country code | [optional][default to &#39;us&#39;] |
+| **hl** | **String** | Language code | [optional][default to &#39;en&#39;] |
+| **num** | **Integer** |  | [optional][default to 10] |
+| **start** | **Integer** | Page offset (0, 10, 20...) | [optional][default to 0] |
+| **domain** | **String** | Google domain | [optional][default to &#39;google.com&#39;] |
+| **location** | **String** | City-level geo-targeting | [optional] |
+| **uule** | **String** | Encoded location | [optional] |
+| **lr** | **String** | Language restrict (e.g. lang_en) | [optional] |
+| **tbs** | **String** | Time filter (e.g. qdr:d) | [optional] |
+| **safe** | **String** | Safe search: off or active | [optional][default to &#39;off&#39;] |
+| **filter** | **Integer** |  | [optional] |
+| **nfpr** | **Integer** | Disable auto-correction | [optional][default to 0] |
+| **output** | **String** |  | [optional][default to &#39;json&#39;] |
 
 ### Return type
 
