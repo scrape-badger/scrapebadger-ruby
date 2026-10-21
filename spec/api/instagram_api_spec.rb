@@ -34,7 +34,7 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_about_this_account
   # About this account
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview. Country, join date and former usernames.
+  # Country, join date and former usernames.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -46,7 +46,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_blended_top_search
   # Blended top search
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param query 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -58,7 +57,7 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_active_stories
   # Get active stories
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview. Active stories (account pool only).
+  # Active stories (account pool only).
   # @param username 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -70,7 +69,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_audio_track
   # Get audio track
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param audio_id 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -95,7 +93,7 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_followers
   # Get followers
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview. Followers list, paginated (account pool).
+  # Followers list, paginated (account pool).
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :amount 
@@ -110,7 +108,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_following
   # Get following
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :amount 
@@ -124,7 +121,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_hashtag_info
   # Get hashtag info
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param tag 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -136,7 +132,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_highlights
   # Get highlights
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -148,7 +143,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_likers
   # Get likers
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param code 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -160,7 +154,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_location
   # Get location
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param location_pk 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -196,7 +189,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_tagged_posts
   # Get tagged posts
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :amount 
@@ -224,7 +216,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_get_user_reels
   # Get user reels
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :amount 
@@ -258,7 +249,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_recent_hashtag_posts
   # Recent hashtag posts
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param tag 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :amount 
@@ -272,7 +262,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_related_profiles
   # Related profiles
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param username 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -284,7 +273,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_search_hashtags
   # Search hashtags
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param query 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -296,7 +284,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_search_users
   # Search users
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param query 
   # @param [Hash] opts the optional parameters
   # @return [Object]
@@ -308,7 +295,6 @@ describe 'InstagramApi' do
 
   # unit tests for instagram_top_hashtag_posts
   # Top hashtag posts
-  # **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns &#x60;503 temporarily_unavailable&#x60; (not billed, &#x60;Retry-After&#x60; set) — see https://docs.scrapebadger.com/instagram/overview.
   # @param tag 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :amount 

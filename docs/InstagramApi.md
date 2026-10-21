@@ -35,7 +35,7 @@ All URIs are relative to *https://scrapebadger.com*
 
 About this account
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Country, join date and former usernames.
+Country, join date and former usernames.
 
 ### Examples
 
@@ -106,8 +106,6 @@ end
 
 Blended top search
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -177,7 +175,7 @@ end
 
 Get active stories
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Active stories (account pool only).
+Active stories (account pool only).
 
 ### Examples
 
@@ -247,8 +245,6 @@ end
 > Object instagram_get_audio_track(audio_id)
 
 Get audio track
-
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
 
 ### Examples
 
@@ -394,7 +390,7 @@ end
 
 Get followers
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Followers list, paginated (account pool).
+Followers list, paginated (account pool).
 
 ### Examples
 
@@ -473,8 +469,6 @@ end
 
 Get following
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -550,8 +544,6 @@ end
 
 Get hashtag info
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -620,8 +612,6 @@ end
 > Object instagram_get_highlights(username)
 
 Get highlights
-
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
 
 ### Examples
 
@@ -692,8 +682,6 @@ end
 
 Get likers
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -762,8 +750,6 @@ end
 > Object instagram_get_location(location_pk)
 
 Get location
-
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
 
 ### Examples
 
@@ -976,8 +962,6 @@ end
 
 Get tagged posts
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -1129,8 +1113,6 @@ end
 > Object instagram_get_user_reels(username, opts)
 
 Get user reels
-
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
 
 ### Examples
 
@@ -1339,8 +1321,6 @@ This endpoint does not need any parameter.
 
 Recent hashtag posts
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -1416,8 +1396,6 @@ end
 
 Related profiles
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -1486,8 +1464,6 @@ end
 > Object instagram_search_hashtags(query)
 
 Search hashtags
-
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
 
 ### Examples
 
@@ -1558,8 +1534,6 @@ end
 
 Search users
 
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
-
 ### Examples
 
 ```ruby
@@ -1628,8 +1602,6 @@ end
 > Object instagram_top_hashtag_posts(tag, opts)
 
 Top hashtag posts
-
-**Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
 
 ### Examples
 

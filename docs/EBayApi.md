@@ -107,11 +107,11 @@ end
 
 ## ebay_completed_sold_listings
 
-> Object ebay_completed_sold_listings(query, opts)
+> Object ebay_completed_sold_listings(opts)
 
 Completed / sold listings
 
-Search completed/sold listings — eBay's sold-price history.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
+Search completed/sold listings — eBay's sold-price history.  Pass ``query``, ``seller`` or both. ``seller`` alone returns everything that seller sold, page by page, with no keyword needed.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
 
 ### Examples
 
@@ -127,8 +127,9 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::EBayApi.new
-query = 'query_example' # String | Search keywords
 opts = {
+  query: 'query_example', # String | Search keywords. Optional when `seller` is set.
+  seller: 'seller_example', # String | Only this seller's sold listings (eBay username). Works without `query`.
   domain: 'domain_example', # String | Marketplace domain (com, co.uk, de …)
   category_id: 'category_id_example', # String | Restrict to a category id
   page: 56, # Integer | 
@@ -143,7 +144,7 @@ opts = {
 
 begin
   # Completed / sold listings
-  result = api_instance.ebay_completed_sold_listings(query, opts)
+  result = api_instance.ebay_completed_sold_listings(opts)
   p result
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling EBayApi->ebay_completed_sold_listings: #{e}"
@@ -154,12 +155,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> ebay_completed_sold_listings_with_http_info(query, opts)
+> <Array(Object, Integer, Hash)> ebay_completed_sold_listings_with_http_info(opts)
 
 ```ruby
 begin
   # Completed / sold listings
-  data, status_code, headers = api_instance.ebay_completed_sold_listings_with_http_info(query, opts)
+  data, status_code, headers = api_instance.ebay_completed_sold_listings_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
@@ -172,7 +173,8 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **query** | **String** | Search keywords |  |
+| **query** | **String** | Search keywords. Optional when &#x60;seller&#x60; is set. | [optional] |
+| **seller** | **String** | Only this seller&#39;s sold listings (eBay username). Works without &#x60;query&#x60;. | [optional] |
 | **domain** | **String** | Marketplace domain (com, co.uk, de …) | [optional][default to &#39;com&#39;] |
 | **category_id** | **String** | Restrict to a category id | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |

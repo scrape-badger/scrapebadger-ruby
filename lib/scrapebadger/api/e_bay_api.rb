@@ -125,9 +125,10 @@ module ScrapeBadger
     end
 
     # Completed / sold listings
-    # Search completed/sold listings — eBay's sold-price history.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
-    # @param query [String] Search keywords
+    # Search completed/sold listings — eBay's sold-price history.  Pass ``query``, ``seller`` or both. ``seller`` alone returns everything that seller sold, page by page, with no keyword needed.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :query Search keywords. Optional when &#x60;seller&#x60; is set.
+    # @option opts [String] :seller Only this seller&#39;s sold listings (eBay username). Works without &#x60;query&#x60;.
     # @option opts [String] :domain Marketplace domain (com, co.uk, de …) (default to 'com')
     # @option opts [String] :category_id Restrict to a category id
     # @option opts [Integer] :page  (default to 1)
@@ -139,15 +140,16 @@ module ScrapeBadger
     # @option opts [String] :location domestic|worldwide
     # @option opts [String] :language english|japanese|chinese|korean
     # @return [Object]
-    def ebay_completed_sold_listings(query, opts = {})
-      data, _status_code, _headers = ebay_completed_sold_listings_with_http_info(query, opts)
+    def ebay_completed_sold_listings(opts = {})
+      data, _status_code, _headers = ebay_completed_sold_listings_with_http_info(opts)
       data
     end
 
     # Completed / sold listings
-    # Search completed/sold listings — eBay&#39;s sold-price history.  eBay pads a short result set with \&quot;results matching fewer words\&quot; and counts only the exact ones in &#x60;&#x60;pagination.total_results&#x60;&#x60;. Results come back in eBay&#39;s own ranking order with the exact matches first, and each one carries &#x60;&#x60;exact_match&#x60;&#x60; (true/false) so a price series can be built without parsing titles. An empty &#x60;&#x60;results&#x60;&#x60; with &#x60;&#x60;total_results: 0&#x60;&#x60; is eBay&#39;s own answer and costs 0 credits — a fetch failure is never a 200.  &#x60;&#x60;price&#x60;&#x60; is what the listing sold for, including the market&#39;s buyer-protection fee, as a local buyer sees it. It is &#x60;&#x60;null&#x60;&#x60; on one shape: an auction that also accepted offers (&#x60;&#x60;bids&#x60;&#x60; set). eBay&#39;s sold index answers those with either the listing&#39;s start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — &#x60;&#x60;/v1/ebay/items/{item_id}&#x60;&#x60; carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so &#x60;&#x60;price&#x60;&#x60; is the listed one, exactly as its own item page shows.
-    # @param query [String] Search keywords
+    # Search completed/sold listings — eBay&#39;s sold-price history.  Pass &#x60;&#x60;query&#x60;&#x60;, &#x60;&#x60;seller&#x60;&#x60; or both. &#x60;&#x60;seller&#x60;&#x60; alone returns everything that seller sold, page by page, with no keyword needed.  eBay pads a short result set with \&quot;results matching fewer words\&quot; and counts only the exact ones in &#x60;&#x60;pagination.total_results&#x60;&#x60;. Results come back in eBay&#39;s own ranking order with the exact matches first, and each one carries &#x60;&#x60;exact_match&#x60;&#x60; (true/false) so a price series can be built without parsing titles. An empty &#x60;&#x60;results&#x60;&#x60; with &#x60;&#x60;total_results: 0&#x60;&#x60; is eBay&#39;s own answer and costs 0 credits — a fetch failure is never a 200.  &#x60;&#x60;price&#x60;&#x60; is what the listing sold for, including the market&#39;s buyer-protection fee, as a local buyer sees it. It is &#x60;&#x60;null&#x60;&#x60; on one shape: an auction that also accepted offers (&#x60;&#x60;bids&#x60;&#x60; set). eBay&#39;s sold index answers those with either the listing&#39;s start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — &#x60;&#x60;/v1/ebay/items/{item_id}&#x60;&#x60; carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so &#x60;&#x60;price&#x60;&#x60; is the listed one, exactly as its own item page shows.
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :query Search keywords. Optional when &#x60;seller&#x60; is set.
+    # @option opts [String] :seller Only this seller&#39;s sold listings (eBay username). Works without &#x60;query&#x60;.
     # @option opts [String] :domain Marketplace domain (com, co.uk, de …) (default to 'com')
     # @option opts [String] :category_id Restrict to a category id
     # @option opts [Integer] :page  (default to 1)
@@ -159,13 +161,9 @@ module ScrapeBadger
     # @option opts [String] :location domestic|worldwide
     # @option opts [String] :language english|japanese|chinese|korean
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def ebay_completed_sold_listings_with_http_info(query, opts = {})
+    def ebay_completed_sold_listings_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: EBayApi.ebay_completed_sold_listings ...'
-      end
-      # verify the required parameter 'query' is set
-      if @api_client.config.client_side_validation && query.nil?
-        fail ArgumentError, "Missing the required parameter 'query' when calling EBayApi.ebay_completed_sold_listings"
       end
       if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] > 100
         fail ArgumentError, 'invalid value for "opts[:"page"]" when calling EBayApi.ebay_completed_sold_listings, must be smaller than or equal to 100.'
@@ -196,7 +194,8 @@ module ScrapeBadger
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'query'] = query
+      query_params[:'query'] = opts[:'query'] if !opts[:'query'].nil?
+      query_params[:'seller'] = opts[:'seller'] if !opts[:'seller'].nil?
       query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
       query_params[:'category_id'] = opts[:'category_id'] if !opts[:'category_id'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
