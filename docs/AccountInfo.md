@@ -10,6 +10,7 @@
 | **tier** | **String** |  |  |
 | **rate_limit_per_minute** | **Integer** |  |  |
 | **subscription** | [**SubscriptionInfo**](SubscriptionInfo.md) |  | [optional] |
+| **agent_trial** | [**AgentTrialInfo**](AgentTrialInfo.md) |  | [optional] |
 
 ## Example
 
@@ -22,7 +23,8 @@ instance = ScrapeBadger::AccountInfo.new(
   total_credits_balance: null,
   tier: null,
   rate_limit_per_minute: null,
-  subscription: null
+  subscription: null,
+  agent_trial: null
 )
 ```
 

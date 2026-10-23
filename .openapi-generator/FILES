@@ -10,6 +10,7 @@ Rakefile
 docs/ASOSApi.md
 docs/AccountApi.md
 docs/AccountInfo.md
+docs/AgentTrialInfo.md
 docs/AirbnbApi.md
 docs/AliExpressApi.md
 docs/AmazonApi.md
@@ -38,6 +39,8 @@ docs/ExtractRequest.md
 docs/ExtractRequestExtractRulesValue.md
 docs/ExtractRule.md
 docs/FacebookApi.md
+docs/FeedbackApi.md
+docs/FeedbackRequest.md
 docs/FilterRuleCreate.md
 docs/FilterRuleDeliveryLogListResponse.md
 docs/FilterRuleDeliveryLogResponse.md
@@ -76,10 +79,14 @@ docs/Product.md
 docs/ProductPrice.md
 docs/ProductResponse.md
 docs/Productcode.md
+docs/QuoteApi.md
+docs/QuoteRequest.md
 docs/Ratings.md
 docs/RealtorApi.md
 docs/RedditApi.md
 docs/RedfinApi.md
+docs/RequestsApi.md
+docs/ResultsApi.md
 docs/ScreenshotRequest.md
 docs/Searchterm.md
 docs/StatusesResponse.md
@@ -147,6 +154,7 @@ lib/scrapebadger/api/duck_duck_go_api.rb
 lib/scrapebadger/api/e_bay_api.rb
 lib/scrapebadger/api/etsy_api.rb
 lib/scrapebadger/api/facebook_api.rb
+lib/scrapebadger/api/feedback_api.rb
 lib/scrapebadger/api/gemini_api.rb
 lib/scrapebadger/api/google_api.rb
 lib/scrapebadger/api/google_play_api.rb
@@ -159,9 +167,12 @@ lib/scrapebadger/api/linked_in_api.rb
 lib/scrapebadger/api/loop_net_api.rb
 lib/scrapebadger/api/naver_api.rb
 lib/scrapebadger/api/perplexity_api.rb
+lib/scrapebadger/api/quote_api.rb
 lib/scrapebadger/api/realtor_api.rb
 lib/scrapebadger/api/reddit_api.rb
 lib/scrapebadger/api/redfin_api.rb
+lib/scrapebadger/api/requests_api.rb
+lib/scrapebadger/api/results_api.rb
 lib/scrapebadger/api/target_api.rb
 lib/scrapebadger/api/tik_tok_api.rb
 lib/scrapebadger/api/twitter_api.rb
@@ -177,6 +188,7 @@ lib/scrapebadger/api_client.rb
 lib/scrapebadger/api_error.rb
 lib/scrapebadger/configuration.rb
 lib/scrapebadger/models/account_info.rb
+lib/scrapebadger/models/agent_trial_info.rb
 lib/scrapebadger/models/billing_log_list_response.rb
 lib/scrapebadger/models/billing_log_response.rb
 lib/scrapebadger/models/brandid.rb
@@ -190,6 +202,7 @@ lib/scrapebadger/models/description.rb
 lib/scrapebadger/models/extract_request.rb
 lib/scrapebadger/models/extract_request_extract_rules_value.rb
 lib/scrapebadger/models/extract_rule.rb
+lib/scrapebadger/models/feedback_request.rb
 lib/scrapebadger/models/filter_rule_create.rb
 lib/scrapebadger/models/filter_rule_delivery_log_list_response.rb
 lib/scrapebadger/models/filter_rule_delivery_log_response.rb
@@ -216,6 +229,7 @@ lib/scrapebadger/models/product.rb
 lib/scrapebadger/models/product_price.rb
 lib/scrapebadger/models/product_response.rb
 lib/scrapebadger/models/productcode.rb
+lib/scrapebadger/models/quote_request.rb
 lib/scrapebadger/models/ratings.rb
 lib/scrapebadger/models/screenshot_request.rb
 lib/scrapebadger/models/searchterm.rb
@@ -273,6 +287,7 @@ spec/api/duck_duck_go_api_spec.rb
 spec/api/e_bay_api_spec.rb
 spec/api/etsy_api_spec.rb
 spec/api/facebook_api_spec.rb
+spec/api/feedback_api_spec.rb
 spec/api/gemini_api_spec.rb
 spec/api/google_api_spec.rb
 spec/api/google_play_api_spec.rb
@@ -285,9 +300,12 @@ spec/api/linked_in_api_spec.rb
 spec/api/loop_net_api_spec.rb
 spec/api/naver_api_spec.rb
 spec/api/perplexity_api_spec.rb
+spec/api/quote_api_spec.rb
 spec/api/realtor_api_spec.rb
 spec/api/reddit_api_spec.rb
 spec/api/redfin_api_spec.rb
+spec/api/requests_api_spec.rb
+spec/api/results_api_spec.rb
 spec/api/target_api_spec.rb
 spec/api/tik_tok_api_spec.rb
 spec/api/twitter_api_spec.rb
@@ -300,6 +318,7 @@ spec/api/yandex_api_spec.rb
 spec/api/you_tube_api_spec.rb
 spec/api/zillow_api_spec.rb
 spec/models/account_info_spec.rb
+spec/models/agent_trial_info_spec.rb
 spec/models/billing_log_list_response_spec.rb
 spec/models/billing_log_response_spec.rb
 spec/models/brandid_spec.rb
@@ -313,6 +332,7 @@ spec/models/description_spec.rb
 spec/models/extract_request_extract_rules_value_spec.rb
 spec/models/extract_request_spec.rb
 spec/models/extract_rule_spec.rb
+spec/models/feedback_request_spec.rb
 spec/models/filter_rule_create_spec.rb
 spec/models/filter_rule_delivery_log_list_response_spec.rb
 spec/models/filter_rule_delivery_log_response_spec.rb
@@ -339,6 +359,7 @@ spec/models/product_price_spec.rb
 spec/models/product_response_spec.rb
 spec/models/product_spec.rb
 spec/models/productcode_spec.rb
+spec/models/quote_request_spec.rb
 spec/models/ratings_spec.rb
 spec/models/screenshot_request_spec.rb
 spec/models/searchterm_spec.rb

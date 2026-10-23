@@ -297,6 +297,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::FacebookApi* | [**facebook_search_places**](docs/FacebookApi.md#facebook_search_places) | **GET** /v1/facebook/search/places | Search places
 *ScrapeBadger::FacebookApi* | [**facebook_search_posts**](docs/FacebookApi.md#facebook_search_posts) | **GET** /v1/facebook/search/posts | Search posts
 *ScrapeBadger::FacebookApi* | [**facebook_search_the_ad_library**](docs/FacebookApi.md#facebook_search_the_ad_library) | **GET** /v1/facebook/ads/search | Search the Ad Library
+*ScrapeBadger::FeedbackApi* | [**feedback_report_a_bug_or_send_feedback**](docs/FeedbackApi.md#feedback_report_a_bug_or_send_feedback) | **POST** /v1/feedback | Report a bug or send feedback
 *ScrapeBadger::GeminiApi* | [**gemini_ask_gemini_a_question**](docs/GeminiApi.md#gemini_ask_gemini_a_question) | **GET** /v1/gemini/ask | Ask Gemini a question
 *ScrapeBadger::GeminiApi* | [**gemini_ask_gemini_a_question_post**](docs/GeminiApi.md#gemini_ask_gemini_a_question_post) | **POST** /v1/gemini/ask | Ask Gemini a question (POST)
 *ScrapeBadger::GeminiApi* | [**gemini_gemini_scraper_health_check**](docs/GeminiApi.md#gemini_gemini_scraper_health_check) | **GET** /v1/gemini/health | Gemini scraper health check
@@ -457,6 +458,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::PerplexityApi* | [**perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer_post**](docs/PerplexityApi.md#perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer_post) | **POST** /v1/perplexity/brand-visibility | Measure a brand's visibility in a Perplexity answer (POST)
 *ScrapeBadger::PerplexityApi* | [**perplexity_perplexity_scraper_health_check**](docs/PerplexityApi.md#perplexity_perplexity_scraper_health_check) | **GET** /v1/perplexity/health | Perplexity scraper health check
 *ScrapeBadger::PerplexityApi* | [**perplexity_perplexity_scraper_health_check_head**](docs/PerplexityApi.md#perplexity_perplexity_scraper_health_check_head) | **HEAD** /v1/perplexity/health | Perplexity scraper health check
+*ScrapeBadger::QuoteApi* | [**quote_quote_a_call**](docs/QuoteApi.md#quote_quote_a_call) | **POST** /v1/quote | Quote a call
 *ScrapeBadger::RealtorApi* | [**realtor_get_full_property_detail**](docs/RealtorApi.md#realtor_get_full_property_detail) | **GET** /v1/realtor/properties/{property_id} | Get full property detail
 *ScrapeBadger::RealtorApi* | [**realtor_list_markets**](docs/RealtorApi.md#realtor_list_markets) | **GET** /v1/realtor/markets | List markets
 *ScrapeBadger::RealtorApi* | [**realtor_location_autocomplete**](docs/RealtorApi.md#realtor_location_autocomplete) | **GET** /v1/realtor/autocomplete | Location autocomplete
@@ -493,6 +495,8 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::RedfinApi* | [**redfin_redfin_scraper_health_check_head**](docs/RedfinApi.md#redfin_redfin_scraper_health_check_head) | **HEAD** /v1/redfin/health | Redfin scraper health check
 *ScrapeBadger::RedfinApi* | [**redfin_region_address_suggestions**](docs/RedfinApi.md#redfin_region_address_suggestions) | **GET** /v1/redfin/autocomplete | Region/address suggestions
 *ScrapeBadger::RedfinApi* | [**redfin_search_properties**](docs/RedfinApi.md#redfin_search_properties) | **GET** /v1/redfin/search | Search properties
+*ScrapeBadger::RequestsApi* | [**requests_poll_an_async_request**](docs/RequestsApi.md#requests_poll_an_async_request) | **GET** /v1/requests/{request_id} | Poll an async request
+*ScrapeBadger::ResultsApi* | [**results_re_read_a_result**](docs/ResultsApi.md#results_re_read_a_result) | **GET** /v1/results/{result_id} | Re-read a result
 *ScrapeBadger::TargetApi* | [**target_browse_a_category**](docs/TargetApi.md#target_browse_a_category) | **GET** /v1/target/category | Browse a category
 *ScrapeBadger::TargetApi* | [**target_find_nearby_stores**](docs/TargetApi.md#target_find_nearby_stores) | **GET** /v1/target/stores | Find nearby stores
 *ScrapeBadger::TargetApi* | [**target_get_categories**](docs/TargetApi.md#target_get_categories) | **GET** /v1/target/categories | Get categories
@@ -710,6 +714,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ScrapeBadger::AccountInfo](docs/AccountInfo.md)
+ - [ScrapeBadger::AgentTrialInfo](docs/AgentTrialInfo.md)
  - [ScrapeBadger::BillingLogListResponse](docs/BillingLogListResponse.md)
  - [ScrapeBadger::BillingLogResponse](docs/BillingLogResponse.md)
  - [ScrapeBadger::Brandid](docs/Brandid.md)
@@ -723,6 +728,7 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::ExtractRequest](docs/ExtractRequest.md)
  - [ScrapeBadger::ExtractRequestExtractRulesValue](docs/ExtractRequestExtractRulesValue.md)
  - [ScrapeBadger::ExtractRule](docs/ExtractRule.md)
+ - [ScrapeBadger::FeedbackRequest](docs/FeedbackRequest.md)
  - [ScrapeBadger::FilterRuleCreate](docs/FilterRuleCreate.md)
  - [ScrapeBadger::FilterRuleDeliveryLogListResponse](docs/FilterRuleDeliveryLogListResponse.md)
  - [ScrapeBadger::FilterRuleDeliveryLogResponse](docs/FilterRuleDeliveryLogResponse.md)
@@ -749,6 +755,7 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::ProductPrice](docs/ProductPrice.md)
  - [ScrapeBadger::ProductResponse](docs/ProductResponse.md)
  - [ScrapeBadger::Productcode](docs/Productcode.md)
+ - [ScrapeBadger::QuoteRequest](docs/QuoteRequest.md)
  - [ScrapeBadger::Ratings](docs/Ratings.md)
  - [ScrapeBadger::ScreenshotRequest](docs/ScreenshotRequest.md)
  - [ScrapeBadger::Searchterm](docs/Searchterm.md)

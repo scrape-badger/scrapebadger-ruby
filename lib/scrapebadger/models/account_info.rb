@@ -28,6 +28,8 @@ module ScrapeBadger
 
     attr_accessor :subscription
 
+    attr_accessor :agent_trial
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -36,7 +38,8 @@ module ScrapeBadger
         :'total_credits_balance' => :'total_credits_balance',
         :'tier' => :'tier',
         :'rate_limit_per_minute' => :'rate_limit_per_minute',
-        :'subscription' => :'subscription'
+        :'subscription' => :'subscription',
+        :'agent_trial' => :'agent_trial'
       }
     end
 
@@ -53,7 +56,8 @@ module ScrapeBadger
         :'total_credits_balance' => :'Integer',
         :'tier' => :'String',
         :'rate_limit_per_minute' => :'Integer',
-        :'subscription' => :'SubscriptionInfo'
+        :'subscription' => :'SubscriptionInfo',
+        :'agent_trial' => :'AgentTrialInfo'
       }
     end
 
@@ -62,7 +66,8 @@ module ScrapeBadger
       Set.new([
         :'tier',
         :'rate_limit_per_minute',
-        :'subscription'
+        :'subscription',
+        :'agent_trial'
       ])
     end
 
@@ -114,6 +119,10 @@ module ScrapeBadger
       if attributes.key?(:'subscription')
         self.subscription = attributes[:'subscription']
       end
+
+      if attributes.key?(:'agent_trial')
+        self.agent_trial = attributes[:'agent_trial']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -156,7 +165,8 @@ module ScrapeBadger
           total_credits_balance == o.total_credits_balance &&
           tier == o.tier &&
           rate_limit_per_minute == o.rate_limit_per_minute &&
-          subscription == o.subscription
+          subscription == o.subscription &&
+          agent_trial == o.agent_trial
     end
 
     # @see the `==` method
@@ -168,7 +178,7 @@ module ScrapeBadger
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [credits_balance, subscription_credits_balance, total_credits_balance, tier, rate_limit_per_minute, subscription].hash
+      [credits_balance, subscription_credits_balance, total_credits_balance, tier, rate_limit_per_minute, subscription, agent_trial].hash
     end
 
     # Builds the object from hash
