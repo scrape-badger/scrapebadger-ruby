@@ -58,6 +58,7 @@ opts = {
   min_price: 56, # Integer | 
   max_price: 56, # Integer | 
   sort_by: 'sort_by_example', # String | 
+  radius: 56, # Integer | Radius around the location (km, or miles in the US)
   after: 'after_example' # String | 
 }
 
@@ -97,6 +98,7 @@ end
 | **min_price** | **Integer** |  | [optional] |
 | **max_price** | **Integer** |  | [optional] |
 | **sort_by** | **String** |  | [optional] |
+| **radius** | **Integer** | Radius around the location (km, or miles in the US) | [optional] |
 | **after** | **String** |  | [optional] |
 
 ### Return type

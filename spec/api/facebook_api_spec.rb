@@ -41,6 +41,7 @@ describe 'FacebookApi' do
   # @option opts [Integer] :min_price 
   # @option opts [Integer] :max_price 
   # @option opts [String] :sort_by 
+  # @option opts [Integer] :radius Radius around the location (km, or miles in the US)
   # @option opts [String] :after 
   # @return [Object]
   describe 'facebook_browse_a_marketplace_category test' do

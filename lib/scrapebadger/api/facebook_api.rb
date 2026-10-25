@@ -27,6 +27,7 @@ module ScrapeBadger
     # @option opts [Integer] :min_price 
     # @option opts [Integer] :max_price 
     # @option opts [String] :sort_by 
+    # @option opts [Integer] :radius Radius around the location (km, or miles in the US)
     # @option opts [String] :after 
     # @return [Object]
     def facebook_browse_a_marketplace_category(category, opts = {})
@@ -42,6 +43,7 @@ module ScrapeBadger
     # @option opts [Integer] :min_price 
     # @option opts [Integer] :max_price 
     # @option opts [String] :sort_by 
+    # @option opts [Integer] :radius Radius around the location (km, or miles in the US)
     # @option opts [String] :after 
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def facebook_browse_a_marketplace_category_with_http_info(category, opts = {})
@@ -61,6 +63,7 @@ module ScrapeBadger
       query_params[:'min_price'] = opts[:'min_price'] if !opts[:'min_price'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'sort_by'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
+      query_params[:'radius'] = opts[:'radius'] if !opts[:'radius'].nil?
       query_params[:'after'] = opts[:'after'] if !opts[:'after'].nil?
 
       # header parameters
