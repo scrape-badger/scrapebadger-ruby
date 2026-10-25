@@ -18,6 +18,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**facebook_get_profile_posts**](FacebookApi.md#facebook_get_profile_posts) | **GET** /v1/facebook/profiles/{identifier}/posts | Get profile posts |
 | [**facebook_list_categories**](FacebookApi.md#facebook_list_categories) | **GET** /v1/facebook/marketplace/categories | List categories |
 | [**facebook_list_locations**](FacebookApi.md#facebook_list_locations) | **GET** /v1/facebook/marketplace/locations | List locations |
+| [**facebook_resolve_a_town_postcode_to_a_marketplace_location**](FacebookApi.md#facebook_resolve_a_town_postcode_to_a_marketplace_location) | **GET** /v1/facebook/marketplace/locations/resolve | Resolve a town/postcode to a Marketplace location |
 | [**facebook_search_advertiser_pages**](FacebookApi.md#facebook_search_advertiser_pages) | **GET** /v1/facebook/ads/pages/search | Search advertiser pages |
 | [**facebook_search_events**](FacebookApi.md#facebook_search_events) | **GET** /v1/facebook/search/events | Search events |
 | [**facebook_search_everything**](FacebookApi.md#facebook_search_everything) | **GET** /v1/facebook/search | Search everything |
@@ -1051,6 +1052,85 @@ end
 ### Parameters
 
 This endpoint does not need any parameter.
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## facebook_resolve_a_town_postcode_to_a_marketplace_location
+
+> Object facebook_resolve_a_town_postcode_to_a_marketplace_location(opts)
+
+Resolve a town/postcode to a Marketplace location
+
+Resolve a town, postcode or coordinates to a Facebook Marketplace place id.  Facebook keys Marketplace by place, not coordinates, and only a place slug or numeric place id works as ``location``. Pass the returned ``place_id`` as ``location`` on Marketplace search/category to centre results anywhere, not just the preset catalogue. Postcodes resolve exactly; a bare town name in an ambiguous country is best paired with ``country`` (e.g. ``gb``).
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::FacebookApi.new
+opts = {
+  query: 'query_example', # String | Town, city, postcode or address (e.g. 'Durham', 'DH1 3LE')
+  latitude: 8.14, # Float | Resolve this exact point instead
+  longitude: 8.14, # Float | 
+  country: 'country_example' # String | ISO country code hint for an ambiguous name (e.g. gb)
+}
+
+begin
+  # Resolve a town/postcode to a Marketplace location
+  result = api_instance.facebook_resolve_a_town_postcode_to_a_marketplace_location(opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling FacebookApi->facebook_resolve_a_town_postcode_to_a_marketplace_location: #{e}"
+end
+```
+
+#### Using the facebook_resolve_a_town_postcode_to_a_marketplace_location_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> facebook_resolve_a_town_postcode_to_a_marketplace_location_with_http_info(opts)
+
+```ruby
+begin
+  # Resolve a town/postcode to a Marketplace location
+  data, status_code, headers = api_instance.facebook_resolve_a_town_postcode_to_a_marketplace_location_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling FacebookApi->facebook_resolve_a_town_postcode_to_a_marketplace_location_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query** | **String** | Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;) | [optional] |
+| **latitude** | **Float** | Resolve this exact point instead | [optional] |
+| **longitude** | **Float** |  | [optional] |
+| **country** | **String** | ISO country code hint for an ambiguous name (e.g. gb) | [optional] |
 
 ### Return type
 

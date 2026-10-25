@@ -214,6 +214,21 @@ describe 'FacebookApi' do
     end
   end
 
+  # unit tests for facebook_resolve_a_town_postcode_to_a_marketplace_location
+  # Resolve a town/postcode to a Marketplace location
+  # Resolve a town, postcode or coordinates to a Facebook Marketplace place id.  Facebook keys Marketplace by place, not coordinates, and only a place slug or numeric place id works as &#x60;&#x60;location&#x60;&#x60;. Pass the returned &#x60;&#x60;place_id&#x60;&#x60; as &#x60;&#x60;location&#x60;&#x60; on Marketplace search/category to centre results anywhere, not just the preset catalogue. Postcodes resolve exactly; a bare town name in an ambiguous country is best paired with &#x60;&#x60;country&#x60;&#x60; (e.g. &#x60;&#x60;gb&#x60;&#x60;).
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :query Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;)
+  # @option opts [Float] :latitude Resolve this exact point instead
+  # @option opts [Float] :longitude 
+  # @option opts [String] :country ISO country code hint for an ambiguous name (e.g. gb)
+  # @return [Object]
+  describe 'facebook_resolve_a_town_postcode_to_a_marketplace_location test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for facebook_search_advertiser_pages
   # Search advertiser pages
   # Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.

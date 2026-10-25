@@ -941,6 +941,75 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Resolve a town/postcode to a Marketplace location
+    # Resolve a town, postcode or coordinates to a Facebook Marketplace place id.  Facebook keys Marketplace by place, not coordinates, and only a place slug or numeric place id works as ``location``. Pass the returned ``place_id`` as ``location`` on Marketplace search/category to centre results anywhere, not just the preset catalogue. Postcodes resolve exactly; a bare town name in an ambiguous country is best paired with ``country`` (e.g. ``gb``).
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :query Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;)
+    # @option opts [Float] :latitude Resolve this exact point instead
+    # @option opts [Float] :longitude 
+    # @option opts [String] :country ISO country code hint for an ambiguous name (e.g. gb)
+    # @return [Object]
+    def facebook_resolve_a_town_postcode_to_a_marketplace_location(opts = {})
+      data, _status_code, _headers = facebook_resolve_a_town_postcode_to_a_marketplace_location_with_http_info(opts)
+      data
+    end
+
+    # Resolve a town/postcode to a Marketplace location
+    # Resolve a town, postcode or coordinates to a Facebook Marketplace place id.  Facebook keys Marketplace by place, not coordinates, and only a place slug or numeric place id works as &#x60;&#x60;location&#x60;&#x60;. Pass the returned &#x60;&#x60;place_id&#x60;&#x60; as &#x60;&#x60;location&#x60;&#x60; on Marketplace search/category to centre results anywhere, not just the preset catalogue. Postcodes resolve exactly; a bare town name in an ambiguous country is best paired with &#x60;&#x60;country&#x60;&#x60; (e.g. &#x60;&#x60;gb&#x60;&#x60;).
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :query Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;)
+    # @option opts [Float] :latitude Resolve this exact point instead
+    # @option opts [Float] :longitude 
+    # @option opts [String] :country ISO country code hint for an ambiguous name (e.g. gb)
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def facebook_resolve_a_town_postcode_to_a_marketplace_location_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FacebookApi.facebook_resolve_a_town_postcode_to_a_marketplace_location ...'
+      end
+      # resource path
+      local_var_path = '/v1/facebook/marketplace/locations/resolve'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'query'] = opts[:'query'] if !opts[:'query'].nil?
+      query_params[:'latitude'] = opts[:'latitude'] if !opts[:'latitude'].nil?
+      query_params[:'longitude'] = opts[:'longitude'] if !opts[:'longitude'].nil?
+      query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Object'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"FacebookApi.facebook_resolve_a_town_postcode_to_a_marketplace_location",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FacebookApi#facebook_resolve_a_town_postcode_to_a_marketplace_location\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Search advertiser pages
     # Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
     # @param query [String] Advertiser name or keyword
