@@ -1445,7 +1445,7 @@ This endpoint does not need any parameter.
 
 Search Reddit posts
 
-Search Reddit posts globally or within a subreddit.
+Search Reddit's current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.
 
 ### Examples
 
@@ -1528,7 +1528,7 @@ end
 
 Search subreddits
 
-Search for subreddits by keyword.
+Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
 
 ### Examples
 
@@ -1605,7 +1605,7 @@ end
 
 Search users
 
-Search for Reddit users.
+Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
 
 ### Examples
 

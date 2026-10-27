@@ -1356,7 +1356,7 @@ module ScrapeBadger
     end
 
     # Search Reddit posts
-    # Search Reddit posts globally or within a subreddit.
+    # Search Reddit's current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.
     # @param q [String] Search query
     # @param [Hash] opts the optional parameters
     # @option opts [String] :subreddit Restrict to subreddit
@@ -1371,7 +1371,7 @@ module ScrapeBadger
     end
 
     # Search Reddit posts
-    # Search Reddit posts globally or within a subreddit.
+    # Search Reddit&#39;s current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit&#39;s native page may contain fewer rows than limit; continue while after is present.
     # @param q [String] Search query
     # @param [Hash] opts the optional parameters
     # @option opts [String] :subreddit Restrict to subreddit
@@ -1443,7 +1443,7 @@ module ScrapeBadger
     end
 
     # Search subreddits
-    # Search for subreddits by keyword.
+    # Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
     # @param q [String] Search query
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
@@ -1455,7 +1455,7 @@ module ScrapeBadger
     end
 
     # Search subreddits
-    # Search for subreddits by keyword.
+    # Search communities using Reddit&#39;s current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
     # @param q [String] Search query
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
@@ -1521,7 +1521,7 @@ module ScrapeBadger
     end
 
     # Search users
-    # Search for Reddit users.
+    # Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
     # @param q [String] Search query
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
@@ -1533,7 +1533,7 @@ module ScrapeBadger
     end
 
     # Search users
-    # Search for Reddit users.
+    # Search profiles using Reddit&#39;s current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
     # @param q [String] Search query
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
