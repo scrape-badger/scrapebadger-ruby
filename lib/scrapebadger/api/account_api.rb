@@ -75,5 +75,119 @@ module ScrapeBadger
       end
       return data, status_code, headers
     end
+
+    # Get the webhook signing secret
+    # The secret that signs this account's async-request webhooks, created on first read. Verify a delivery by comparing ``X-ScrapeBadger-Signature`` with ``sha256=`` + hex HMAC-SHA256(secret, raw body).
+    # @param [Hash] opts the optional parameters
+    # @return [WebhookSecret]
+    def account_get_the_webhook_signing_secret(opts = {})
+      data, _status_code, _headers = account_get_the_webhook_signing_secret_with_http_info(opts)
+      data
+    end
+
+    # Get the webhook signing secret
+    # The secret that signs this account&#39;s async-request webhooks, created on first read. Verify a delivery by comparing &#x60;&#x60;X-ScrapeBadger-Signature&#x60;&#x60; with &#x60;&#x60;sha256&#x3D;&#x60;&#x60; + hex HMAC-SHA256(secret, raw body).
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(WebhookSecret, Integer, Hash)>] WebhookSecret data, response status code and response headers
+    def account_get_the_webhook_signing_secret_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AccountApi.account_get_the_webhook_signing_secret ...'
+      end
+      # resource path
+      local_var_path = '/v1/account/webhook-secret'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'WebhookSecret'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"AccountApi.account_get_the_webhook_signing_secret",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AccountApi#account_get_the_webhook_signing_secret\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Rotate the webhook signing secret
+    # Replace the signing secret. Deliveries that start from now on are signed with the new one; retries of a delivery already under way keep the old one.
+    # @param [Hash] opts the optional parameters
+    # @return [WebhookSecret]
+    def account_rotate_the_webhook_signing_secret(opts = {})
+      data, _status_code, _headers = account_rotate_the_webhook_signing_secret_with_http_info(opts)
+      data
+    end
+
+    # Rotate the webhook signing secret
+    # Replace the signing secret. Deliveries that start from now on are signed with the new one; retries of a delivery already under way keep the old one.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(WebhookSecret, Integer, Hash)>] WebhookSecret data, response status code and response headers
+    def account_rotate_the_webhook_signing_secret_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AccountApi.account_rotate_the_webhook_signing_secret ...'
+      end
+      # resource path
+      local_var_path = '/v1/account/webhook-secret/rotate'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'WebhookSecret'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"AccountApi.account_rotate_the_webhook_signing_secret",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AccountApi#account_rotate_the_webhook_signing_secret\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
   end
 end

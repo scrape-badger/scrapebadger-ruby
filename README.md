@@ -153,6 +153,8 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::ASOSApi* | [**asos_search_products**](docs/ASOSApi.md#asos_search_products) | **GET** /v1/asos/search | Search products
 *ScrapeBadger::ASOSApi* | [**asos_search_suggestions**](docs/ASOSApi.md#asos_search_suggestions) | **GET** /v1/asos/autocomplete | Search suggestions
 *ScrapeBadger::AccountApi* | [**account_get_account_info**](docs/AccountApi.md#account_get_account_info) | **GET** /v1/account/me | Get account info
+*ScrapeBadger::AccountApi* | [**account_get_the_webhook_signing_secret**](docs/AccountApi.md#account_get_the_webhook_signing_secret) | **GET** /v1/account/webhook-secret | Get the webhook signing secret
+*ScrapeBadger::AccountApi* | [**account_rotate_the_webhook_signing_secret**](docs/AccountApi.md#account_rotate_the_webhook_signing_secret) | **POST** /v1/account/webhook-secret/rotate | Rotate the webhook signing secret
 *ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check) | **GET** /v1/airbnb/health | Airbnb scraper health check
 *ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check_head**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check_head) | **HEAD** /v1/airbnb/health | Airbnb scraper health check
 *ScrapeBadger::AirbnbApi* | [**airbnb_get_availability_calendar**](docs/AirbnbApi.md#airbnb_get_availability_calendar) | **GET** /v1/airbnb/listings/{room_id}/calendar | Get availability calendar
@@ -203,6 +205,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_scraper_health_check_head**](docs/BaiduApi.md#baidu_baidu_scraper_health_check_head) | **HEAD** /v1/baidu/health | Baidu scraper health check
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_web_search**](docs/BaiduApi.md#baidu_baidu_web_search) | **GET** /v1/baidu/search | Baidu web search
 *ScrapeBadger::BaiduApi* | [**baidu_search_suggestions**](docs/BaiduApi.md#baidu_search_suggestions) | **GET** /v1/baidu/autocomplete | Search suggestions
+*ScrapeBadger::BatchApi* | [**batch_submit_a_batch_of_async_requests**](docs/BatchApi.md#batch_submit_a_batch_of_async_requests) | **POST** /v1/batch | Submit a batch of async requests
 *ScrapeBadger::BestBuyApi* | [**bestbuy_browse_a_category**](docs/BestBuyApi.md#bestbuy_browse_a_category) | **GET** /v1/bestbuy/category | Browse a category
 *ScrapeBadger::BestBuyApi* | [**bestbuy_get_categories**](docs/BestBuyApi.md#bestbuy_get_categories) | **GET** /v1/bestbuy/categories | Get categories
 *ScrapeBadger::BestBuyApi* | [**bestbuy_get_laptop_and_computer_deals**](docs/BestBuyApi.md#bestbuy_get_laptop_and_computer_deals) | **GET** /v1/bestbuy/deals | Get laptop and computer deals
@@ -716,6 +719,10 @@ Class | Method | HTTP request | Description
 
  - [ScrapeBadger::AccountInfo](docs/AccountInfo.md)
  - [ScrapeBadger::AgentTrialInfo](docs/AgentTrialInfo.md)
+ - [ScrapeBadger::BatchItem](docs/BatchItem.md)
+ - [ScrapeBadger::BatchItemQueryValue](docs/BatchItemQueryValue.md)
+ - [ScrapeBadger::BatchItemQueryValueAnyOfInner](docs/BatchItemQueryValueAnyOfInner.md)
+ - [ScrapeBadger::BatchRequest](docs/BatchRequest.md)
  - [ScrapeBadger::BillingLogListResponse](docs/BillingLogListResponse.md)
  - [ScrapeBadger::BillingLogResponse](docs/BillingLogResponse.md)
  - [ScrapeBadger::Brandid](docs/Brandid.md)
@@ -793,6 +800,7 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::WebhookListItem](docs/WebhookListItem.md)
  - [ScrapeBadger::WebhookListResponse](docs/WebhookListResponse.md)
  - [ScrapeBadger::WebhookResponse](docs/WebhookResponse.md)
+ - [ScrapeBadger::WebhookSecret](docs/WebhookSecret.md)
  - [ScrapeBadger::WebhookTestRequest](docs/WebhookTestRequest.md)
  - [ScrapeBadger::WebhookTestResponse](docs/WebhookTestResponse.md)
 

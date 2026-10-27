@@ -17,6 +17,11 @@ docs/AmazonApi.md
 docs/ApartmentsApi.md
 docs/AppStoreApi.md
 docs/BaiduApi.md
+docs/BatchApi.md
+docs/BatchItem.md
+docs/BatchItemQueryValue.md
+docs/BatchItemQueryValueAnyOfInner.md
+docs/BatchRequest.md
 docs/BestBuyApi.md
 docs/BillingLogListResponse.md
 docs/BillingLogResponse.md
@@ -129,6 +134,7 @@ docs/WebhookCreate.md
 docs/WebhookListItem.md
 docs/WebhookListResponse.md
 docs/WebhookResponse.md
+docs/WebhookSecret.md
 docs/WebhookTestRequest.md
 docs/WebhookTestResponse.md
 docs/YahooApi.md
@@ -145,6 +151,7 @@ lib/scrapebadger/api/apartments_api.rb
 lib/scrapebadger/api/app_store_api.rb
 lib/scrapebadger/api/asos_api.rb
 lib/scrapebadger/api/baidu_api.rb
+lib/scrapebadger/api/batch_api.rb
 lib/scrapebadger/api/best_buy_api.rb
 lib/scrapebadger/api/bing_api.rb
 lib/scrapebadger/api/booking_api.rb
@@ -189,6 +196,10 @@ lib/scrapebadger/api_error.rb
 lib/scrapebadger/configuration.rb
 lib/scrapebadger/models/account_info.rb
 lib/scrapebadger/models/agent_trial_info.rb
+lib/scrapebadger/models/batch_item.rb
+lib/scrapebadger/models/batch_item_query_value.rb
+lib/scrapebadger/models/batch_item_query_value_any_of_inner.rb
+lib/scrapebadger/models/batch_request.rb
 lib/scrapebadger/models/billing_log_list_response.rb
 lib/scrapebadger/models/billing_log_response.rb
 lib/scrapebadger/models/brandid.rb
@@ -266,6 +277,7 @@ lib/scrapebadger/models/webhook_create.rb
 lib/scrapebadger/models/webhook_list_item.rb
 lib/scrapebadger/models/webhook_list_response.rb
 lib/scrapebadger/models/webhook_response.rb
+lib/scrapebadger/models/webhook_secret.rb
 lib/scrapebadger/models/webhook_test_request.rb
 lib/scrapebadger/models/webhook_test_response.rb
 lib/scrapebadger/version.rb
@@ -278,6 +290,7 @@ spec/api/apartments_api_spec.rb
 spec/api/app_store_api_spec.rb
 spec/api/asos_api_spec.rb
 spec/api/baidu_api_spec.rb
+spec/api/batch_api_spec.rb
 spec/api/best_buy_api_spec.rb
 spec/api/bing_api_spec.rb
 spec/api/booking_api_spec.rb
@@ -319,6 +332,10 @@ spec/api/you_tube_api_spec.rb
 spec/api/zillow_api_spec.rb
 spec/models/account_info_spec.rb
 spec/models/agent_trial_info_spec.rb
+spec/models/batch_item_query_value_any_of_inner_spec.rb
+spec/models/batch_item_query_value_spec.rb
+spec/models/batch_item_spec.rb
+spec/models/batch_request_spec.rb
 spec/models/billing_log_list_response_spec.rb
 spec/models/billing_log_response_spec.rb
 spec/models/brandid_spec.rb
@@ -396,6 +413,7 @@ spec/models/webhook_create_spec.rb
 spec/models/webhook_list_item_spec.rb
 spec/models/webhook_list_response_spec.rb
 spec/models/webhook_response_spec.rb
+spec/models/webhook_secret_spec.rb
 spec/models/webhook_test_request_spec.rb
 spec/models/webhook_test_response_spec.rb
 spec/spec_helper.rb

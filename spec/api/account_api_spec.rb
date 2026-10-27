@@ -43,4 +43,26 @@ describe 'AccountApi' do
     end
   end
 
+  # unit tests for account_get_the_webhook_signing_secret
+  # Get the webhook signing secret
+  # The secret that signs this account&#39;s async-request webhooks, created on first read. Verify a delivery by comparing &#x60;&#x60;X-ScrapeBadger-Signature&#x60;&#x60; with &#x60;&#x60;sha256&#x3D;&#x60;&#x60; + hex HMAC-SHA256(secret, raw body).
+  # @param [Hash] opts the optional parameters
+  # @return [WebhookSecret]
+  describe 'account_get_the_webhook_signing_secret test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
+  # unit tests for account_rotate_the_webhook_signing_secret
+  # Rotate the webhook signing secret
+  # Replace the signing secret. Deliveries that start from now on are signed with the new one; retries of a delivery already under way keep the old one.
+  # @param [Hash] opts the optional parameters
+  # @return [WebhookSecret]
+  describe 'account_rotate_the_webhook_signing_secret test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
 end
