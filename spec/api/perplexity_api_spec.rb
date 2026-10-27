@@ -38,6 +38,7 @@ describe 'PerplexityApi' do
   # @param prompt The prompt to send to Perplexity (max 4096 characters).
   # @param [Hash] opts the optional parameters
   # @option opts [String] :country ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;.
+  # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;.
   # @return [Object]
   describe 'perplexity_ask_perplexity_a_question test' do
     it 'should work' do
@@ -66,6 +67,7 @@ describe 'PerplexityApi' do
   # @option opts [String] :aliases Comma-separated alternative names.
   # @option opts [String] :competitors Comma-separated competitor names.
   # @option opts [String] :country ISO-3166 alpha-2 egress country.
+  # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;.
   # @return [Object]
   describe 'perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer test' do
     it 'should work' do

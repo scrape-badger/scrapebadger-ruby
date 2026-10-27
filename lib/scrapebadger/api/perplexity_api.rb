@@ -24,6 +24,7 @@ module ScrapeBadger
     # @param prompt [String] The prompt to send to Perplexity (max 4096 characters).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;.
+    # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (default to false)
     # @return [Object]
     def perplexity_ask_perplexity_a_question(prompt, opts = {})
       data, _status_code, _headers = perplexity_ask_perplexity_a_question_with_http_info(prompt, opts)
@@ -35,6 +36,7 @@ module ScrapeBadger
     # @param prompt [String] The prompt to send to Perplexity (max 4096 characters).
     # @param [Hash] opts the optional parameters
     # @option opts [String] :country ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;.
+    # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (default to false)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def perplexity_ask_perplexity_a_question_with_http_info(prompt, opts = {})
       if @api_client.config.debugging
@@ -51,6 +53,7 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'prompt'] = prompt
       query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
+      query_params[:'strict_country'] = opts[:'strict_country'] if !opts[:'strict_country'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -152,6 +155,7 @@ module ScrapeBadger
     # @option opts [String] :aliases Comma-separated alternative names.
     # @option opts [String] :competitors Comma-separated competitor names.
     # @option opts [String] :country ISO-3166 alpha-2 egress country.
+    # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (default to false)
     # @return [Object]
     def perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer(prompt, brand, opts = {})
       data, _status_code, _headers = perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer_with_http_info(prompt, brand, opts)
@@ -167,6 +171,7 @@ module ScrapeBadger
     # @option opts [String] :aliases Comma-separated alternative names.
     # @option opts [String] :competitors Comma-separated competitor names.
     # @option opts [String] :country ISO-3166 alpha-2 egress country.
+    # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (default to false)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer_with_http_info(prompt, brand, opts = {})
       if @api_client.config.debugging
@@ -191,6 +196,7 @@ module ScrapeBadger
       query_params[:'aliases'] = opts[:'aliases'] if !opts[:'aliases'].nil?
       query_params[:'competitors'] = opts[:'competitors'] if !opts[:'competitors'].nil?
       query_params[:'country'] = opts[:'country'] if !opts[:'country'].nil?
+      query_params[:'strict_country'] = opts[:'strict_country'] if !opts[:'strict_country'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

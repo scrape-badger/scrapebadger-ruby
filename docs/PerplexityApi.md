@@ -36,7 +36,8 @@ end
 api_instance = ScrapeBadger::PerplexityApi.new
 prompt = 'prompt_example' # String | The prompt to send to Perplexity (max 4096 characters).
 opts = {
-  country: 'country_example' # String | ISO-3166 alpha-2 egress country, e.g. 'US', 'GB', 'DE'.
+  country: 'country_example', # String | ISO-3166 alpha-2 egress country, e.g. 'US', 'GB', 'DE'.
+  strict_country: true # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
 }
 
 begin
@@ -72,6 +73,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **prompt** | **String** | The prompt to send to Perplexity (max 4096 characters). |  |
 | **country** | **String** | ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. | [optional] |
+| **strict_country** | **Boolean** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional][default to false] |
 
 ### Return type
 
@@ -183,7 +185,8 @@ opts = {
   domain: 'domain_example', # String | Brand domain, for citation matching.
   aliases: 'aliases_example', # String | Comma-separated alternative names.
   competitors: 'competitors_example', # String | Comma-separated competitor names.
-  country: 'country_example' # String | ISO-3166 alpha-2 egress country.
+  country: 'country_example', # String | ISO-3166 alpha-2 egress country.
+  strict_country: true # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
 }
 
 begin
@@ -223,6 +226,7 @@ end
 | **aliases** | **String** | Comma-separated alternative names. | [optional] |
 | **competitors** | **String** | Comma-separated competitor names. | [optional] |
 | **country** | **String** | ISO-3166 alpha-2 egress country. | [optional] |
+| **strict_country** | **Boolean** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional][default to false] |
 
 ### Return type
 
