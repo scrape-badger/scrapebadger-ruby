@@ -35,6 +35,7 @@ docs/ChatGPTApi.md
 docs/ColorsResponse.md
 docs/Colour.md
 docs/Colourwayid.md
+docs/CopilotApi.md
 docs/DepopApi.md
 docs/Description.md
 docs/DuckDuckGoApi.md
@@ -156,6 +157,7 @@ lib/scrapebadger/api/best_buy_api.rb
 lib/scrapebadger/api/bing_api.rb
 lib/scrapebadger/api/booking_api.rb
 lib/scrapebadger/api/chat_gpt_api.rb
+lib/scrapebadger/api/copilot_api.rb
 lib/scrapebadger/api/depop_api.rb
 lib/scrapebadger/api/duck_duck_go_api.rb
 lib/scrapebadger/api/e_bay_api.rb
@@ -295,6 +297,7 @@ spec/api/best_buy_api_spec.rb
 spec/api/bing_api_spec.rb
 spec/api/booking_api_spec.rb
 spec/api/chat_gpt_api_spec.rb
+spec/api/copilot_api_spec.rb
 spec/api/depop_api_spec.rb
 spec/api/duck_duck_go_api_spec.rb
 spec/api/e_bay_api_spec.rb
