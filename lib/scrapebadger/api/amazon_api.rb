@@ -437,7 +437,7 @@ module ScrapeBadger
     end
 
     # Get product reviews
-    # Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
+    # Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.  ``mode=full`` serves the rest, pool first and woot second: one pool account is leased and the authenticated review pages are walked until Amazon stops returning new rows (a gate, the review-limit banner or an expired session rotates the lease), then — when ``woot_offer`` names a current woot.com offer page carrying the ASIN (.com only) — Amazon-owned woot.com's anonymous reviews endpoint is fanned out as a bonus and merged in, deduped by review id. The same filter / sort / pagination contract applies to the collected set. When no source produced rows the answer is 503 (``pool_exhausted``, or ``reviews_unavailable`` when both paths ran) — never an empty 200 that reads as \"no reviews\". Auth, rate limits, credits and usage logging are the gateway's, exactly as for every other mode of this endpoint.
     # @param asin [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain  (default to 'com')
@@ -446,6 +446,11 @@ module ScrapeBadger
     # @option opts [String] :star 1-5 | one_star..five_star | positive | critical | all_stars
     # @option opts [Boolean] :verified_only  (default to false)
     # @option opts [Boolean] :media_only  (default to false)
+    # @option opts [String] :mode public (anonymous featured block) | full (authenticated account pool) (default to 'public')
+    # @option opts [Integer] :max_pages full mode: pages to walk per star sweep (default to 10)
+    # @option opts [Boolean] :per_star full mode: sweep each star filter and merge + dedupe (default to false)
+    # @option opts [Integer] :limit full mode: stop at this many distinct reviews
+    # @option opts [String] :woot_offer full mode + .com: URL (or slug) of a CURRENT woot.com offer page carrying the ASIN — unlocks the anonymous woot reviews endpoint as a bonus transport after the account pool
     # @return [Object]
     def amazon_get_product_reviews(asin, opts = {})
       data, _status_code, _headers = amazon_get_product_reviews_with_http_info(asin, opts)
@@ -453,7 +458,7 @@ module ScrapeBadger
     end
 
     # Get product reviews
-    # Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page&#39;s public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (&#x60;&#x60;ratings_total&#x60;&#x60; reports the true total). &#x60;&#x60;pagination&#x60;&#x60; gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised &#x60;&#x60;star&#x60;&#x60; or &#x60;&#x60;sort_by&#x60;&#x60; is rejected with 422 rather than silently answered with unfiltered reviews.
+    # Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page&#39;s public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (&#x60;&#x60;ratings_total&#x60;&#x60; reports the true total). &#x60;&#x60;pagination&#x60;&#x60; gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised &#x60;&#x60;star&#x60;&#x60; or &#x60;&#x60;sort_by&#x60;&#x60; is rejected with 422 rather than silently answered with unfiltered reviews.  &#x60;&#x60;mode&#x3D;full&#x60;&#x60; serves the rest, pool first and woot second: one pool account is leased and the authenticated review pages are walked until Amazon stops returning new rows (a gate, the review-limit banner or an expired session rotates the lease), then — when &#x60;&#x60;woot_offer&#x60;&#x60; names a current woot.com offer page carrying the ASIN (.com only) — Amazon-owned woot.com&#39;s anonymous reviews endpoint is fanned out as a bonus and merged in, deduped by review id. The same filter / sort / pagination contract applies to the collected set. When no source produced rows the answer is 503 (&#x60;&#x60;pool_exhausted&#x60;&#x60;, or &#x60;&#x60;reviews_unavailable&#x60;&#x60; when both paths ran) — never an empty 200 that reads as \&quot;no reviews\&quot;. Auth, rate limits, credits and usage logging are the gateway&#39;s, exactly as for every other mode of this endpoint.
     # @param asin [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :domain  (default to 'com')
@@ -462,6 +467,11 @@ module ScrapeBadger
     # @option opts [String] :star 1-5 | one_star..five_star | positive | critical | all_stars
     # @option opts [Boolean] :verified_only  (default to false)
     # @option opts [Boolean] :media_only  (default to false)
+    # @option opts [String] :mode public (anonymous featured block) | full (authenticated account pool) (default to 'public')
+    # @option opts [Integer] :max_pages full mode: pages to walk per star sweep (default to 10)
+    # @option opts [Boolean] :per_star full mode: sweep each star filter and merge + dedupe (default to false)
+    # @option opts [Integer] :limit full mode: stop at this many distinct reviews
+    # @option opts [String] :woot_offer full mode + .com: URL (or slug) of a CURRENT woot.com offer page carrying the ASIN — unlocks the anonymous woot reviews endpoint as a bonus transport after the account pool
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def amazon_get_product_reviews_with_http_info(asin, opts = {})
       if @api_client.config.debugging
@@ -479,6 +489,22 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"page"]" when calling AmazonApi.amazon_get_product_reviews, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'max_pages'].nil? && opts[:'max_pages'] > 50
+        fail ArgumentError, 'invalid value for "opts[:"max_pages"]" when calling AmazonApi.amazon_get_product_reviews, must be smaller than or equal to 50.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'max_pages'].nil? && opts[:'max_pages'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"max_pages"]" when calling AmazonApi.amazon_get_product_reviews, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 1000
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling AmazonApi.amazon_get_product_reviews, must be smaller than or equal to 1000.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling AmazonApi.amazon_get_product_reviews, must be greater than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/amazon/products/{asin}/reviews'.sub('{' + 'asin' + '}', CGI.escape(asin.to_s))
 
@@ -490,6 +516,11 @@ module ScrapeBadger
       query_params[:'star'] = opts[:'star'] if !opts[:'star'].nil?
       query_params[:'verified_only'] = opts[:'verified_only'] if !opts[:'verified_only'].nil?
       query_params[:'media_only'] = opts[:'media_only'] if !opts[:'media_only'].nil?
+      query_params[:'mode'] = opts[:'mode'] if !opts[:'mode'].nil?
+      query_params[:'max_pages'] = opts[:'max_pages'] if !opts[:'max_pages'].nil?
+      query_params[:'per_star'] = opts[:'per_star'] if !opts[:'per_star'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+      query_params[:'woot_offer'] = opts[:'woot_offer'] if !opts[:'woot_offer'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
