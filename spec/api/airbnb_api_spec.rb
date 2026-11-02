@@ -60,7 +60,7 @@ describe 'AirbnbApi' do
   # @param room_id 
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :month Start month (1-12)
-  # @option opts [Integer] :year Start year
+  # @option opts [Integer] :year Start year (current UTC year when omitted)
   # @option opts [Integer] :months Number of months (max 12)
   # @option opts [String] :currency 
   # @option opts [String] :locale 

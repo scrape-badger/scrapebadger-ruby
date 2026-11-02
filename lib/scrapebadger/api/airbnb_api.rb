@@ -138,7 +138,7 @@ module ScrapeBadger
     # @param room_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :month Start month (1-12) (default to 1)
-    # @option opts [Integer] :year Start year (default to 2026)
+    # @option opts [Integer] :year Start year (current UTC year when omitted)
     # @option opts [Integer] :months Number of months (max 12) (default to 12)
     # @option opts [String] :currency 
     # @option opts [String] :locale 
@@ -153,7 +153,7 @@ module ScrapeBadger
     # @param room_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :month Start month (1-12) (default to 1)
-    # @option opts [Integer] :year Start year (default to 2026)
+    # @option opts [Integer] :year Start year (current UTC year when omitted)
     # @option opts [Integer] :months Number of months (max 12) (default to 12)
     # @option opts [String] :currency 
     # @option opts [String] :locale 
