@@ -1445,7 +1445,7 @@ This endpoint does not need any parameter.
 
 Search Reddit posts
 
-Search Reddit's current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.
+Search Reddit's current web UI globally or within one or more subreddits.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.  Reddit reads only the first 256 UTF-8 bytes of a search query and ignores the rest, so a longer query returns 422. Several subreddits are searched as (q) (subreddit:a OR subreddit:b ...), and that whole string counts toward the limit: split long subreddit lists across requests.
 
 ### Examples
 
@@ -1461,9 +1461,9 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::RedditApi.new
-q = 'q_example' # String | Search query
+q = 'q_example' # String | Search query (Reddit search syntax), at most 256 UTF-8 bytes
 opts = {
-  subreddit: 'subreddit_example', # String | Restrict to subreddit
+  subreddit: 'subreddit_example', # String | Restrict to a subreddit, or several joined with + (sales+startups)
   sort: 'sort_example', # String | Sort: relevance, hot, top, new, comments
   t: 't_example', # String | Time: hour, day, week, month, year, all
   limit: 56, # Integer | 
@@ -1501,8 +1501,8 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **q** | **String** | Search query |  |
-| **subreddit** | **String** | Restrict to subreddit | [optional] |
+| **q** | **String** | Search query (Reddit search syntax), at most 256 UTF-8 bytes |  |
+| **subreddit** | **String** | Restrict to a subreddit, or several joined with + (sales+startups) | [optional] |
 | **sort** | **String** | Sort: relevance, hot, top, new, comments | [optional][default to &#39;relevance&#39;] |
 | **t** | **String** | Time: hour, day, week, month, year, all | [optional][default to &#39;all&#39;] |
 | **limit** | **Integer** |  | [optional][default to 25] |
@@ -1528,7 +1528,7 @@ end
 
 Search subreddits
 
-Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
+Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
 
 ### Examples
 
@@ -1544,7 +1544,7 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::RedditApi.new
-q = 'q_example' # String | Search query
+q = 'q_example' # String | Search query, at most 256 UTF-8 bytes
 opts = {
   limit: 56, # Integer | 
   after: 'after_example' # String | 
@@ -1581,7 +1581,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **q** | **String** | Search query |  |
+| **q** | **String** | Search query, at most 256 UTF-8 bytes |  |
 | **limit** | **Integer** |  | [optional][default to 25] |
 | **after** | **String** |  | [optional] |
 
@@ -1605,7 +1605,7 @@ end
 
 Search users
 
-Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
+Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
 
 ### Examples
 
@@ -1621,7 +1621,7 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::RedditApi.new
-q = 'q_example' # String | Search query
+q = 'q_example' # String | Search query, at most 256 UTF-8 bytes
 opts = {
   limit: 56, # Integer | 
   after: 'after_example' # String | 
@@ -1658,7 +1658,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **q** | **String** | Search query |  |
+| **q** | **String** | Search query, at most 256 UTF-8 bytes |  |
 | **limit** | **Integer** |  | [optional][default to 25] |
 | **after** | **String** |  | [optional] |
 

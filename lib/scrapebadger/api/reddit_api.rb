@@ -1356,10 +1356,10 @@ module ScrapeBadger
     end
 
     # Search Reddit posts
-    # Search Reddit's current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.
-    # @param q [String] Search query
+    # Search Reddit's current web UI globally or within one or more subreddits.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.  Reddit reads only the first 256 UTF-8 bytes of a search query and ignores the rest, so a longer query returns 422. Several subreddits are searched as (q) (subreddit:a OR subreddit:b ...), and that whole string counts toward the limit: split long subreddit lists across requests.
+    # @param q [String] Search query (Reddit search syntax), at most 256 UTF-8 bytes
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :subreddit Restrict to subreddit
+    # @option opts [String] :subreddit Restrict to a subreddit, or several joined with + (sales+startups)
     # @option opts [String] :sort Sort: relevance, hot, top, new, comments (default to 'relevance')
     # @option opts [String] :t Time: hour, day, week, month, year, all (default to 'all')
     # @option opts [Integer] :limit  (default to 25)
@@ -1371,10 +1371,10 @@ module ScrapeBadger
     end
 
     # Search Reddit posts
-    # Search Reddit&#39;s current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit&#39;s native page may contain fewer rows than limit; continue while after is present.
-    # @param q [String] Search query
+    # Search Reddit&#39;s current web UI globally or within one or more subreddits.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit&#39;s native page may contain fewer rows than limit; continue while after is present.  Reddit reads only the first 256 UTF-8 bytes of a search query and ignores the rest, so a longer query returns 422. Several subreddits are searched as (q) (subreddit:a OR subreddit:b ...), and that whole string counts toward the limit: split long subreddit lists across requests.
+    # @param q [String] Search query (Reddit search syntax), at most 256 UTF-8 bytes
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :subreddit Restrict to subreddit
+    # @option opts [String] :subreddit Restrict to a subreddit, or several joined with + (sales+startups)
     # @option opts [String] :sort Sort: relevance, hot, top, new, comments (default to 'relevance')
     # @option opts [String] :t Time: hour, day, week, month, year, all (default to 'all')
     # @option opts [Integer] :limit  (default to 25)
@@ -1443,8 +1443,8 @@ module ScrapeBadger
     end
 
     # Search subreddits
-    # Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
-    # @param q [String] Search query
+    # Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
+    # @param q [String] Search query, at most 256 UTF-8 bytes
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
     # @option opts [String] :after 
@@ -1455,8 +1455,8 @@ module ScrapeBadger
     end
 
     # Search subreddits
-    # Search communities using Reddit&#39;s current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
-    # @param q [String] Search query
+    # Search communities using Reddit&#39;s current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
+    # @param q [String] Search query, at most 256 UTF-8 bytes
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
     # @option opts [String] :after 
@@ -1521,8 +1521,8 @@ module ScrapeBadger
     end
 
     # Search users
-    # Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
-    # @param q [String] Search query
+    # Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
+    # @param q [String] Search query, at most 256 UTF-8 bytes
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
     # @option opts [String] :after 
@@ -1533,8 +1533,8 @@ module ScrapeBadger
     end
 
     # Search users
-    # Search profiles using Reddit&#39;s current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
-    # @param q [String] Search query
+    # Search profiles using Reddit&#39;s current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
+    # @param q [String] Search query, at most 256 UTF-8 bytes
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit  (default to 25)
     # @option opts [String] :after 
