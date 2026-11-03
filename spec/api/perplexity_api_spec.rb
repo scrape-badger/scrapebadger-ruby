@@ -39,6 +39,7 @@ describe 'PerplexityApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :country ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;.
   # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;.
+  # @option opts [String] :location Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does.
   # @return [Object]
   describe 'perplexity_ask_perplexity_a_question test' do
     it 'should work' do
@@ -68,6 +69,7 @@ describe 'PerplexityApi' do
   # @option opts [String] :competitors Comma-separated competitor names.
   # @option opts [String] :country ISO-3166 alpha-2 egress country.
   # @option opts [Boolean] :strict_country Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;.
+  # @option opts [String] :location Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does.
   # @return [Object]
   describe 'perplexity_measure_a_brand_s_visibility_in_a_perplexity_answer test' do
     it 'should work' do

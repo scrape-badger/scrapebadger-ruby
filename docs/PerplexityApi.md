@@ -37,7 +37,8 @@ api_instance = ScrapeBadger::PerplexityApi.new
 prompt = 'prompt_example' # String | The prompt to send to Perplexity (max 4096 characters).
 opts = {
   country: 'country_example', # String | ISO-3166 alpha-2 egress country, e.g. 'US', 'GB', 'DE'.
-  strict_country: true # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
+  strict_country: true, # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
+  location: 'location_example' # String | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or 'lat,lng' in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP's city. It does not pick the egress: `country` does.
 }
 
 begin
@@ -74,6 +75,7 @@ end
 | **prompt** | **String** | The prompt to send to Perplexity (max 4096 characters). |  |
 | **country** | **String** | ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. | [optional] |
 | **strict_country** | **Boolean** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional][default to false] |
+| **location** | **String** | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. | [optional] |
 
 ### Return type
 
@@ -186,7 +188,8 @@ opts = {
   aliases: 'aliases_example', # String | Comma-separated alternative names.
   competitors: 'competitors_example', # String | Comma-separated competitor names.
   country: 'country_example', # String | ISO-3166 alpha-2 egress country.
-  strict_country: true # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
+  strict_country: true, # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
+  location: 'location_example' # String | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or 'lat,lng' in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP's city. It does not pick the egress: `country` does.
 }
 
 begin
@@ -227,6 +230,7 @@ end
 | **competitors** | **String** | Comma-separated competitor names. | [optional] |
 | **country** | **String** | ISO-3166 alpha-2 egress country. | [optional] |
 | **strict_country** | **Boolean** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional][default to false] |
+| **location** | **String** | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. | [optional] |
 
 ### Return type
 
