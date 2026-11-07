@@ -684,6 +684,8 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::YandexApi* | [**yandex_web_search**](docs/YandexApi.md#yandex_web_search) | **GET** /v1/yandex/search | Web search
 *ScrapeBadger::YandexApi* | [**yandex_yandex_scraper_health_check**](docs/YandexApi.md#yandex_yandex_scraper_health_check) | **GET** /v1/yandex/health | Yandex scraper health check
 *ScrapeBadger::YandexApi* | [**yandex_yandex_scraper_health_check_head**](docs/YandexApi.md#yandex_yandex_scraper_health_check_head) | **HEAD** /v1/yandex/health | Yandex scraper health check
+*ScrapeBadger::YelpApi* | [**yelp_list_markets**](docs/YelpApi.md#yelp_list_markets) | **GET** /v1/yelp/markets | List markets
+*ScrapeBadger::YelpApi* | [**yelp_search_businesses**](docs/YelpApi.md#yelp_search_businesses) | **GET** /v1/yelp/search | Search businesses
 *ScrapeBadger::YouTubeApi* | [**youtube_batch_video_detail**](docs/YouTubeApi.md#youtube_batch_video_detail) | **POST** /v1/youtube/videos/batch | Batch video detail
 *ScrapeBadger::YouTubeApi* | [**youtube_channel_about**](docs/YouTubeApi.md#youtube_channel_about) | **GET** /v1/youtube/channels/{channel_id}/about | Channel about
 *ScrapeBadger::YouTubeApi* | [**youtube_channel_playlists**](docs/YouTubeApi.md#youtube_channel_playlists) | **GET** /v1/youtube/channels/{channel_id}/playlists | Channel playlists
@@ -911,6 +913,16 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::WebhookSecret](docs/WebhookSecret.md)
  - [ScrapeBadger::WebhookTestRequest](docs/WebhookTestRequest.md)
  - [ScrapeBadger::WebhookTestResponse](docs/WebhookTestResponse.md)
+ - [ScrapeBadger::YelpBusiness](docs/YelpBusiness.md)
+ - [ScrapeBadger::YelpCategory](docs/YelpCategory.md)
+ - [ScrapeBadger::YelpFilterGroup](docs/YelpFilterGroup.md)
+ - [ScrapeBadger::YelpFilterOption](docs/YelpFilterOption.md)
+ - [ScrapeBadger::YelpHours](docs/YelpHours.md)
+ - [ScrapeBadger::YelpLink](docs/YelpLink.md)
+ - [ScrapeBadger::YelpMarket](docs/YelpMarket.md)
+ - [ScrapeBadger::YelpMarketsResponse](docs/YelpMarketsResponse.md)
+ - [ScrapeBadger::YelpResolvedLocation](docs/YelpResolvedLocation.md)
+ - [ScrapeBadger::YelpSearchResponse](docs/YelpSearchResponse.md)
 
 
 ## Documentation for Authorization
