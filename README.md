@@ -199,6 +199,10 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::AppStoreApi* | [**app_store_list_markets**](docs/AppStoreApi.md#app_store_list_markets) | **GET** /v1/app-store/markets | List markets
 *ScrapeBadger::AppStoreApi* | [**app_store_search_apps**](docs/AppStoreApi.md#app_store_search_apps) | **GET** /v1/app-store/search | Search apps
 *ScrapeBadger::AppStoreApi* | [**app_store_top_charts**](docs/AppStoreApi.md#app_store_top_charts) | **GET** /v1/app-store/charts | Top charts
+*ScrapeBadger::AutoScout24Api* | [**autoscout24_check_autoscout24_health**](docs/AutoScout24Api.md#autoscout24_check_autoscout24_health) | **GET** /v1/autoscout24/health | Check AutoScout24 health
+*ScrapeBadger::AutoScout24Api* | [**autoscout24_list_markets**](docs/AutoScout24Api.md#autoscout24_list_markets) | **GET** /v1/autoscout24/markets | List markets
+*ScrapeBadger::AutoScout24Api* | [**autoscout24_list_search_filters**](docs/AutoScout24Api.md#autoscout24_list_search_filters) | **GET** /v1/autoscout24/filters | List search filters
+*ScrapeBadger::AutoScout24Api* | [**autoscout24_search_vehicles**](docs/AutoScout24Api.md#autoscout24_search_vehicles) | **GET** /v1/autoscout24/search | Search vehicles
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_image_search**](docs/BaiduApi.md#baidu_baidu_image_search) | **GET** /v1/baidu/images | Baidu image search
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_news_search**](docs/BaiduApi.md#baidu_baidu_news_search) | **GET** /v1/baidu/news | Baidu news search
 *ScrapeBadger::BaiduApi* | [**baidu_baidu_scraper_health_check**](docs/BaiduApi.md#baidu_baidu_scraper_health_check) | **GET** /v1/baidu/health | Baidu scraper health check
@@ -231,6 +235,12 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::BookingApi* | [**booking_get_room_types_and_live_rates**](docs/BookingApi.md#booking_get_room_types_and_live_rates) | **GET** /v1/booking/properties/{country_code}/{slug}/rooms | Get room types and live rates
 *ScrapeBadger::BookingApi* | [**booking_search_destinations**](docs/BookingApi.md#booking_search_destinations) | **GET** /v1/booking/destinations | Search destinations
 *ScrapeBadger::BookingApi* | [**booking_search_properties**](docs/BookingApi.md#booking_search_properties) | **GET** /v1/booking/search | Search properties
+*ScrapeBadger::BraveApi* | [**brave_autocomplete**](docs/BraveApi.md#brave_autocomplete) | **GET** /v1/brave/autocomplete | Autocomplete
+*ScrapeBadger::BraveApi* | [**brave_image_search**](docs/BraveApi.md#brave_image_search) | **GET** /v1/brave/images | Image search
+*ScrapeBadger::BraveApi* | [**brave_list_supported_locales**](docs/BraveApi.md#brave_list_supported_locales) | **GET** /v1/brave/locales | List supported locales
+*ScrapeBadger::BraveApi* | [**brave_news_search**](docs/BraveApi.md#brave_news_search) | **GET** /v1/brave/news | News search
+*ScrapeBadger::BraveApi* | [**brave_video_search**](docs/BraveApi.md#brave_video_search) | **GET** /v1/brave/videos | Video search
+*ScrapeBadger::BraveApi* | [**brave_web_search**](docs/BraveApi.md#brave_web_search) | **GET** /v1/brave/search | Web search
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_ask_chatgpt_a_question**](docs/ChatGPTApi.md#chatgpt_ask_chatgpt_a_question) | **GET** /v1/chatgpt/ask | Ask ChatGPT a question
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_ask_chatgpt_a_question_post**](docs/ChatGPTApi.md#chatgpt_ask_chatgpt_a_question_post) | **POST** /v1/chatgpt/ask | Ask ChatGPT a question (POST)
 *ScrapeBadger::ChatGPTApi* | [**chatgpt_chatgpt_scraper_health_check**](docs/ChatGPTApi.md#chatgpt_chatgpt_scraper_health_check) | **GET** /v1/chatgpt/health | ChatGPT scraper health check
@@ -315,6 +325,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::GeminiApi* | [**gemini_gemini_scraper_health_check_head**](docs/GeminiApi.md#gemini_gemini_scraper_health_check_head) | **HEAD** /v1/gemini/health | Gemini scraper health check
 *ScrapeBadger::GeminiApi* | [**gemini_measure_a_brand_s_visibility_in_a_gemini_answer**](docs/GeminiApi.md#gemini_measure_a_brand_s_visibility_in_a_gemini_answer) | **GET** /v1/gemini/brand-visibility | Measure a brand's visibility in a Gemini answer
 *ScrapeBadger::GeminiApi* | [**gemini_measure_a_brand_s_visibility_in_a_gemini_answer_post**](docs/GeminiApi.md#gemini_measure_a_brand_s_visibility_in_a_gemini_answer_post) | **POST** /v1/gemini/brand-visibility | Measure a brand's visibility in a Gemini answer (POST)
+*ScrapeBadger::GitHubApi* | [**github_get_profile**](docs/GitHubApi.md#github_get_profile) | **GET** /v1/github/profiles/{username} | Get profile
 *ScrapeBadger::GoogleApi* | [**google_get_author_citations_per_year_chart**](docs/GoogleApi.md#google_get_author_citations_per_year_chart) | **GET** /v1/google/scholar/author/citation | Get author citations-per-year chart
 *ScrapeBadger::GoogleApi* | [**google_get_business_posts**](docs/GoogleApi.md#google_get_business_posts) | **GET** /v1/google/maps/posts | Get business posts
 *ScrapeBadger::GoogleApi* | [**google_get_citation_formats_for_a_scholar_paper**](docs/GoogleApi.md#google_get_citation_formats_for_a_scholar_paper) | **GET** /v1/google/scholar/cite | Get citation formats for a Scholar paper
@@ -725,24 +736,48 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ScrapeBadger::AccountInfo](docs/AccountInfo.md)
+ - [ScrapeBadger::Age](docs/Age.md)
  - [ScrapeBadger::AgentTrialInfo](docs/AgentTrialInfo.md)
+ - [ScrapeBadger::Article](docs/Article.md)
+ - [ScrapeBadger::AutoScout24FiltersResponse](docs/AutoScout24FiltersResponse.md)
+ - [ScrapeBadger::AutoScout24Listing](docs/AutoScout24Listing.md)
+ - [ScrapeBadger::AutoScout24Market](docs/AutoScout24Market.md)
+ - [ScrapeBadger::AutoScout24MarketsResponse](docs/AutoScout24MarketsResponse.md)
+ - [ScrapeBadger::AutoScout24SearchResponse](docs/AutoScout24SearchResponse.md)
  - [ScrapeBadger::BatchItem](docs/BatchItem.md)
  - [ScrapeBadger::BatchItemQueryValue](docs/BatchItemQueryValue.md)
  - [ScrapeBadger::BatchItemQueryValueAnyOfInner](docs/BatchItemQueryValueAnyOfInner.md)
  - [ScrapeBadger::BatchRequest](docs/BatchRequest.md)
  - [ScrapeBadger::BillingLogListResponse](docs/BillingLogListResponse.md)
  - [ScrapeBadger::BillingLogResponse](docs/BillingLogResponse.md)
+ - [ScrapeBadger::Book](docs/Book.md)
  - [ScrapeBadger::Brandid](docs/Brandid.md)
  - [ScrapeBadger::Brandname](docs/Brandname.md)
  - [ScrapeBadger::BrandsResponse](docs/BrandsResponse.md)
+ - [ScrapeBadger::BraveAutocompleteResponse](docs/BraveAutocompleteResponse.md)
+ - [ScrapeBadger::BraveLocaleOption](docs/BraveLocaleOption.md)
+ - [ScrapeBadger::BraveLocalesResponse](docs/BraveLocalesResponse.md)
+ - [ScrapeBadger::BravePagedResponse](docs/BravePagedResponse.md)
+ - [ScrapeBadger::BraveResponse](docs/BraveResponse.md)
+ - [ScrapeBadger::BraveResult](docs/BraveResult.md)
+ - [ScrapeBadger::BraveSearchResponse](docs/BraveSearchResponse.md)
+ - [ScrapeBadger::BraveSuggestion](docs/BraveSuggestion.md)
  - [ScrapeBadger::Categoryname](docs/Categoryname.md)
+ - [ScrapeBadger::Cluster](docs/Cluster.md)
  - [ScrapeBadger::ColorsResponse](docs/ColorsResponse.md)
  - [ScrapeBadger::Colour](docs/Colour.md)
  - [ScrapeBadger::Colourwayid](docs/Colourwayid.md)
+ - [ScrapeBadger::Confidence](docs/Confidence.md)
+ - [ScrapeBadger::Data](docs/Data.md)
+ - [ScrapeBadger::DeepResults](docs/DeepResults.md)
  - [ScrapeBadger::Description](docs/Description.md)
+ - [ScrapeBadger::Description1](docs/Description1.md)
+ - [ScrapeBadger::DisplayUrl](docs/DisplayUrl.md)
  - [ScrapeBadger::ExtractRequest](docs/ExtractRequest.md)
  - [ScrapeBadger::ExtractRequestExtractRulesValue](docs/ExtractRequestExtractRulesValue.md)
  - [ScrapeBadger::ExtractRule](docs/ExtractRule.md)
+ - [ScrapeBadger::FamilyFriendly](docs/FamilyFriendly.md)
+ - [ScrapeBadger::Faq](docs/Faq.md)
  - [ScrapeBadger::FeedbackRequest](docs/FeedbackRequest.md)
  - [ScrapeBadger::FilterRuleCreate](docs/FilterRuleCreate.md)
  - [ScrapeBadger::FilterRuleDeliveryLogListResponse](docs/FilterRuleDeliveryLogListResponse.md)
@@ -753,27 +788,68 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::FilterRuleValidateRequest](docs/FilterRuleValidateRequest.md)
  - [ScrapeBadger::FilterRuleValidateResponse](docs/FilterRuleValidateResponse.md)
  - [ScrapeBadger::Gender](docs/Gender.md)
+ - [ScrapeBadger::GitHubAccountPreview](docs/GitHubAccountPreview.md)
+ - [ScrapeBadger::GitHubAchievement](docs/GitHubAchievement.md)
+ - [ScrapeBadger::GitHubActivityBlock](docs/GitHubActivityBlock.md)
+ - [ScrapeBadger::GitHubActivityOverview](docs/GitHubActivityOverview.md)
+ - [ScrapeBadger::GitHubActivityRow](docs/GitHubActivityRow.md)
+ - [ScrapeBadger::GitHubCalendarDay](docs/GitHubCalendarDay.md)
+ - [ScrapeBadger::GitHubContributions](docs/GitHubContributions.md)
+ - [ScrapeBadger::GitHubLanguage](docs/GitHubLanguage.md)
+ - [ScrapeBadger::GitHubNamedLink](docs/GitHubNamedLink.md)
+ - [ScrapeBadger::GitHubPagination](docs/GitHubPagination.md)
+ - [ScrapeBadger::GitHubProfile](docs/GitHubProfile.md)
+ - [ScrapeBadger::GitHubProfileResponse](docs/GitHubProfileResponse.md)
+ - [ScrapeBadger::GitHubReadme](docs/GitHubReadme.md)
+ - [ScrapeBadger::GitHubRepository](docs/GitHubRepository.md)
+ - [ScrapeBadger::GitHubSocialAccount](docs/GitHubSocialAccount.md)
+ - [ScrapeBadger::GitHubStatus](docs/GitHubStatus.md)
+ - [ScrapeBadger::GitHubTextLink](docs/GitHubTextLink.md)
  - [ScrapeBadger::HTTPValidationError](docs/HTTPValidationError.md)
  - [ScrapeBadger::Imageurl](docs/Imageurl.md)
+ - [ScrapeBadger::IsLive](docs/IsLive.md)
  - [ScrapeBadger::Isinstock](docs/Isinstock.md)
  - [ScrapeBadger::Isrestockingsoon](docs/Isrestockingsoon.md)
  - [ScrapeBadger::Issellingfast](docs/Issellingfast.md)
  - [ScrapeBadger::ItemDetailResponse](docs/ItemDetailResponse.md)
+ - [ScrapeBadger::Language](docs/Language.md)
+ - [ScrapeBadger::Location](docs/Location.md)
  - [ScrapeBadger::MarketsResponse](docs/MarketsResponse.md)
+ - [ScrapeBadger::MetaUrl](docs/MetaUrl.md)
  - [ScrapeBadger::NextOffset](docs/NextOffset.md)
+ - [ScrapeBadger::NextPage](docs/NextPage.md)
+ - [ScrapeBadger::Organization](docs/Organization.md)
+ - [ScrapeBadger::PageAge](docs/PageAge.md)
+ - [ScrapeBadger::PageFetched](docs/PageFetched.md)
+ - [ScrapeBadger::PageFetchedAt](docs/PageFetchedAt.md)
+ - [ScrapeBadger::PageFetchedUtc](docs/PageFetchedUtc.md)
  - [ScrapeBadger::PortalApiRoutersV1AsosSearchResponse](docs/PortalApiRoutersV1AsosSearchResponse.md)
  - [ScrapeBadger::PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse](docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md)
  - [ScrapeBadger::PortalApiRoutersVintedSchemasSearchResponse](docs/PortalApiRoutersVintedSchemasSearchResponse.md)
  - [ScrapeBadger::Price](docs/Price.md)
  - [ScrapeBadger::PriceValue](docs/PriceValue.md)
  - [ScrapeBadger::Product](docs/Product.md)
+ - [ScrapeBadger::Product1](docs/Product1.md)
+ - [ScrapeBadger::ProductCluster](docs/ProductCluster.md)
  - [ScrapeBadger::ProductPrice](docs/ProductPrice.md)
  - [ScrapeBadger::ProductResponse](docs/ProductResponse.md)
  - [ScrapeBadger::Productcode](docs/Productcode.md)
+ - [ScrapeBadger::Profile](docs/Profile.md)
+ - [ScrapeBadger::Properties](docs/Properties.md)
+ - [ScrapeBadger::PublishedAt](docs/PublishedAt.md)
+ - [ScrapeBadger::PublishedUtc](docs/PublishedUtc.md)
+ - [ScrapeBadger::Qa](docs/Qa.md)
  - [ScrapeBadger::QuoteRequest](docs/QuoteRequest.md)
+ - [ScrapeBadger::Rating](docs/Rating.md)
  - [ScrapeBadger::Ratings](docs/Ratings.md)
+ - [ScrapeBadger::Recipe](docs/Recipe.md)
+ - [ScrapeBadger::Review](docs/Review.md)
  - [ScrapeBadger::ScreenshotRequest](docs/ScreenshotRequest.md)
  - [ScrapeBadger::Searchterm](docs/Searchterm.md)
+ - [ScrapeBadger::SiteName](docs/SiteName.md)
+ - [ScrapeBadger::Snippet](docs/Snippet.md)
+ - [ScrapeBadger::Software](docs/Software.md)
+ - [ScrapeBadger::Source](docs/Source.md)
  - [ScrapeBadger::StatusesResponse](docs/StatusesResponse.md)
  - [ScrapeBadger::StockProduct](docs/StockProduct.md)
  - [ScrapeBadger::StockResponse](docs/StockResponse.md)
@@ -782,14 +858,18 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::StreamMonitorResponse](docs/StreamMonitorResponse.md)
  - [ScrapeBadger::StreamMonitorUpdate](docs/StreamMonitorUpdate.md)
  - [ScrapeBadger::SubscriptionInfo](docs/SubscriptionInfo.md)
+ - [ScrapeBadger::Subtype](docs/Subtype.md)
+ - [ScrapeBadger::Thumbnail](docs/Thumbnail.md)
  - [ScrapeBadger::TweetDeliveryLogListResponse](docs/TweetDeliveryLogListResponse.md)
  - [ScrapeBadger::TweetDeliveryLogResponse](docs/TweetDeliveryLogResponse.md)
+ - [ScrapeBadger::Type](docs/Type.md)
  - [ScrapeBadger::Url](docs/Url.md)
  - [ScrapeBadger::UserItemsResponse](docs/UserItemsResponse.md)
  - [ScrapeBadger::UserProfileResponse](docs/UserProfileResponse.md)
  - [ScrapeBadger::ValidationError](docs/ValidationError.md)
  - [ScrapeBadger::ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
  - [ScrapeBadger::Variant](docs/Variant.md)
+ - [ScrapeBadger::Video](docs/Video.md)
  - [ScrapeBadger::VintedBrand](docs/VintedBrand.md)
  - [ScrapeBadger::VintedColor](docs/VintedColor.md)
  - [ScrapeBadger::VintedImageSearchRequest](docs/VintedImageSearchRequest.md)

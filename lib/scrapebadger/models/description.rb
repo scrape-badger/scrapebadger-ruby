@@ -19,8 +19,8 @@ module ScrapeBadger
       # List of class defined in anyOf (OpenAPI v3)
       def openapi_any_of
         [
-          :'Hash<String, Object>',
-          :'Object'
+          :'Null',
+          :'String'
         ]
       end
 

@@ -106,7 +106,7 @@ module ScrapeBadger
         :'is_restocking_soon' => :'Isrestockingsoon',
         :'is_in_stock' => :'Isinstock',
         :'gender' => :'Gender',
-        :'description' => :'Description',
+        :'description' => :'Description1',
         :'ratings' => :'Ratings',
         :'breadcrumbs' => :'Array<Hash<String, Object>>'
       }

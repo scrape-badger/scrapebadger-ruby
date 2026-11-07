@@ -21,7 +21,7 @@
 | **is_restocking_soon** | [**Isrestockingsoon**](Isrestockingsoon.md) |  | [optional] |
 | **is_in_stock** | [**Isinstock**](Isinstock.md) |  | [optional] |
 | **gender** | [**Gender**](Gender.md) |  | [optional] |
-| **description** | [**Description**](Description.md) |  | [optional] |
+| **description** | [**Description1**](Description1.md) |  | [optional] |
 | **ratings** | [**Ratings**](Ratings.md) |  | [optional] |
 | **breadcrumbs** | **Array&lt;Hash&lt;String, Object&gt;&gt;** |  | [optional] |
 

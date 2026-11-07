@@ -1,0 +1,15 @@
+# ScrapeBadger::Properties
+
+## Properties
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+
+## Example
+
+```ruby
+require 'scrapebadger'
+
+instance = ScrapeBadger::Properties.new()
+```
+
