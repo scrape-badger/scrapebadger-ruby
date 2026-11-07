@@ -1141,7 +1141,35 @@ opts = {
   safe: 'safe_example', # String | Safe search: off or active
   filter: 56, # Integer | 
   nfpr: 56, # Integer | Disable auto-correction
-  output: 'json' # String | 
+  output: 'json', # String | 
+  google_domain: 'google_domain_example', # String | Alias for domain; Google requests use google.com with country targeting.
+  lat: 8.14, # Float | Latitude; supply together with lon instead of location or uule.
+  lon: 8.14, # Float | Longitude; supply together with lat.
+  radius: 8.14, # Float | Location accuracy in meters; requires lat/lon or a named city with a known center.
+  color_scheme: 'light', # String | Google color scheme.
+  tbm: 'isch', # String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results.
+  udm: 'udm_example', # String | Google result filter: 14 web, 18 forums. Other verticals require output=html.
+  no_cache: true, # Boolean | Bypass result caches and request a fresh Google fetch.
+  as_dt: 'as_dt_example', # String | Site restriction mode: i includes, e excludes as_sitesearch.
+  as_epq: 'as_epq_example', # String | Exact phrase.
+  as_eq: 'as_eq_example', # String | Words to exclude.
+  as_lq: 'as_lq_example', # String | Find pages linking to this URL; availability depends on Google.
+  as_nlo: 'as_nlo_example', # String | Numeric range minimum.
+  as_nhi: 'as_nhi_example', # String | Numeric range maximum.
+  as_oq: 'as_oq_example', # String | Match any of these words.
+  as_q: 'as_q_example', # String | Additional query words.
+  as_qdr: 'as_qdr_example', # String | Time range, such as d, w, m or y1.
+  as_rq: 'as_rq_example', # String | Related URL; availability depends on Google.
+  as_sitesearch: 'as_sitesearch_example', # String | Restrict results to a site.
+  device: 'device_example', # String | Device target.
+  user_agent: 'user_agent_example', # String | Custom User-Agent.
+  cr: 'cr_example', # String | Country restrict.
+  ludocid: 'ludocid_example', # String | Place CID.
+  lsig: 'lsig_example', # String | Map view ID.
+  kgmid: 'kgmid_example', # String | Knowledge Graph entity ID.
+  si: 'si_example', # String | Cached Google parameters.
+  ibp: 'ibp_example', # String | Layout control.
+  uds: 'uds_example' # String | Google filter string.
 }
 
 begin
@@ -1189,6 +1217,34 @@ end
 | **filter** | **Integer** |  | [optional] |
 | **nfpr** | **Integer** | Disable auto-correction | [optional][default to 0] |
 | **output** | **String** |  | [optional][default to &#39;json&#39;] |
+| **google_domain** | **String** | Alias for domain; Google requests use google.com with country targeting. | [optional] |
+| **lat** | **Float** | Latitude; supply together with lon instead of location or uule. | [optional] |
+| **lon** | **Float** | Longitude; supply together with lat. | [optional] |
+| **radius** | **Float** | Location accuracy in meters; requires lat/lon or a named city with a known center. | [optional] |
+| **color_scheme** | **String** | Google color scheme. | [optional] |
+| **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] |
+| **udm** | **String** | Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. | [optional] |
+| **no_cache** | **Boolean** | Bypass result caches and request a fresh Google fetch. | [optional][default to false] |
+| **as_dt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] |
+| **as_epq** | **String** | Exact phrase. | [optional] |
+| **as_eq** | **String** | Words to exclude. | [optional] |
+| **as_lq** | **String** | Find pages linking to this URL; availability depends on Google. | [optional] |
+| **as_nlo** | **String** | Numeric range minimum. | [optional] |
+| **as_nhi** | **String** | Numeric range maximum. | [optional] |
+| **as_oq** | **String** | Match any of these words. | [optional] |
+| **as_q** | **String** | Additional query words. | [optional] |
+| **as_qdr** | **String** | Time range, such as d, w, m or y1. | [optional] |
+| **as_rq** | **String** | Related URL; availability depends on Google. | [optional] |
+| **as_sitesearch** | **String** | Restrict results to a site. | [optional] |
+| **device** | **String** | Device target. | [optional] |
+| **user_agent** | **String** | Custom User-Agent. | [optional] |
+| **cr** | **String** | Country restrict. | [optional] |
+| **ludocid** | **String** | Place CID. | [optional] |
+| **lsig** | **String** | Map view ID. | [optional] |
+| **kgmid** | **String** | Knowledge Graph entity ID. | [optional] |
+| **si** | **String** | Cached Google parameters. | [optional] |
+| **ibp** | **String** | Layout control. | [optional] |
+| **uds** | **String** | Google filter string. | [optional] |
 
 ### Return type
 
@@ -1546,7 +1602,28 @@ opts = {
   si: 'si_example', # String | Cached search params
   ibp: 'ibp_example', # String | Layout control
   uds: 'uds_example', # String | Google filter string
-  ai_overview: true # Boolean | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged.
+  ai_overview: true, # Boolean | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged.
+  mode: 'full', # String | 
+  expand_related_questions: 'expand_related_questions_example', # String | Open all People Also Ask answers (true) or the first N (0-99).
+  google_domain: 'google_domain_example', # String | Alias for domain; Google requests use google.com with country targeting.
+  lat: 8.14, # Float | Latitude; supply together with lon instead of location or uule.
+  lon: 8.14, # Float | Longitude; supply together with lat.
+  radius: 8.14, # Float | Location accuracy in meters; requires lat/lon or a named city with a known center.
+  color_scheme: 'light', # String | Google color scheme.
+  tbm: 'isch', # String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results.
+  udm: 'udm_example', # String | Google result filter: 14 web, 18 forums. Other verticals require output=html.
+  no_cache: true, # Boolean | Bypass result caches and request a fresh Google fetch.
+  as_dt: 'as_dt_example', # String | Site restriction mode: i includes, e excludes as_sitesearch.
+  as_epq: 'as_epq_example', # String | Exact phrase.
+  as_eq: 'as_eq_example', # String | Words to exclude.
+  as_lq: 'as_lq_example', # String | Find pages linking to this URL; availability depends on Google.
+  as_nlo: 'as_nlo_example', # String | Numeric range minimum.
+  as_nhi: 'as_nhi_example', # String | Numeric range maximum.
+  as_oq: 'as_oq_example', # String | Match any of these words.
+  as_q: 'as_q_example', # String | Additional query words.
+  as_qdr: 'as_qdr_example', # String | Time range, such as d, w, m or y1.
+  as_rq: 'as_rq_example', # String | Related URL; availability depends on Google.
+  as_sitesearch: 'as_sitesearch_example' # String | Restrict results to a site.
 }
 
 begin
@@ -1604,6 +1681,27 @@ end
 | **ibp** | **String** | Layout control | [optional] |
 | **uds** | **String** | Google filter string | [optional] |
 | **ai_overview** | **Boolean** | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. | [optional][default to false] |
+| **mode** | **String** |  | [optional][default to &#39;full&#39;] |
+| **expand_related_questions** | **String** | Open all People Also Ask answers (true) or the first N (0-99). | [optional] |
+| **google_domain** | **String** | Alias for domain; Google requests use google.com with country targeting. | [optional] |
+| **lat** | **Float** | Latitude; supply together with lon instead of location or uule. | [optional] |
+| **lon** | **Float** | Longitude; supply together with lat. | [optional] |
+| **radius** | **Float** | Location accuracy in meters; requires lat/lon or a named city with a known center. | [optional] |
+| **color_scheme** | **String** | Google color scheme. | [optional] |
+| **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] |
+| **udm** | **String** | Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. | [optional] |
+| **no_cache** | **Boolean** | Bypass result caches and request a fresh Google fetch. | [optional][default to false] |
+| **as_dt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] |
+| **as_epq** | **String** | Exact phrase. | [optional] |
+| **as_eq** | **String** | Words to exclude. | [optional] |
+| **as_lq** | **String** | Find pages linking to this URL; availability depends on Google. | [optional] |
+| **as_nlo** | **String** | Numeric range minimum. | [optional] |
+| **as_nhi** | **String** | Numeric range maximum. | [optional] |
+| **as_oq** | **String** | Match any of these words. | [optional] |
+| **as_q** | **String** | Additional query words. | [optional] |
+| **as_qdr** | **String** | Time range, such as d, w, m or y1. | [optional] |
+| **as_rq** | **String** | Related URL; availability depends on Google. | [optional] |
+| **as_sitesearch** | **String** | Restrict results to a site. | [optional] |
 
 ### Return type
 

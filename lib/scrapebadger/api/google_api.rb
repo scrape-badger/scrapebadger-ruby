@@ -1149,6 +1149,34 @@ module ScrapeBadger
     # @option opts [Integer] :filter 
     # @option opts [Integer] :nfpr Disable auto-correction (default to 0)
     # @option opts [String] :output  (default to 'json')
+    # @option opts [String] :google_domain Alias for domain; Google requests use google.com with country targeting.
+    # @option opts [Float] :lat Latitude; supply together with lon instead of location or uule.
+    # @option opts [Float] :lon Longitude; supply together with lat.
+    # @option opts [Float] :radius Location accuracy in meters; requires lat/lon or a named city with a known center.
+    # @option opts [String] :color_scheme Google color scheme.
+    # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
+    # @option opts [String] :udm Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html.
+    # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch. (default to false)
+    # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
+    # @option opts [String] :as_epq Exact phrase.
+    # @option opts [String] :as_eq Words to exclude.
+    # @option opts [String] :as_lq Find pages linking to this URL; availability depends on Google.
+    # @option opts [String] :as_nlo Numeric range minimum.
+    # @option opts [String] :as_nhi Numeric range maximum.
+    # @option opts [String] :as_oq Match any of these words.
+    # @option opts [String] :as_q Additional query words.
+    # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
+    # @option opts [String] :as_rq Related URL; availability depends on Google.
+    # @option opts [String] :as_sitesearch Restrict results to a site.
+    # @option opts [String] :device Device target.
+    # @option opts [String] :user_agent Custom User-Agent.
+    # @option opts [String] :cr Country restrict.
+    # @option opts [String] :ludocid Place CID.
+    # @option opts [String] :lsig Map view ID.
+    # @option opts [String] :kgmid Knowledge Graph entity ID.
+    # @option opts [String] :si Cached Google parameters.
+    # @option opts [String] :ibp Layout control.
+    # @option opts [String] :uds Google filter string.
     # @return [Object]
     def google_google_light_web_search(q, opts = {})
       data, _status_code, _headers = google_google_light_web_search_with_http_info(q, opts)
@@ -1172,6 +1200,34 @@ module ScrapeBadger
     # @option opts [Integer] :filter 
     # @option opts [Integer] :nfpr Disable auto-correction (default to 0)
     # @option opts [String] :output  (default to 'json')
+    # @option opts [String] :google_domain Alias for domain; Google requests use google.com with country targeting.
+    # @option opts [Float] :lat Latitude; supply together with lon instead of location or uule.
+    # @option opts [Float] :lon Longitude; supply together with lat.
+    # @option opts [Float] :radius Location accuracy in meters; requires lat/lon or a named city with a known center.
+    # @option opts [String] :color_scheme Google color scheme.
+    # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
+    # @option opts [String] :udm Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html.
+    # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch. (default to false)
+    # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
+    # @option opts [String] :as_epq Exact phrase.
+    # @option opts [String] :as_eq Words to exclude.
+    # @option opts [String] :as_lq Find pages linking to this URL; availability depends on Google.
+    # @option opts [String] :as_nlo Numeric range minimum.
+    # @option opts [String] :as_nhi Numeric range maximum.
+    # @option opts [String] :as_oq Match any of these words.
+    # @option opts [String] :as_q Additional query words.
+    # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
+    # @option opts [String] :as_rq Related URL; availability depends on Google.
+    # @option opts [String] :as_sitesearch Restrict results to a site.
+    # @option opts [String] :device Device target.
+    # @option opts [String] :user_agent Custom User-Agent.
+    # @option opts [String] :cr Country restrict.
+    # @option opts [String] :ludocid Place CID.
+    # @option opts [String] :lsig Map view ID.
+    # @option opts [String] :kgmid Knowledge Graph entity ID.
+    # @option opts [String] :si Cached Google parameters.
+    # @option opts [String] :ibp Layout control.
+    # @option opts [String] :uds Google filter string.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_light_web_search_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -1205,6 +1261,48 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && opts[:'output'] && !allowable_values.include?(opts[:'output'])
         fail ArgumentError, "invalid value for \"output\", must be one of #{allowable_values}"
       end
+      if @api_client.config.client_side_validation && !opts[:'lat'].nil? && opts[:'lat'] > 90
+        fail ArgumentError, 'invalid value for "opts[:"lat"]" when calling GoogleApi.google_google_light_web_search, must be smaller than or equal to 90.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lat'].nil? && opts[:'lat'] < -90
+        fail ArgumentError, 'invalid value for "opts[:"lat"]" when calling GoogleApi.google_google_light_web_search, must be greater than or equal to -90.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lon'].nil? && opts[:'lon'] > 180
+        fail ArgumentError, 'invalid value for "opts[:"lon"]" when calling GoogleApi.google_google_light_web_search, must be smaller than or equal to 180.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lon'].nil? && opts[:'lon'] < -180
+        fail ArgumentError, 'invalid value for "opts[:"lon"]" when calling GoogleApi.google_google_light_web_search, must be greater than or equal to -180.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'radius'].nil? && opts[:'radius'] > 1000
+        fail ArgumentError, 'invalid value for "opts[:"radius"]" when calling GoogleApi.google_google_light_web_search, must be smaller than or equal to 1000.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'radius'].nil? && opts[:'radius'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"radius"]" when calling GoogleApi.google_google_light_web_search, must be greater than or equal to 1.'
+      end
+
+      allowable_values = ["light", "dark"]
+      if @api_client.config.client_side_validation && opts[:'color_scheme'] && !allowable_values.include?(opts[:'color_scheme'])
+        fail ArgumentError, "invalid value for \"color_scheme\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["isch", "lcl", "vid", "nws", "shop", "pts", "bks"]
+      if @api_client.config.client_side_validation && opts[:'tbm'] && !allowable_values.include?(opts[:'tbm'])
+        fail ArgumentError, "invalid value for \"tbm\", must be one of #{allowable_values}"
+      end
+      pattern = Regexp.new(/^[0-9]{1,3}$/)
+      if @api_client.config.client_side_validation && !opts[:'udm'].nil? && opts[:'udm'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"udm\"]' when calling GoogleApi.google_google_light_web_search, must conform to the pattern #{pattern}."
+      end
+
+      pattern = Regexp.new(/^[ie]$/)
+      if @api_client.config.client_side_validation && !opts[:'as_dt'].nil? && opts[:'as_dt'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"as_dt\"]' when calling GoogleApi.google_google_light_web_search, must conform to the pattern #{pattern}."
+      end
+
       # resource path
       local_var_path = '/v1/google/light/search'
 
@@ -1224,6 +1322,34 @@ module ScrapeBadger
       query_params[:'filter'] = opts[:'filter'] if !opts[:'filter'].nil?
       query_params[:'nfpr'] = opts[:'nfpr'] if !opts[:'nfpr'].nil?
       query_params[:'output'] = opts[:'output'] if !opts[:'output'].nil?
+      query_params[:'google_domain'] = opts[:'google_domain'] if !opts[:'google_domain'].nil?
+      query_params[:'lat'] = opts[:'lat'] if !opts[:'lat'].nil?
+      query_params[:'lon'] = opts[:'lon'] if !opts[:'lon'].nil?
+      query_params[:'radius'] = opts[:'radius'] if !opts[:'radius'].nil?
+      query_params[:'color_scheme'] = opts[:'color_scheme'] if !opts[:'color_scheme'].nil?
+      query_params[:'tbm'] = opts[:'tbm'] if !opts[:'tbm'].nil?
+      query_params[:'udm'] = opts[:'udm'] if !opts[:'udm'].nil?
+      query_params[:'no_cache'] = opts[:'no_cache'] if !opts[:'no_cache'].nil?
+      query_params[:'as_dt'] = opts[:'as_dt'] if !opts[:'as_dt'].nil?
+      query_params[:'as_epq'] = opts[:'as_epq'] if !opts[:'as_epq'].nil?
+      query_params[:'as_eq'] = opts[:'as_eq'] if !opts[:'as_eq'].nil?
+      query_params[:'as_lq'] = opts[:'as_lq'] if !opts[:'as_lq'].nil?
+      query_params[:'as_nlo'] = opts[:'as_nlo'] if !opts[:'as_nlo'].nil?
+      query_params[:'as_nhi'] = opts[:'as_nhi'] if !opts[:'as_nhi'].nil?
+      query_params[:'as_oq'] = opts[:'as_oq'] if !opts[:'as_oq'].nil?
+      query_params[:'as_q'] = opts[:'as_q'] if !opts[:'as_q'].nil?
+      query_params[:'as_qdr'] = opts[:'as_qdr'] if !opts[:'as_qdr'].nil?
+      query_params[:'as_rq'] = opts[:'as_rq'] if !opts[:'as_rq'].nil?
+      query_params[:'as_sitesearch'] = opts[:'as_sitesearch'] if !opts[:'as_sitesearch'].nil?
+      query_params[:'device'] = opts[:'device'] if !opts[:'device'].nil?
+      query_params[:'user_agent'] = opts[:'user_agent'] if !opts[:'user_agent'].nil?
+      query_params[:'cr'] = opts[:'cr'] if !opts[:'cr'].nil?
+      query_params[:'ludocid'] = opts[:'ludocid'] if !opts[:'ludocid'].nil?
+      query_params[:'lsig'] = opts[:'lsig'] if !opts[:'lsig'].nil?
+      query_params[:'kgmid'] = opts[:'kgmid'] if !opts[:'kgmid'].nil?
+      query_params[:'si'] = opts[:'si'] if !opts[:'si'].nil?
+      query_params[:'ibp'] = opts[:'ibp'] if !opts[:'ibp'].nil?
+      query_params[:'uds'] = opts[:'uds'] if !opts[:'uds'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -1561,6 +1687,27 @@ module ScrapeBadger
     # @option opts [String] :ibp Layout control
     # @option opts [String] :uds Google filter string
     # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (default to false)
+    # @option opts [String] :mode  (default to 'full')
+    # @option opts [String] :expand_related_questions Open all People Also Ask answers (true) or the first N (0-99).
+    # @option opts [String] :google_domain Alias for domain; Google requests use google.com with country targeting.
+    # @option opts [Float] :lat Latitude; supply together with lon instead of location or uule.
+    # @option opts [Float] :lon Longitude; supply together with lat.
+    # @option opts [Float] :radius Location accuracy in meters; requires lat/lon or a named city with a known center.
+    # @option opts [String] :color_scheme Google color scheme.
+    # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
+    # @option opts [String] :udm Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html.
+    # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch. (default to false)
+    # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
+    # @option opts [String] :as_epq Exact phrase.
+    # @option opts [String] :as_eq Words to exclude.
+    # @option opts [String] :as_lq Find pages linking to this URL; availability depends on Google.
+    # @option opts [String] :as_nlo Numeric range minimum.
+    # @option opts [String] :as_nhi Numeric range maximum.
+    # @option opts [String] :as_oq Match any of these words.
+    # @option opts [String] :as_q Additional query words.
+    # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
+    # @option opts [String] :as_rq Related URL; availability depends on Google.
+    # @option opts [String] :as_sitesearch Restrict results to a site.
     # @return [Object]
     def google_google_web_search(q, opts = {})
       data, _status_code, _headers = google_google_web_search_with_http_info(q, opts)
@@ -1594,6 +1741,27 @@ module ScrapeBadger
     # @option opts [String] :ibp Layout control
     # @option opts [String] :uds Google filter string
     # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (default to false)
+    # @option opts [String] :mode  (default to 'full')
+    # @option opts [String] :expand_related_questions Open all People Also Ask answers (true) or the first N (0-99).
+    # @option opts [String] :google_domain Alias for domain; Google requests use google.com with country targeting.
+    # @option opts [Float] :lat Latitude; supply together with lon instead of location or uule.
+    # @option opts [Float] :lon Longitude; supply together with lat.
+    # @option opts [Float] :radius Location accuracy in meters; requires lat/lon or a named city with a known center.
+    # @option opts [String] :color_scheme Google color scheme.
+    # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
+    # @option opts [String] :udm Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html.
+    # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch. (default to false)
+    # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
+    # @option opts [String] :as_epq Exact phrase.
+    # @option opts [String] :as_eq Words to exclude.
+    # @option opts [String] :as_lq Find pages linking to this URL; availability depends on Google.
+    # @option opts [String] :as_nlo Numeric range minimum.
+    # @option opts [String] :as_nhi Numeric range maximum.
+    # @option opts [String] :as_oq Match any of these words.
+    # @option opts [String] :as_q Additional query words.
+    # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
+    # @option opts [String] :as_rq Related URL; availability depends on Google.
+    # @option opts [String] :as_sitesearch Restrict results to a site.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_web_search_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -1632,6 +1800,57 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && opts[:'output'] && !allowable_values.include?(opts[:'output'])
         fail ArgumentError, "invalid value for \"output\", must be one of #{allowable_values}"
       end
+      allowable_values = ["full", "fast"]
+      if @api_client.config.client_side_validation && opts[:'mode'] && !allowable_values.include?(opts[:'mode'])
+        fail ArgumentError, "invalid value for \"mode\", must be one of #{allowable_values}"
+      end
+      pattern = Regexp.new(/^(true|false|[0-9]{1,2})$/)
+      if @api_client.config.client_side_validation && !opts[:'expand_related_questions'].nil? && opts[:'expand_related_questions'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"expand_related_questions\"]' when calling GoogleApi.google_google_web_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lat'].nil? && opts[:'lat'] > 90
+        fail ArgumentError, 'invalid value for "opts[:"lat"]" when calling GoogleApi.google_google_web_search, must be smaller than or equal to 90.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lat'].nil? && opts[:'lat'] < -90
+        fail ArgumentError, 'invalid value for "opts[:"lat"]" when calling GoogleApi.google_google_web_search, must be greater than or equal to -90.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lon'].nil? && opts[:'lon'] > 180
+        fail ArgumentError, 'invalid value for "opts[:"lon"]" when calling GoogleApi.google_google_web_search, must be smaller than or equal to 180.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'lon'].nil? && opts[:'lon'] < -180
+        fail ArgumentError, 'invalid value for "opts[:"lon"]" when calling GoogleApi.google_google_web_search, must be greater than or equal to -180.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'radius'].nil? && opts[:'radius'] > 1000
+        fail ArgumentError, 'invalid value for "opts[:"radius"]" when calling GoogleApi.google_google_web_search, must be smaller than or equal to 1000.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'radius'].nil? && opts[:'radius'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"radius"]" when calling GoogleApi.google_google_web_search, must be greater than or equal to 1.'
+      end
+
+      allowable_values = ["light", "dark"]
+      if @api_client.config.client_side_validation && opts[:'color_scheme'] && !allowable_values.include?(opts[:'color_scheme'])
+        fail ArgumentError, "invalid value for \"color_scheme\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["isch", "lcl", "vid", "nws", "shop", "pts", "bks"]
+      if @api_client.config.client_side_validation && opts[:'tbm'] && !allowable_values.include?(opts[:'tbm'])
+        fail ArgumentError, "invalid value for \"tbm\", must be one of #{allowable_values}"
+      end
+      pattern = Regexp.new(/^[0-9]{1,3}$/)
+      if @api_client.config.client_side_validation && !opts[:'udm'].nil? && opts[:'udm'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"udm\"]' when calling GoogleApi.google_google_web_search, must conform to the pattern #{pattern}."
+      end
+
+      pattern = Regexp.new(/^[ie]$/)
+      if @api_client.config.client_side_validation && !opts[:'as_dt'].nil? && opts[:'as_dt'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"as_dt\"]' when calling GoogleApi.google_google_web_search, must conform to the pattern #{pattern}."
+      end
+
       # resource path
       local_var_path = '/v1/google/search'
 
@@ -1661,6 +1880,27 @@ module ScrapeBadger
       query_params[:'ibp'] = opts[:'ibp'] if !opts[:'ibp'].nil?
       query_params[:'uds'] = opts[:'uds'] if !opts[:'uds'].nil?
       query_params[:'ai_overview'] = opts[:'ai_overview'] if !opts[:'ai_overview'].nil?
+      query_params[:'mode'] = opts[:'mode'] if !opts[:'mode'].nil?
+      query_params[:'expand_related_questions'] = opts[:'expand_related_questions'] if !opts[:'expand_related_questions'].nil?
+      query_params[:'google_domain'] = opts[:'google_domain'] if !opts[:'google_domain'].nil?
+      query_params[:'lat'] = opts[:'lat'] if !opts[:'lat'].nil?
+      query_params[:'lon'] = opts[:'lon'] if !opts[:'lon'].nil?
+      query_params[:'radius'] = opts[:'radius'] if !opts[:'radius'].nil?
+      query_params[:'color_scheme'] = opts[:'color_scheme'] if !opts[:'color_scheme'].nil?
+      query_params[:'tbm'] = opts[:'tbm'] if !opts[:'tbm'].nil?
+      query_params[:'udm'] = opts[:'udm'] if !opts[:'udm'].nil?
+      query_params[:'no_cache'] = opts[:'no_cache'] if !opts[:'no_cache'].nil?
+      query_params[:'as_dt'] = opts[:'as_dt'] if !opts[:'as_dt'].nil?
+      query_params[:'as_epq'] = opts[:'as_epq'] if !opts[:'as_epq'].nil?
+      query_params[:'as_eq'] = opts[:'as_eq'] if !opts[:'as_eq'].nil?
+      query_params[:'as_lq'] = opts[:'as_lq'] if !opts[:'as_lq'].nil?
+      query_params[:'as_nlo'] = opts[:'as_nlo'] if !opts[:'as_nlo'].nil?
+      query_params[:'as_nhi'] = opts[:'as_nhi'] if !opts[:'as_nhi'].nil?
+      query_params[:'as_oq'] = opts[:'as_oq'] if !opts[:'as_oq'].nil?
+      query_params[:'as_q'] = opts[:'as_q'] if !opts[:'as_q'].nil?
+      query_params[:'as_qdr'] = opts[:'as_qdr'] if !opts[:'as_qdr'].nil?
+      query_params[:'as_rq'] = opts[:'as_rq'] if !opts[:'as_rq'].nil?
+      query_params[:'as_sitesearch'] = opts[:'as_sitesearch'] if !opts[:'as_sitesearch'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

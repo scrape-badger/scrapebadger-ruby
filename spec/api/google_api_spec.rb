@@ -261,6 +261,34 @@ describe 'GoogleApi' do
   # @option opts [Integer] :filter 
   # @option opts [Integer] :nfpr Disable auto-correction
   # @option opts [String] :output 
+  # @option opts [String] :google_domain Alias for domain; Google requests use google.com with country targeting.
+  # @option opts [Float] :lat Latitude; supply together with lon instead of location or uule.
+  # @option opts [Float] :lon Longitude; supply together with lat.
+  # @option opts [Float] :radius Location accuracy in meters; requires lat/lon or a named city with a known center.
+  # @option opts [String] :color_scheme Google color scheme.
+  # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
+  # @option opts [String] :udm Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html.
+  # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch.
+  # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
+  # @option opts [String] :as_epq Exact phrase.
+  # @option opts [String] :as_eq Words to exclude.
+  # @option opts [String] :as_lq Find pages linking to this URL; availability depends on Google.
+  # @option opts [String] :as_nlo Numeric range minimum.
+  # @option opts [String] :as_nhi Numeric range maximum.
+  # @option opts [String] :as_oq Match any of these words.
+  # @option opts [String] :as_q Additional query words.
+  # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
+  # @option opts [String] :as_rq Related URL; availability depends on Google.
+  # @option opts [String] :as_sitesearch Restrict results to a site.
+  # @option opts [String] :device Device target.
+  # @option opts [String] :user_agent Custom User-Agent.
+  # @option opts [String] :cr Country restrict.
+  # @option opts [String] :ludocid Place CID.
+  # @option opts [String] :lsig Map view ID.
+  # @option opts [String] :kgmid Knowledge Graph entity ID.
+  # @option opts [String] :si Cached Google parameters.
+  # @option opts [String] :ibp Layout control.
+  # @option opts [String] :uds Google filter string.
   # @return [Object]
   describe 'google_google_light_web_search test' do
     it 'should work' do
@@ -349,6 +377,27 @@ describe 'GoogleApi' do
   # @option opts [String] :ibp Layout control
   # @option opts [String] :uds Google filter string
   # @option opts [Boolean] :ai_overview Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged.
+  # @option opts [String] :mode 
+  # @option opts [String] :expand_related_questions Open all People Also Ask answers (true) or the first N (0-99).
+  # @option opts [String] :google_domain Alias for domain; Google requests use google.com with country targeting.
+  # @option opts [Float] :lat Latitude; supply together with lon instead of location or uule.
+  # @option opts [Float] :lon Longitude; supply together with lat.
+  # @option opts [Float] :radius Location accuracy in meters; requires lat/lon or a named city with a known center.
+  # @option opts [String] :color_scheme Google color scheme.
+  # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
+  # @option opts [String] :udm Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html.
+  # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch.
+  # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
+  # @option opts [String] :as_epq Exact phrase.
+  # @option opts [String] :as_eq Words to exclude.
+  # @option opts [String] :as_lq Find pages linking to this URL; availability depends on Google.
+  # @option opts [String] :as_nlo Numeric range minimum.
+  # @option opts [String] :as_nhi Numeric range maximum.
+  # @option opts [String] :as_oq Match any of these words.
+  # @option opts [String] :as_q Additional query words.
+  # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
+  # @option opts [String] :as_rq Related URL; availability depends on Google.
+  # @option opts [String] :as_sitesearch Restrict results to a site.
   # @return [Object]
   describe 'google_google_web_search test' do
     it 'should work' do
