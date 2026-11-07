@@ -74,6 +74,88 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Get listing
+    # Full public vehicle specifications, equipment, photos, price and seller data.  Exactly one of url or listing_id is required. Supported markets match /markets. Successful detail costs 10 credits; removed or missing listings return an unbilled 404. Invalid inputs return 422 and source failures 503.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :url Full HTTPS listing URL from search results. Supply url or listing_id, not both.
+    # @option opts [String] :listing_id Listing UUID from search results; requires no SEO slug.
+    # @option opts [String] :market Inferred from URL, otherwise de. Explicit market must match the URL host.
+    # @return [AutoScout24ListingResponse]
+    def autoscout24_get_listing(opts = {})
+      data, _status_code, _headers = autoscout24_get_listing_with_http_info(opts)
+      data
+    end
+
+    # Get listing
+    # Full public vehicle specifications, equipment, photos, price and seller data.  Exactly one of url or listing_id is required. Supported markets match /markets. Successful detail costs 10 credits; removed or missing listings return an unbilled 404. Invalid inputs return 422 and source failures 503.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :url Full HTTPS listing URL from search results. Supply url or listing_id, not both.
+    # @option opts [String] :listing_id Listing UUID from search results; requires no SEO slug.
+    # @option opts [String] :market Inferred from URL, otherwise de. Explicit market must match the URL host.
+    # @return [Array<(AutoScout24ListingResponse, Integer, Hash)>] AutoScout24ListingResponse data, response status code and response headers
+    def autoscout24_get_listing_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AutoScout24Api.autoscout24_get_listing ...'
+      end
+      if @api_client.config.client_side_validation && !opts[:'url'].nil? && opts[:'url'].to_s.length > 2048
+        fail ArgumentError, 'invalid value for "opts[:"url"]" when calling AutoScout24Api.autoscout24_get_listing, the character length must be smaller than or equal to 2048.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'listing_id'].nil? && opts[:'listing_id'].to_s.length > 36
+        fail ArgumentError, 'invalid value for "opts[:"listing_id"]" when calling AutoScout24Api.autoscout24_get_listing, the character length must be smaller than or equal to 36.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'listing_id'].nil? && opts[:'listing_id'].to_s.length < 36
+        fail ArgumentError, 'invalid value for "opts[:"listing_id"]" when calling AutoScout24Api.autoscout24_get_listing, the character length must be great than or equal to 36.'
+      end
+
+      allowable_values = ["de", "at", "be", "es", "fr", "it", "lu", "nl"]
+      if @api_client.config.client_side_validation && opts[:'market'] && !allowable_values.include?(opts[:'market'])
+        fail ArgumentError, "invalid value for \"market\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/v1/autoscout24/listing'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'url'] = opts[:'url'] if !opts[:'url'].nil?
+      query_params[:'listing_id'] = opts[:'listing_id'] if !opts[:'listing_id'].nil?
+      query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AutoScout24ListingResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"AutoScout24Api.autoscout24_get_listing",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AutoScout24Api#autoscout24_get_listing\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # List markets
     # Verified marketplaces, domains, languages and currency. Free reference endpoint.
     # @param [Hash] opts the optional parameters
@@ -199,7 +281,7 @@ module ScrapeBadger
     end
 
     # Search vehicles
-    # Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Listing detail is not included in this API.
+    # Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Pass a result's url or id to /listing for its full specifications and equipment.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'de')
     # @option opts [String] :make Native make slug, e.g. volkswagen or bmw.
@@ -228,7 +310,7 @@ module ScrapeBadger
     end
 
     # Search vehicles
-    # Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Listing detail is not included in this API.
+    # Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Pass a result&#39;s url or id to /listing for its full specifications and equipment.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market  (default to 'de')
     # @option opts [String] :make Native make slug, e.g. volkswagen or bmw.

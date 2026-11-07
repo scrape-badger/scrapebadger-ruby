@@ -42,6 +42,20 @@ describe 'AutoScout24Api' do
     end
   end
 
+  # unit tests for autoscout24_get_listing
+  # Get listing
+  # Full public vehicle specifications, equipment, photos, price and seller data.  Exactly one of url or listing_id is required. Supported markets match /markets. Successful detail costs 10 credits; removed or missing listings return an unbilled 404. Invalid inputs return 422 and source failures 503.
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :url Full HTTPS listing URL from search results. Supply url or listing_id, not both.
+  # @option opts [String] :listing_id Listing UUID from search results; requires no SEO slug.
+  # @option opts [String] :market Inferred from URL, otherwise de. Explicit market must match the URL host.
+  # @return [AutoScout24ListingResponse]
+  describe 'autoscout24_get_listing test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for autoscout24_list_markets
   # List markets
   # Verified marketplaces, domains, languages and currency. Free reference endpoint.
@@ -68,7 +82,7 @@ describe 'AutoScout24Api' do
 
   # unit tests for autoscout24_search_vehicles
   # Search vehicles
-  # Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Listing detail is not included in this API.
+  # Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Pass a result&#39;s url or id to /listing for its full specifications and equipment.
   # @param [Hash] opts the optional parameters
   # @option opts [String] :market 
   # @option opts [String] :make Native make slug, e.g. volkswagen or bmw.

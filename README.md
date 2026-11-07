@@ -200,6 +200,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::AppStoreApi* | [**app_store_search_apps**](docs/AppStoreApi.md#app_store_search_apps) | **GET** /v1/app-store/search | Search apps
 *ScrapeBadger::AppStoreApi* | [**app_store_top_charts**](docs/AppStoreApi.md#app_store_top_charts) | **GET** /v1/app-store/charts | Top charts
 *ScrapeBadger::AutoScout24Api* | [**autoscout24_check_autoscout24_health**](docs/AutoScout24Api.md#autoscout24_check_autoscout24_health) | **GET** /v1/autoscout24/health | Check AutoScout24 health
+*ScrapeBadger::AutoScout24Api* | [**autoscout24_get_listing**](docs/AutoScout24Api.md#autoscout24_get_listing) | **GET** /v1/autoscout24/listing | Get listing
 *ScrapeBadger::AutoScout24Api* | [**autoscout24_list_markets**](docs/AutoScout24Api.md#autoscout24_list_markets) | **GET** /v1/autoscout24/markets | List markets
 *ScrapeBadger::AutoScout24Api* | [**autoscout24_list_search_filters**](docs/AutoScout24Api.md#autoscout24_list_search_filters) | **GET** /v1/autoscout24/filters | List search filters
 *ScrapeBadger::AutoScout24Api* | [**autoscout24_search_vehicles**](docs/AutoScout24Api.md#autoscout24_search_vehicles) | **GET** /v1/autoscout24/search | Search vehicles
@@ -741,6 +742,8 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::Article](docs/Article.md)
  - [ScrapeBadger::AutoScout24FiltersResponse](docs/AutoScout24FiltersResponse.md)
  - [ScrapeBadger::AutoScout24Listing](docs/AutoScout24Listing.md)
+ - [ScrapeBadger::AutoScout24ListingDetail](docs/AutoScout24ListingDetail.md)
+ - [ScrapeBadger::AutoScout24ListingResponse](docs/AutoScout24ListingResponse.md)
  - [ScrapeBadger::AutoScout24Market](docs/AutoScout24Market.md)
  - [ScrapeBadger::AutoScout24MarketsResponse](docs/AutoScout24MarketsResponse.md)
  - [ScrapeBadger::AutoScout24SearchResponse](docs/AutoScout24SearchResponse.md)

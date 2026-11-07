@@ -5,6 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**autoscout24_check_autoscout24_health**](AutoScout24Api.md#autoscout24_check_autoscout24_health) | **GET** /v1/autoscout24/health | Check AutoScout24 health |
+| [**autoscout24_get_listing**](AutoScout24Api.md#autoscout24_get_listing) | **GET** /v1/autoscout24/listing | Get listing |
 | [**autoscout24_list_markets**](AutoScout24Api.md#autoscout24_list_markets) | **GET** /v1/autoscout24/markets | List markets |
 | [**autoscout24_list_search_filters**](AutoScout24Api.md#autoscout24_list_search_filters) | **GET** /v1/autoscout24/filters | List search filters |
 | [**autoscout24_search_vehicles**](AutoScout24Api.md#autoscout24_search_vehicles) | **GET** /v1/autoscout24/search | Search vehicles |
@@ -65,6 +66,83 @@ This endpoint does not need any parameter.
 ### Return type
 
 **Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## autoscout24_get_listing
+
+> <AutoScout24ListingResponse> autoscout24_get_listing(opts)
+
+Get listing
+
+Full public vehicle specifications, equipment, photos, price and seller data.  Exactly one of url or listing_id is required. Supported markets match /markets. Successful detail costs 10 credits; removed or missing listings return an unbilled 404. Invalid inputs return 422 and source failures 503.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::AutoScout24Api.new
+opts = {
+  url: 'url_example', # String | Full HTTPS listing URL from search results. Supply url or listing_id, not both.
+  listing_id: 'listing_id_example', # String | Listing UUID from search results; requires no SEO slug.
+  market: 'de' # String | Inferred from URL, otherwise de. Explicit market must match the URL host.
+}
+
+begin
+  # Get listing
+  result = api_instance.autoscout24_get_listing(opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling AutoScout24Api->autoscout24_get_listing: #{e}"
+end
+```
+
+#### Using the autoscout24_get_listing_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<AutoScout24ListingResponse>, Integer, Hash)> autoscout24_get_listing_with_http_info(opts)
+
+```ruby
+begin
+  # Get listing
+  data, status_code, headers = api_instance.autoscout24_get_listing_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <AutoScout24ListingResponse>
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling AutoScout24Api->autoscout24_get_listing_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **url** | **String** | Full HTTPS listing URL from search results. Supply url or listing_id, not both. | [optional] |
+| **listing_id** | **String** | Listing UUID from search results; requires no SEO slug. | [optional] |
+| **market** | **String** | Inferred from URL, otherwise de. Explicit market must match the URL host. | [optional] |
+
+### Return type
+
+[**AutoScout24ListingResponse**](AutoScout24ListingResponse.md)
 
 ### Authorization
 
@@ -225,7 +303,7 @@ end
 
 Search vehicles
 
-Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Listing detail is not included in this API.
+Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Pass a result's url or id to /listing for its full specifications and equipment.
 
 ### Examples
 

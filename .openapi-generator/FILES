@@ -21,6 +21,8 @@ docs/Article.md
 docs/AutoScout24Api.md
 docs/AutoScout24FiltersResponse.md
 docs/AutoScout24Listing.md
+docs/AutoScout24ListingDetail.md
+docs/AutoScout24ListingResponse.md
 docs/AutoScout24Market.md
 docs/AutoScout24MarketsResponse.md
 docs/AutoScout24SearchResponse.md
@@ -277,6 +279,8 @@ lib/scrapebadger/models/agent_trial_info.rb
 lib/scrapebadger/models/article.rb
 lib/scrapebadger/models/auto_scout24_filters_response.rb
 lib/scrapebadger/models/auto_scout24_listing.rb
+lib/scrapebadger/models/auto_scout24_listing_detail.rb
+lib/scrapebadger/models/auto_scout24_listing_response.rb
 lib/scrapebadger/models/auto_scout24_market.rb
 lib/scrapebadger/models/auto_scout24_markets_response.rb
 lib/scrapebadger/models/auto_scout24_search_response.rb
@@ -485,6 +489,8 @@ spec/models/age_spec.rb
 spec/models/agent_trial_info_spec.rb
 spec/models/article_spec.rb
 spec/models/auto_scout24_filters_response_spec.rb
+spec/models/auto_scout24_listing_detail_spec.rb
+spec/models/auto_scout24_listing_response_spec.rb
 spec/models/auto_scout24_listing_spec.rb
 spec/models/auto_scout24_market_spec.rb
 spec/models/auto_scout24_markets_response_spec.rb
