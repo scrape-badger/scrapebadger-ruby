@@ -327,6 +327,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::GeminiApi* | [**gemini_measure_a_brand_s_visibility_in_a_gemini_answer**](docs/GeminiApi.md#gemini_measure_a_brand_s_visibility_in_a_gemini_answer) | **GET** /v1/gemini/brand-visibility | Measure a brand's visibility in a Gemini answer
 *ScrapeBadger::GeminiApi* | [**gemini_measure_a_brand_s_visibility_in_a_gemini_answer_post**](docs/GeminiApi.md#gemini_measure_a_brand_s_visibility_in_a_gemini_answer_post) | **POST** /v1/gemini/brand-visibility | Measure a brand's visibility in a Gemini answer (POST)
 *ScrapeBadger::GitHubApi* | [**github_get_profile**](docs/GitHubApi.md#github_get_profile) | **GET** /v1/github/profiles/{username} | Get profile
+*ScrapeBadger::GitHubApi* | [**github_get_repository**](docs/GitHubApi.md#github_get_repository) | **GET** /v1/github/repositories/{owner}/{repo} | Get repository
 *ScrapeBadger::GoogleApi* | [**google_get_author_citations_per_year_chart**](docs/GoogleApi.md#google_get_author_citations_per_year_chart) | **GET** /v1/google/scholar/author/citation | Get author citations-per-year chart
 *ScrapeBadger::GoogleApi* | [**google_get_business_posts**](docs/GoogleApi.md#google_get_business_posts) | **GET** /v1/google/maps/posts | Get business posts
 *ScrapeBadger::GoogleApi* | [**google_get_citation_formats_for_a_scholar_paper**](docs/GoogleApi.md#google_get_citation_formats_for_a_scholar_paper) | **GET** /v1/google/scholar/cite | Get citation formats for a Scholar paper
@@ -797,14 +798,31 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::GitHubActivityOverview](docs/GitHubActivityOverview.md)
  - [ScrapeBadger::GitHubActivityRow](docs/GitHubActivityRow.md)
  - [ScrapeBadger::GitHubCalendarDay](docs/GitHubCalendarDay.md)
+ - [ScrapeBadger::GitHubCommitActor](docs/GitHubCommitActor.md)
+ - [ScrapeBadger::GitHubCommitChecks](docs/GitHubCommitChecks.md)
+ - [ScrapeBadger::GitHubCommunityFile](docs/GitHubCommunityFile.md)
  - [ScrapeBadger::GitHubContributions](docs/GitHubContributions.md)
+ - [ScrapeBadger::GitHubForkComparison](docs/GitHubForkComparison.md)
+ - [ScrapeBadger::GitHubFundingLink](docs/GitHubFundingLink.md)
  - [ScrapeBadger::GitHubLanguage](docs/GitHubLanguage.md)
+ - [ScrapeBadger::GitHubLatestCommit](docs/GitHubLatestCommit.md)
  - [ScrapeBadger::GitHubNamedLink](docs/GitHubNamedLink.md)
  - [ScrapeBadger::GitHubPagination](docs/GitHubPagination.md)
  - [ScrapeBadger::GitHubProfile](docs/GitHubProfile.md)
  - [ScrapeBadger::GitHubProfileResponse](docs/GitHubProfileResponse.md)
  - [ScrapeBadger::GitHubReadme](docs/GitHubReadme.md)
+ - [ScrapeBadger::GitHubReadmeHeading](docs/GitHubReadmeHeading.md)
  - [ScrapeBadger::GitHubRepository](docs/GitHubRepository.md)
+ - [ScrapeBadger::GitHubRepositoryAccount](docs/GitHubRepositoryAccount.md)
+ - [ScrapeBadger::GitHubRepositoryFile](docs/GitHubRepositoryFile.md)
+ - [ScrapeBadger::GitHubRepositoryFunding](docs/GitHubRepositoryFunding.md)
+ - [ScrapeBadger::GitHubRepositoryIdentity](docs/GitHubRepositoryIdentity.md)
+ - [ScrapeBadger::GitHubRepositoryLanguage](docs/GitHubRepositoryLanguage.md)
+ - [ScrapeBadger::GitHubRepositoryLicense](docs/GitHubRepositoryLicense.md)
+ - [ScrapeBadger::GitHubRepositoryReadme](docs/GitHubRepositoryReadme.md)
+ - [ScrapeBadger::GitHubRepositoryReference](docs/GitHubRepositoryReference.md)
+ - [ScrapeBadger::GitHubRepositoryRelease](docs/GitHubRepositoryRelease.md)
+ - [ScrapeBadger::GitHubRepositoryResponse](docs/GitHubRepositoryResponse.md)
  - [ScrapeBadger::GitHubSocialAccount](docs/GitHubSocialAccount.md)
  - [ScrapeBadger::GitHubStatus](docs/GitHubStatus.md)
  - [ScrapeBadger::GitHubTextLink](docs/GitHubTextLink.md)

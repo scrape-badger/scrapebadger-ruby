@@ -109,5 +109,100 @@ module ScrapeBadger
       end
       return data, status_code, headers
     end
+
+    # Get repository
+    # Public default-branch repository detail, native README, files and latest commit.  Use owner.login and name from a profile repository summary. Root file and contributor previews are not exhaustive recursive trees or membership lists. No GitHub token, market, ref, search or pagination parameter is accepted.
+    # @param owner [String] 
+    # @param repo [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [GitHubRepositoryResponse]
+    def github_get_repository(owner, repo, opts = {})
+      data, _status_code, _headers = github_get_repository_with_http_info(owner, repo, opts)
+      data
+    end
+
+    # Get repository
+    # Public default-branch repository detail, native README, files and latest commit.  Use owner.login and name from a profile repository summary. Root file and contributor previews are not exhaustive recursive trees or membership lists. No GitHub token, market, ref, search or pagination parameter is accepted.
+    # @param owner [String] 
+    # @param repo [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(GitHubRepositoryResponse, Integer, Hash)>] GitHubRepositoryResponse data, response status code and response headers
+    def github_get_repository_with_http_info(owner, repo, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: GitHubApi.github_get_repository ...'
+      end
+      # verify the required parameter 'owner' is set
+      if @api_client.config.client_side_validation && owner.nil?
+        fail ArgumentError, "Missing the required parameter 'owner' when calling GitHubApi.github_get_repository"
+      end
+      if @api_client.config.client_side_validation && owner.to_s.length > 39
+        fail ArgumentError, 'invalid value for "owner" when calling GitHubApi.github_get_repository, the character length must be smaller than or equal to 39.'
+      end
+
+      if @api_client.config.client_side_validation && owner.to_s.length < 1
+        fail ArgumentError, 'invalid value for "owner" when calling GitHubApi.github_get_repository, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[A-Za-z0-9-]+$/)
+      if @api_client.config.client_side_validation && owner !~ pattern
+        fail ArgumentError, "invalid value for 'owner' when calling GitHubApi.github_get_repository, must conform to the pattern #{pattern}."
+      end
+
+      # verify the required parameter 'repo' is set
+      if @api_client.config.client_side_validation && repo.nil?
+        fail ArgumentError, "Missing the required parameter 'repo' when calling GitHubApi.github_get_repository"
+      end
+      if @api_client.config.client_side_validation && repo.to_s.length > 100
+        fail ArgumentError, 'invalid value for "repo" when calling GitHubApi.github_get_repository, the character length must be smaller than or equal to 100.'
+      end
+
+      if @api_client.config.client_side_validation && repo.to_s.length < 1
+        fail ArgumentError, 'invalid value for "repo" when calling GitHubApi.github_get_repository, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[A-Za-z0-9_.-]+$/)
+      if @api_client.config.client_side_validation && repo !~ pattern
+        fail ArgumentError, "invalid value for 'repo' when calling GitHubApi.github_get_repository, must conform to the pattern #{pattern}."
+      end
+
+      # resource path
+      local_var_path = '/v1/github/repositories/{owner}/{repo}'.sub('{' + 'owner' + '}', CGI.escape(owner.to_s)).sub('{' + 'repo' + '}', CGI.escape(repo.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GitHubRepositoryResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"GitHubApi.github_get_repository",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: GitHubApi#github_get_repository\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
   end
 end

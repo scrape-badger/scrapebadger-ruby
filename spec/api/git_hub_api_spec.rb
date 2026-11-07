@@ -48,4 +48,17 @@ describe 'GitHubApi' do
     end
   end
 
+  # unit tests for github_get_repository
+  # Get repository
+  # Public default-branch repository detail, native README, files and latest commit.  Use owner.login and name from a profile repository summary. Root file and contributor previews are not exhaustive recursive trees or membership lists. No GitHub token, market, ref, search or pagination parameter is accepted.
+  # @param owner 
+  # @param repo 
+  # @param [Hash] opts the optional parameters
+  # @return [GitHubRepositoryResponse]
+  describe 'github_get_repository test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
 end
