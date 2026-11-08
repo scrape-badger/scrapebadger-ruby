@@ -1452,7 +1452,7 @@ end
 
 Search Marketplace
 
-Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
+Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.  Set strict_filters=true for locally enforced radius (always km) and age. Public price-range continuations are bounded to eight pages; sort the full collected set for newest-first monitoring. Coverage and freshness are partial.
 
 ### Examples
 
@@ -1478,7 +1478,9 @@ opts = {
   item_condition: 'item_condition_example', # String | 
   delivery_method: 'delivery_method_example', # String | 
   radius: 56, # Integer | Search radius around the location (km, or miles in the US)
-  after: 'after_example' # String | 
+  after: 'after_example', # String | 
+  strict_filters: true, # Boolean | Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics
+  include_details: true # Boolean | Enrich returned listings with full public descriptions and photos; enables verified search
 }
 
 begin
@@ -1522,6 +1524,8 @@ end
 | **delivery_method** | **String** |  | [optional] |
 | **radius** | **Integer** | Search radius around the location (km, or miles in the US) | [optional] |
 | **after** | **String** |  | [optional] |
+| **strict_filters** | **Boolean** | Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics | [optional][default to false] |
+| **include_details** | **Boolean** | Enrich returned listings with full public descriptions and photos; enables verified search | [optional][default to false] |
 
 ### Return type
 

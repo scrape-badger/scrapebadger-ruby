@@ -283,7 +283,7 @@ describe 'FacebookApi' do
 
   # unit tests for facebook_search_marketplace
   # Search Marketplace
-  # Search Facebook Marketplace listings by keyword and location.  &#x60;&#x60;location&#x60;&#x60; must be a Facebook location slug (&#x60;&#x60;london&#x60;&#x60;, &#x60;&#x60;newcastleupontyne&#x60;&#x60;) or a numeric Facebook place id — the &#x60;&#x60;city_page_id&#x60;&#x60; on any listing is one. Human-readable names such as &#x60;&#x60;Durham, UK&#x60;&#x60; are rejected with a 400 rather than silently searching Facebook&#39;s San Francisco default.
+  # Search Facebook Marketplace listings by keyword and location.  &#x60;&#x60;location&#x60;&#x60; must be a Facebook location slug (&#x60;&#x60;london&#x60;&#x60;, &#x60;&#x60;newcastleupontyne&#x60;&#x60;) or a numeric Facebook place id — the &#x60;&#x60;city_page_id&#x60;&#x60; on any listing is one. Human-readable names such as &#x60;&#x60;Durham, UK&#x60;&#x60; are rejected with a 400 rather than silently searching Facebook&#39;s San Francisco default.  Set strict_filters&#x3D;true for locally enforced radius (always km) and age. Public price-range continuations are bounded to eight pages; sort the full collected set for newest-first monitoring. Coverage and freshness are partial.
   # @param query Search keywords
   # @param [Hash] opts the optional parameters
   # @option opts [String] :location Marketplace location slug or numeric place id
@@ -295,6 +295,8 @@ describe 'FacebookApi' do
   # @option opts [String] :delivery_method 
   # @option opts [Integer] :radius Search radius around the location (km, or miles in the US)
   # @option opts [String] :after 
+  # @option opts [Boolean] :strict_filters Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics
+  # @option opts [Boolean] :include_details Enrich returned listings with full public descriptions and photos; enables verified search
   # @return [Object]
   describe 'facebook_search_marketplace test' do
     it 'should work' do

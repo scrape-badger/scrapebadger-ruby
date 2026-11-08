@@ -1279,7 +1279,7 @@ module ScrapeBadger
     end
 
     # Search Marketplace
-    # Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
+    # Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.  Set strict_filters=true for locally enforced radius (always km) and age. Public price-range continuations are bounded to eight pages; sort the full collected set for newest-first monitoring. Coverage and freshness are partial.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
     # @option opts [String] :location Marketplace location slug or numeric place id (default to 'nyc')
@@ -1291,6 +1291,8 @@ module ScrapeBadger
     # @option opts [String] :delivery_method 
     # @option opts [Integer] :radius Search radius around the location (km, or miles in the US)
     # @option opts [String] :after 
+    # @option opts [Boolean] :strict_filters Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics (default to false)
+    # @option opts [Boolean] :include_details Enrich returned listings with full public descriptions and photos; enables verified search (default to false)
     # @return [Object]
     def facebook_search_marketplace(query, opts = {})
       data, _status_code, _headers = facebook_search_marketplace_with_http_info(query, opts)
@@ -1298,7 +1300,7 @@ module ScrapeBadger
     end
 
     # Search Marketplace
-    # Search Facebook Marketplace listings by keyword and location.  &#x60;&#x60;location&#x60;&#x60; must be a Facebook location slug (&#x60;&#x60;london&#x60;&#x60;, &#x60;&#x60;newcastleupontyne&#x60;&#x60;) or a numeric Facebook place id — the &#x60;&#x60;city_page_id&#x60;&#x60; on any listing is one. Human-readable names such as &#x60;&#x60;Durham, UK&#x60;&#x60; are rejected with a 400 rather than silently searching Facebook&#39;s San Francisco default.
+    # Search Facebook Marketplace listings by keyword and location.  &#x60;&#x60;location&#x60;&#x60; must be a Facebook location slug (&#x60;&#x60;london&#x60;&#x60;, &#x60;&#x60;newcastleupontyne&#x60;&#x60;) or a numeric Facebook place id — the &#x60;&#x60;city_page_id&#x60;&#x60; on any listing is one. Human-readable names such as &#x60;&#x60;Durham, UK&#x60;&#x60; are rejected with a 400 rather than silently searching Facebook&#39;s San Francisco default.  Set strict_filters&#x3D;true for locally enforced radius (always km) and age. Public price-range continuations are bounded to eight pages; sort the full collected set for newest-first monitoring. Coverage and freshness are partial.
     # @param query [String] Search keywords
     # @param [Hash] opts the optional parameters
     # @option opts [String] :location Marketplace location slug or numeric place id (default to 'nyc')
@@ -1310,6 +1312,8 @@ module ScrapeBadger
     # @option opts [String] :delivery_method 
     # @option opts [Integer] :radius Search radius around the location (km, or miles in the US)
     # @option opts [String] :after 
+    # @option opts [Boolean] :strict_filters Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics (default to false)
+    # @option opts [Boolean] :include_details Enrich returned listings with full public descriptions and photos; enables verified search (default to false)
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def facebook_search_marketplace_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -1334,6 +1338,8 @@ module ScrapeBadger
       query_params[:'delivery_method'] = opts[:'delivery_method'] if !opts[:'delivery_method'].nil?
       query_params[:'radius'] = opts[:'radius'] if !opts[:'radius'].nil?
       query_params[:'after'] = opts[:'after'] if !opts[:'after'].nil?
+      query_params[:'strict_filters'] = opts[:'strict_filters'] if !opts[:'strict_filters'].nil?
+      query_params[:'include_details'] = opts[:'include_details'] if !opts[:'include_details'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
