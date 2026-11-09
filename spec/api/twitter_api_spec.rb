@@ -522,15 +522,10 @@ describe 'TwitterApi' do
 
   # unit tests for twitter_list_delivery_logs_for_a_filter_rule
   # List delivery logs for a filter rule
-  # List tweet delivery logs for a specific filter rule.
+  # Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers &#x60;&#x60;410 Gone&#x60;&#x60; with &#x60;&#x60;error: delivery_logs_removed&#x60;&#x60;.
   # @param rule_id 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :delivery_status 
-  # @option opts [String] :author_username 
-  # @option opts [Integer] :page 
-  # @option opts [Integer] :page_size 
-  # @option opts [String] :sort 
-  # @return [FilterRuleDeliveryLogListResponse]
+  # @return [nil]
   describe 'twitter_list_delivery_logs_for_a_filter_rule test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
@@ -567,15 +562,9 @@ describe 'TwitterApi' do
 
   # unit tests for twitter_list_tweet_delivery_logs
   # List tweet delivery logs
-  # List tweet delivery logs for the authenticated API key&#39;s monitors.
+  # Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers &#x60;&#x60;410 Gone&#x60;&#x60; with &#x60;&#x60;error: delivery_logs_removed&#x60;&#x60;. Each tweet is delivered to your webhook or WebSocket only; keep your own log there.
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :monitor_id 
-  # @option opts [String] :author_username 
-  # @option opts [String] :delivery_status 
-  # @option opts [Integer] :page 
-  # @option opts [Integer] :page_size 
-  # @option opts [String] :sort 
-  # @return [TweetDeliveryLogListResponse]
+  # @return [nil]
   describe 'twitter_list_tweet_delivery_logs test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/

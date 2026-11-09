@@ -2901,11 +2901,11 @@ end
 
 ## twitter_list_delivery_logs_for_a_filter_rule
 
-> <FilterRuleDeliveryLogListResponse> twitter_list_delivery_logs_for_a_filter_rule(rule_id, opts)
+> twitter_list_delivery_logs_for_a_filter_rule(rule_id)
 
 List delivery logs for a filter rule
 
-List tweet delivery logs for a specific filter rule.
+Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``.
 
 ### Examples
 
@@ -2922,18 +2922,10 @@ end
 
 api_instance = ScrapeBadger::TwitterApi.new
 rule_id = 'rule_id_example' # String | 
-opts = {
-  delivery_status: 'delivery_status_example', # String | 
-  author_username: 'author_username_example', # String | 
-  page: 56, # Integer | 
-  page_size: 56, # Integer | 
-  sort: 'asc' # String | 
-}
 
 begin
   # List delivery logs for a filter rule
-  result = api_instance.twitter_list_delivery_logs_for_a_filter_rule(rule_id, opts)
-  p result
+  api_instance.twitter_list_delivery_logs_for_a_filter_rule(rule_id)
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling TwitterApi->twitter_list_delivery_logs_for_a_filter_rule: #{e}"
 end
@@ -2941,17 +2933,17 @@ end
 
 #### Using the twitter_list_delivery_logs_for_a_filter_rule_with_http_info variant
 
-This returns an Array which contains the response data, status code and headers.
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(<FilterRuleDeliveryLogListResponse>, Integer, Hash)> twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id, opts)
+> <Array(nil, Integer, Hash)> twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id)
 
 ```ruby
 begin
   # List delivery logs for a filter rule
-  data, status_code, headers = api_instance.twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id, opts)
+  data, status_code, headers = api_instance.twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => <FilterRuleDeliveryLogListResponse>
+  p data # => nil
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling TwitterApi->twitter_list_delivery_logs_for_a_filter_rule_with_http_info: #{e}"
 end
@@ -2962,15 +2954,10 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **rule_id** | **String** |  |  |
-| **delivery_status** | **String** |  | [optional] |
-| **author_username** | **String** |  | [optional] |
-| **page** | **Integer** |  | [optional][default to 1] |
-| **page_size** | **Integer** |  | [optional][default to 20] |
-| **sort** | **String** |  | [optional][default to &#39;desc&#39;] |
 
 ### Return type
 
-[**FilterRuleDeliveryLogListResponse**](FilterRuleDeliveryLogListResponse.md)
+nil (empty response body)
 
 ### Authorization
 
@@ -3138,11 +3125,11 @@ end
 
 ## twitter_list_tweet_delivery_logs
 
-> <TweetDeliveryLogListResponse> twitter_list_tweet_delivery_logs(opts)
+> twitter_list_tweet_delivery_logs
 
 List tweet delivery logs
 
-List tweet delivery logs for the authenticated API key's monitors.
+Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``. Each tweet is delivered to your webhook or WebSocket only; keep your own log there.
 
 ### Examples
 
@@ -3158,19 +3145,10 @@ ScrapeBadger.configure do |config|
 end
 
 api_instance = ScrapeBadger::TwitterApi.new
-opts = {
-  monitor_id: 'monitor_id_example', # String | 
-  author_username: 'author_username_example', # String | 
-  delivery_status: 'delivery_status_example', # String | 
-  page: 56, # Integer | 
-  page_size: 56, # Integer | 
-  sort: 'asc' # String | 
-}
 
 begin
   # List tweet delivery logs
-  result = api_instance.twitter_list_tweet_delivery_logs(opts)
-  p result
+  api_instance.twitter_list_tweet_delivery_logs
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling TwitterApi->twitter_list_tweet_delivery_logs: #{e}"
 end
@@ -3178,17 +3156,17 @@ end
 
 #### Using the twitter_list_tweet_delivery_logs_with_http_info variant
 
-This returns an Array which contains the response data, status code and headers.
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(<TweetDeliveryLogListResponse>, Integer, Hash)> twitter_list_tweet_delivery_logs_with_http_info(opts)
+> <Array(nil, Integer, Hash)> twitter_list_tweet_delivery_logs_with_http_info
 
 ```ruby
 begin
   # List tweet delivery logs
-  data, status_code, headers = api_instance.twitter_list_tweet_delivery_logs_with_http_info(opts)
+  data, status_code, headers = api_instance.twitter_list_tweet_delivery_logs_with_http_info
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => <TweetDeliveryLogListResponse>
+  p data # => nil
 rescue ScrapeBadger::ApiError => e
   puts "Error when calling TwitterApi->twitter_list_tweet_delivery_logs_with_http_info: #{e}"
 end
@@ -3196,18 +3174,11 @@ end
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **monitor_id** | **String** |  | [optional] |
-| **author_username** | **String** |  | [optional] |
-| **delivery_status** | **String** |  | [optional] |
-| **page** | **Integer** |  | [optional][default to 1] |
-| **page_size** | **Integer** |  | [optional][default to 20] |
-| **sort** | **String** |  | [optional][default to &#39;desc&#39;] |
+This endpoint does not need any parameter.
 
 ### Return type
 
-[**TweetDeliveryLogListResponse**](TweetDeliveryLogListResponse.md)
+nil (empty response body)
 
 ### Authorization
 

@@ -2559,30 +2559,20 @@ module ScrapeBadger
     end
 
     # List delivery logs for a filter rule
-    # List tweet delivery logs for a specific filter rule.
+    # Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``.
     # @param rule_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :delivery_status 
-    # @option opts [String] :author_username 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 20)
-    # @option opts [String] :sort  (default to 'desc')
-    # @return [FilterRuleDeliveryLogListResponse]
+    # @return [nil]
     def twitter_list_delivery_logs_for_a_filter_rule(rule_id, opts = {})
-      data, _status_code, _headers = twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id, opts)
-      data
+      twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id, opts)
+      nil
     end
 
     # List delivery logs for a filter rule
-    # List tweet delivery logs for a specific filter rule.
+    # Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers &#x60;&#x60;410 Gone&#x60;&#x60; with &#x60;&#x60;error: delivery_logs_removed&#x60;&#x60;.
     # @param rule_id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :delivery_status 
-    # @option opts [String] :author_username 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 20)
-    # @option opts [String] :sort  (default to 'desc')
-    # @return [Array<(FilterRuleDeliveryLogListResponse, Integer, Hash)>] FilterRuleDeliveryLogListResponse data, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def twitter_list_delivery_logs_for_a_filter_rule_with_http_info(rule_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TwitterApi.twitter_list_delivery_logs_for_a_filter_rule ...'
@@ -2591,32 +2581,11 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && rule_id.nil?
         fail ArgumentError, "Missing the required parameter 'rule_id' when calling TwitterApi.twitter_list_delivery_logs_for_a_filter_rule"
       end
-      if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling TwitterApi.twitter_list_delivery_logs_for_a_filter_rule, must be greater than or equal to 1.'
-      end
-
-      if @api_client.config.client_side_validation && !opts[:'page_size'].nil? && opts[:'page_size'] > 100
-        fail ArgumentError, 'invalid value for "opts[:"page_size"]" when calling TwitterApi.twitter_list_delivery_logs_for_a_filter_rule, must be smaller than or equal to 100.'
-      end
-
-      if @api_client.config.client_side_validation && !opts[:'page_size'].nil? && opts[:'page_size'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"page_size"]" when calling TwitterApi.twitter_list_delivery_logs_for_a_filter_rule, must be greater than or equal to 1.'
-      end
-
-      allowable_values = ["asc", "desc"]
-      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
-        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
-      end
       # resource path
       local_var_path = '/v1/twitter/stream/filter-rules/{rule_id}/logs'.sub('{' + 'rule_id' + '}', CGI.escape(rule_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'delivery_status'] = opts[:'delivery_status'] if !opts[:'delivery_status'].nil?
-      query_params[:'author_username'] = opts[:'author_username'] if !opts[:'author_username'].nil?
-      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
-      query_params[:'page_size'] = opts[:'page_size'] if !opts[:'page_size'].nil?
-      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -2630,7 +2599,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'FilterRuleDeliveryLogListResponse'
+      return_type = opts[:debug_return_type]
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
@@ -2809,61 +2778,27 @@ module ScrapeBadger
     end
 
     # List tweet delivery logs
-    # List tweet delivery logs for the authenticated API key's monitors.
+    # Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``. Each tweet is delivered to your webhook or WebSocket only; keep your own log there.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :monitor_id 
-    # @option opts [String] :author_username 
-    # @option opts [String] :delivery_status 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 20)
-    # @option opts [String] :sort  (default to 'desc')
-    # @return [TweetDeliveryLogListResponse]
+    # @return [nil]
     def twitter_list_tweet_delivery_logs(opts = {})
-      data, _status_code, _headers = twitter_list_tweet_delivery_logs_with_http_info(opts)
-      data
+      twitter_list_tweet_delivery_logs_with_http_info(opts)
+      nil
     end
 
     # List tweet delivery logs
-    # List tweet delivery logs for the authenticated API key&#39;s monitors.
+    # Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers &#x60;&#x60;410 Gone&#x60;&#x60; with &#x60;&#x60;error: delivery_logs_removed&#x60;&#x60;. Each tweet is delivered to your webhook or WebSocket only; keep your own log there.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :monitor_id 
-    # @option opts [String] :author_username 
-    # @option opts [String] :delivery_status 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 20)
-    # @option opts [String] :sort  (default to 'desc')
-    # @return [Array<(TweetDeliveryLogListResponse, Integer, Hash)>] TweetDeliveryLogListResponse data, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def twitter_list_tweet_delivery_logs_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TwitterApi.twitter_list_tweet_delivery_logs ...'
-      end
-      if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"page"]" when calling TwitterApi.twitter_list_tweet_delivery_logs, must be greater than or equal to 1.'
-      end
-
-      if @api_client.config.client_side_validation && !opts[:'page_size'].nil? && opts[:'page_size'] > 100
-        fail ArgumentError, 'invalid value for "opts[:"page_size"]" when calling TwitterApi.twitter_list_tweet_delivery_logs, must be smaller than or equal to 100.'
-      end
-
-      if @api_client.config.client_side_validation && !opts[:'page_size'].nil? && opts[:'page_size'] < 1
-        fail ArgumentError, 'invalid value for "opts[:"page_size"]" when calling TwitterApi.twitter_list_tweet_delivery_logs, must be greater than or equal to 1.'
-      end
-
-      allowable_values = ["asc", "desc"]
-      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
-        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/v1/twitter/stream/logs'
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'monitor_id'] = opts[:'monitor_id'] if !opts[:'monitor_id'].nil?
-      query_params[:'author_username'] = opts[:'author_username'] if !opts[:'author_username'].nil?
-      query_params[:'delivery_status'] = opts[:'delivery_status'] if !opts[:'delivery_status'].nil?
-      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
-      query_params[:'page_size'] = opts[:'page_size'] if !opts[:'page_size'].nil?
-      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -2877,7 +2812,7 @@ module ScrapeBadger
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'TweetDeliveryLogListResponse'
+      return_type = opts[:debug_return_type]
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']

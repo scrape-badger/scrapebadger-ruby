@@ -76,8 +76,6 @@ docs/Faq.md
 docs/FeedbackApi.md
 docs/FeedbackRequest.md
 docs/FilterRuleCreate.md
-docs/FilterRuleDeliveryLogListResponse.md
-docs/FilterRuleDeliveryLogResponse.md
 docs/FilterRuleListResponse.md
 docs/FilterRuleResponse.md
 docs/FilterRuleUpdate.md
@@ -194,8 +192,6 @@ docs/Subtype.md
 docs/TargetApi.md
 docs/Thumbnail.md
 docs/TikTokApi.md
-docs/TweetDeliveryLogListResponse.md
-docs/TweetDeliveryLogResponse.md
 docs/TwitterApi.md
 docs/Type.md
 docs/Url.md
@@ -349,8 +345,6 @@ lib/scrapebadger/models/family_friendly.rb
 lib/scrapebadger/models/faq.rb
 lib/scrapebadger/models/feedback_request.rb
 lib/scrapebadger/models/filter_rule_create.rb
-lib/scrapebadger/models/filter_rule_delivery_log_list_response.rb
-lib/scrapebadger/models/filter_rule_delivery_log_response.rb
 lib/scrapebadger/models/filter_rule_list_response.rb
 lib/scrapebadger/models/filter_rule_response.rb
 lib/scrapebadger/models/filter_rule_update.rb
@@ -446,8 +440,6 @@ lib/scrapebadger/models/stream_monitor_update.rb
 lib/scrapebadger/models/subscription_info.rb
 lib/scrapebadger/models/subtype.rb
 lib/scrapebadger/models/thumbnail.rb
-lib/scrapebadger/models/tweet_delivery_log_list_response.rb
-lib/scrapebadger/models/tweet_delivery_log_response.rb
 lib/scrapebadger/models/type.rb
 lib/scrapebadger/models/url.rb
 lib/scrapebadger/models/user_items_response.rb
@@ -588,8 +580,6 @@ spec/models/family_friendly_spec.rb
 spec/models/faq_spec.rb
 spec/models/feedback_request_spec.rb
 spec/models/filter_rule_create_spec.rb
-spec/models/filter_rule_delivery_log_list_response_spec.rb
-spec/models/filter_rule_delivery_log_response_spec.rb
 spec/models/filter_rule_list_response_spec.rb
 spec/models/filter_rule_response_spec.rb
 spec/models/filter_rule_update_spec.rb
@@ -685,8 +675,6 @@ spec/models/stream_monitor_update_spec.rb
 spec/models/subscription_info_spec.rb
 spec/models/subtype_spec.rb
 spec/models/thumbnail_spec.rb
-spec/models/tweet_delivery_log_list_response_spec.rb
-spec/models/tweet_delivery_log_response_spec.rb
 spec/models/type_spec.rb
 spec/models/url_spec.rb
 spec/models/user_items_response_spec.rb
