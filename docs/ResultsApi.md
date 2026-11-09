@@ -4,16 +4,16 @@ All URIs are relative to *https://scrapebadger.com*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**results_re_read_a_result**](ResultsApi.md#results_re_read_a_result) | **GET** /v1/results/{result_id} | Re-read a result |
+| [**results_re_read_a_result_removed**](ResultsApi.md#results_re_read_a_result_removed) | **GET** /v1/results/{result_id} | Re-read a result (removed) |
 
 
-## results_re_read_a_result
+## results_re_read_a_result_removed
 
-> Object results_re_read_a_result(result_id)
+> Object results_re_read_a_result_removed(result_id)
 
-Re-read a result
+Re-read a result (removed)
 
-Replay a billed result (X-Result-ID) for free for ~15 minutes, optionally trimmed with jq / fields / max_items / summary. Never re-run a paid call just to reshape it.
+Removed (SCR-396): ScrapeBadger no longer stores results, so there is nothing to re-read. Always 410. Narrow a call with _jq / _fields / _max_items instead.
 
 ### Examples
 
@@ -32,29 +32,29 @@ api_instance = ScrapeBadger::ResultsApi.new
 result_id = 'result_id_example' # String | 
 
 begin
-  # Re-read a result
-  result = api_instance.results_re_read_a_result(result_id)
+  # Re-read a result (removed)
+  result = api_instance.results_re_read_a_result_removed(result_id)
   p result
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling ResultsApi->results_re_read_a_result: #{e}"
+  puts "Error when calling ResultsApi->results_re_read_a_result_removed: #{e}"
 end
 ```
 
-#### Using the results_re_read_a_result_with_http_info variant
+#### Using the results_re_read_a_result_removed_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(Object, Integer, Hash)> results_re_read_a_result_with_http_info(result_id)
+> <Array(Object, Integer, Hash)> results_re_read_a_result_removed_with_http_info(result_id)
 
 ```ruby
 begin
-  # Re-read a result
-  data, status_code, headers = api_instance.results_re_read_a_result_with_http_info(result_id)
+  # Re-read a result (removed)
+  data, status_code, headers = api_instance.results_re_read_a_result_removed_with_http_info(result_id)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => Object
 rescue ScrapeBadger::ApiError => e
-  puts "Error when calling ResultsApi->results_re_read_a_result_with_http_info: #{e}"
+  puts "Error when calling ResultsApi->results_re_read_a_result_removed_with_http_info: #{e}"
 end
 ```
 

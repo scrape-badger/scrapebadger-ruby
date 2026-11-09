@@ -520,7 +520,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::RedfinApi* | [**redfin_region_address_suggestions**](docs/RedfinApi.md#redfin_region_address_suggestions) | **GET** /v1/redfin/autocomplete | Region/address suggestions
 *ScrapeBadger::RedfinApi* | [**redfin_search_properties**](docs/RedfinApi.md#redfin_search_properties) | **GET** /v1/redfin/search | Search properties
 *ScrapeBadger::RequestsApi* | [**requests_poll_an_async_request**](docs/RequestsApi.md#requests_poll_an_async_request) | **GET** /v1/requests/{request_id} | Poll an async request
-*ScrapeBadger::ResultsApi* | [**results_re_read_a_result**](docs/ResultsApi.md#results_re_read_a_result) | **GET** /v1/results/{result_id} | Re-read a result
+*ScrapeBadger::ResultsApi* | [**results_re_read_a_result_removed**](docs/ResultsApi.md#results_re_read_a_result_removed) | **GET** /v1/results/{result_id} | Re-read a result (removed)
 *ScrapeBadger::TargetApi* | [**target_browse_a_category**](docs/TargetApi.md#target_browse_a_category) | **GET** /v1/target/category | Browse a category
 *ScrapeBadger::TargetApi* | [**target_find_nearby_stores**](docs/TargetApi.md#target_find_nearby_stores) | **GET** /v1/target/stores | Find nearby stores
 *ScrapeBadger::TargetApi* | [**target_get_categories**](docs/TargetApi.md#target_get_categories) | **GET** /v1/target/categories | Get categories

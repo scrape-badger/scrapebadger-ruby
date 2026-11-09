@@ -32,13 +32,13 @@ describe 'ResultsApi' do
     end
   end
 
-  # unit tests for results_re_read_a_result
-  # Re-read a result
-  # Replay a billed result (X-Result-ID) for free for ~15 minutes, optionally trimmed with jq / fields / max_items / summary. Never re-run a paid call just to reshape it.
+  # unit tests for results_re_read_a_result_removed
+  # Re-read a result (removed)
+  # Removed (SCR-396): ScrapeBadger no longer stores results, so there is nothing to re-read. Always 410. Narrow a call with _jq / _fields / _max_items instead.
   # @param result_id 
   # @param [Hash] opts the optional parameters
   # @return [Object]
-  describe 'results_re_read_a_result test' do
+  describe 'results_re_read_a_result_removed test' do
     it 'should work' do
       # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end

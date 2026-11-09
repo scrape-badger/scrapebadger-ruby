@@ -19,28 +19,28 @@ module ScrapeBadger
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # Re-read a result
-    # Replay a billed result (X-Result-ID) for free for ~15 minutes, optionally trimmed with jq / fields / max_items / summary. Never re-run a paid call just to reshape it.
+    # Re-read a result (removed)
+    # Removed (SCR-396): ScrapeBadger no longer stores results, so there is nothing to re-read. Always 410. Narrow a call with _jq / _fields / _max_items instead.
     # @param result_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
-    def results_re_read_a_result(result_id, opts = {})
-      data, _status_code, _headers = results_re_read_a_result_with_http_info(result_id, opts)
+    def results_re_read_a_result_removed(result_id, opts = {})
+      data, _status_code, _headers = results_re_read_a_result_removed_with_http_info(result_id, opts)
       data
     end
 
-    # Re-read a result
-    # Replay a billed result (X-Result-ID) for free for ~15 minutes, optionally trimmed with jq / fields / max_items / summary. Never re-run a paid call just to reshape it.
+    # Re-read a result (removed)
+    # Removed (SCR-396): ScrapeBadger no longer stores results, so there is nothing to re-read. Always 410. Narrow a call with _jq / _fields / _max_items instead.
     # @param result_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def results_re_read_a_result_with_http_info(result_id, opts = {})
+    def results_re_read_a_result_removed_with_http_info(result_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: ResultsApi.results_re_read_a_result ...'
+        @api_client.config.logger.debug 'Calling API: ResultsApi.results_re_read_a_result_removed ...'
       end
       # verify the required parameter 'result_id' is set
       if @api_client.config.client_side_validation && result_id.nil?
-        fail ArgumentError, "Missing the required parameter 'result_id' when calling ResultsApi.results_re_read_a_result"
+        fail ArgumentError, "Missing the required parameter 'result_id' when calling ResultsApi.results_re_read_a_result_removed"
       end
       # resource path
       local_var_path = '/v1/results/{result_id}'.sub('{' + 'result_id' + '}', CGI.escape(result_id.to_s))
@@ -66,7 +66,7 @@ module ScrapeBadger
       auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
 
       new_options = opts.merge(
-        :operation => :"ResultsApi.results_re_read_a_result",
+        :operation => :"ResultsApi.results_re_read_a_result_removed",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -77,7 +77,7 @@ module ScrapeBadger
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ResultsApi#results_re_read_a_result\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: ResultsApi#results_re_read_a_result_removed\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
