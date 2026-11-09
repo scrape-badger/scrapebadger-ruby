@@ -271,7 +271,7 @@ describe 'GoogleApi' do
   # @option opts [String] :color_scheme Google color scheme.
   # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
   # @option opts [String] :udm Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html.
-  # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch.
+  # @option opts [Boolean] :no_cache Ignored: responses are never cached.
   # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
   # @option opts [String] :as_epq Exact phrase.
   # @option opts [String] :as_eq Words to exclude.
@@ -392,7 +392,7 @@ describe 'GoogleApi' do
   # @option opts [String] :color_scheme Google color scheme.
   # @option opts [String] :tbm Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results.
   # @option opts [String] :udm Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html.
-  # @option opts [Boolean] :no_cache Bypass result caches and request a fresh Google fetch.
+  # @option opts [Boolean] :no_cache Ignored: responses are never cached.
   # @option opts [String] :as_dt Site restriction mode: i includes, e excludes as_sitesearch.
   # @option opts [String] :as_epq Exact phrase.
   # @option opts [String] :as_eq Words to exclude.

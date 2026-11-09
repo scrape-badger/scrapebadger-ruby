@@ -1152,7 +1152,7 @@ opts = {
   color_scheme: 'light', # String | Google color scheme.
   tbm: 'isch', # String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results.
   udm: 'udm_example', # String | Google result filter: web or 14 for web, 18 for forums. Other verticals require output=html.
-  no_cache: true, # Boolean | Bypass result caches and request a fresh Google fetch.
+  no_cache: true, # Boolean | Ignored: responses are never cached.
   as_dt: 'as_dt_example', # String | Site restriction mode: i includes, e excludes as_sitesearch.
   as_epq: 'as_epq_example', # String | Exact phrase.
   as_eq: 'as_eq_example', # String | Words to exclude.
@@ -1230,7 +1230,7 @@ end
 | **color_scheme** | **String** | Google color scheme. | [optional] |
 | **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] |
 | **udm** | **String** | Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html. | [optional] |
-| **no_cache** | **Boolean** | Bypass result caches and request a fresh Google fetch. | [optional][default to false] |
+| **no_cache** | **Boolean** | Ignored: responses are never cached. | [optional][default to false] |
 | **as_dt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] |
 | **as_epq** | **String** | Exact phrase. | [optional] |
 | **as_eq** | **String** | Words to exclude. | [optional] |
@@ -1621,7 +1621,7 @@ opts = {
   color_scheme: 'light', # String | Google color scheme.
   tbm: 'isch', # String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results.
   udm: 'udm_example', # String | Google result filter: web or 14 for web, 18 for forums. Other verticals require output=html.
-  no_cache: true, # Boolean | Bypass result caches and request a fresh Google fetch.
+  no_cache: true, # Boolean | Ignored: responses are never cached.
   as_dt: 'as_dt_example', # String | Site restriction mode: i includes, e excludes as_sitesearch.
   as_epq: 'as_epq_example', # String | Exact phrase.
   as_eq: 'as_eq_example', # String | Words to exclude.
@@ -1702,7 +1702,7 @@ end
 | **color_scheme** | **String** | Google color scheme. | [optional] |
 | **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] |
 | **udm** | **String** | Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html. | [optional] |
-| **no_cache** | **Boolean** | Bypass result caches and request a fresh Google fetch. | [optional][default to false] |
+| **no_cache** | **Boolean** | Ignored: responses are never cached. | [optional][default to false] |
 | **as_dt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] |
 | **as_epq** | **String** | Exact phrase. | [optional] |
 | **as_eq** | **String** | Words to exclude. | [optional] |
