@@ -137,6 +137,7 @@ docs/LinkedInApi.md
 docs/Location.md
 docs/LoopNetApi.md
 docs/MarketsResponse.md
+docs/MetaAiApi.md
 docs/MetaUrl.md
 docs/NaverApi.md
 docs/NextOffset.md
@@ -275,6 +276,7 @@ lib/scrapebadger/api/instagram_api.rb
 lib/scrapebadger/api/leboncoin_api.rb
 lib/scrapebadger/api/linked_in_api.rb
 lib/scrapebadger/api/loop_net_api.rb
+lib/scrapebadger/api/meta_ai_api.rb
 lib/scrapebadger/api/naver_api.rb
 lib/scrapebadger/api/perplexity_api.rb
 lib/scrapebadger/api/quote_api.rb
@@ -513,6 +515,7 @@ spec/api/instagram_api_spec.rb
 spec/api/leboncoin_api_spec.rb
 spec/api/linked_in_api_spec.rb
 spec/api/loop_net_api_spec.rb
+spec/api/meta_ai_api_spec.rb
 spec/api/naver_api_spec.rb
 spec/api/perplexity_api_spec.rb
 spec/api/quote_api_spec.rb
