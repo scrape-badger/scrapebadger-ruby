@@ -378,6 +378,14 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::GooglePlayApi* | [**google_play_list_markets**](docs/GooglePlayApi.md#google_play_list_markets) | **GET** /v1/google-play/markets | List markets
 *ScrapeBadger::GooglePlayApi* | [**google_play_search_apps**](docs/GooglePlayApi.md#google_play_search_apps) | **GET** /v1/google-play/search | Search apps
 *ScrapeBadger::GooglePlayApi* | [**google_play_top_charts**](docs/GooglePlayApi.md#google_play_top_charts) | **GET** /v1/google-play/collections/{collection} | Top charts
+*ScrapeBadger::GrokApi* | [**grok_ask_grok_a_question**](docs/GrokApi.md#grok_ask_grok_a_question) | **GET** /v1/grok/ask | Ask Grok a question
+*ScrapeBadger::GrokApi* | [**grok_ask_grok_a_question_post**](docs/GrokApi.md#grok_ask_grok_a_question_post) | **POST** /v1/grok/ask | Ask Grok a question (POST)
+*ScrapeBadger::GrokApi* | [**grok_get_a_grok_conversation**](docs/GrokApi.md#grok_get_a_grok_conversation) | **GET** /v1/grok/conversations/{conversation_id} | Get a Grok conversation
+*ScrapeBadger::GrokApi* | [**grok_grok_scraper_health_check**](docs/GrokApi.md#grok_grok_scraper_health_check) | **GET** /v1/grok/health | Grok scraper health check
+*ScrapeBadger::GrokApi* | [**grok_grok_scraper_health_check_head**](docs/GrokApi.md#grok_grok_scraper_health_check_head) | **HEAD** /v1/grok/health | Grok scraper health check
+*ScrapeBadger::GrokApi* | [**grok_list_grok_assistant_modes**](docs/GrokApi.md#grok_list_grok_assistant_modes) | **GET** /v1/grok/models | List Grok assistant modes
+*ScrapeBadger::GrokApi* | [**grok_measure_brand_visibility_in_grok**](docs/GrokApi.md#grok_measure_brand_visibility_in_grok) | **GET** /v1/grok/brand-visibility | Measure brand visibility in Grok
+*ScrapeBadger::GrokApi* | [**grok_measure_brand_visibility_in_grok_post**](docs/GrokApi.md#grok_measure_brand_visibility_in_grok_post) | **POST** /v1/grok/brand-visibility | Measure brand visibility in Grok (POST)
 *ScrapeBadger::GumtreeApi* | [**gumtree_get_listing**](docs/GumtreeApi.md#gumtree_get_listing) | **GET** /v1/gumtree/listings/{listing_id} | Get listing
 *ScrapeBadger::GumtreeApi* | [**gumtree_get_search_filters**](docs/GumtreeApi.md#gumtree_get_search_filters) | **GET** /v1/gumtree/search/filters | Get search filters
 *ScrapeBadger::GumtreeApi* | [**gumtree_get_seller_listings**](docs/GumtreeApi.md#gumtree_get_seller_listings) | **GET** /v1/gumtree/listings/{listing_id}/seller-listings | Get seller listings
@@ -449,6 +457,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::LinkedInApi* | [**linkedin_get_a_public_article**](docs/LinkedInApi.md#linkedin_get_a_public_article) | **GET** /v1/linkedin/articles/{article_slug} | Get a public article
 *ScrapeBadger::LinkedInApi* | [**linkedin_get_a_public_post**](docs/LinkedInApi.md#linkedin_get_a_public_post) | **GET** /v1/linkedin/posts/{post_slug} | Get a public post
 *ScrapeBadger::LinkedInApi* | [**linkedin_get_company**](docs/LinkedInApi.md#linkedin_get_company) | **GET** /v1/linkedin/companies/{universal_name} | Get company
+*ScrapeBadger::LinkedInApi* | [**linkedin_get_full_profile_through_the_authenticated_projection**](docs/LinkedInApi.md#linkedin_get_full_profile_through_the_authenticated_projection) | **GET** /v1/linkedin/profiles/{public_id}/full | Get full profile through the authenticated projection
 *ScrapeBadger::LinkedInApi* | [**linkedin_get_job_detail**](docs/LinkedInApi.md#linkedin_get_job_detail) | **GET** /v1/linkedin/jobs/{job_id} | Get job detail
 *ScrapeBadger::LinkedInApi* | [**linkedin_get_public_profile**](docs/LinkedInApi.md#linkedin_get_public_profile) | **GET** /v1/linkedin/profiles/{public_id} | Get public profile
 *ScrapeBadger::LinkedInApi* | [**linkedin_get_school**](docs/LinkedInApi.md#linkedin_get_school) | **GET** /v1/linkedin/schools/{universal_name} | Get school

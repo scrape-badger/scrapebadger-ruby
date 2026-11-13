@@ -98,6 +98,19 @@ describe 'LinkedInApi' do
     end
   end
 
+  # unit tests for linkedin_get_full_profile_through_the_authenticated_projection
+  # Get full profile through the authenticated projection
+  # Full profile using the server-owned authenticated LinkedIn session.
+  # @param public_id 
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :country Residential proxy country
+  # @return [Object]
+  describe 'linkedin_get_full_profile_through_the_authenticated_projection test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
   # unit tests for linkedin_get_job_detail
   # Get job detail
   # Full detail for one job posting (guest API, no login).

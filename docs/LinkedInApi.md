@@ -9,6 +9,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**linkedin_get_a_public_article**](LinkedInApi.md#linkedin_get_a_public_article) | **GET** /v1/linkedin/articles/{article_slug} | Get a public article |
 | [**linkedin_get_a_public_post**](LinkedInApi.md#linkedin_get_a_public_post) | **GET** /v1/linkedin/posts/{post_slug} | Get a public post |
 | [**linkedin_get_company**](LinkedInApi.md#linkedin_get_company) | **GET** /v1/linkedin/companies/{universal_name} | Get company |
+| [**linkedin_get_full_profile_through_the_authenticated_projection**](LinkedInApi.md#linkedin_get_full_profile_through_the_authenticated_projection) | **GET** /v1/linkedin/profiles/{public_id}/full | Get full profile through the authenticated projection |
 | [**linkedin_get_job_detail**](LinkedInApi.md#linkedin_get_job_detail) | **GET** /v1/linkedin/jobs/{job_id} | Get job detail |
 | [**linkedin_get_public_profile**](LinkedInApi.md#linkedin_get_public_profile) | **GET** /v1/linkedin/profiles/{public_id} | Get public profile |
 | [**linkedin_get_school**](LinkedInApi.md#linkedin_get_school) | **GET** /v1/linkedin/schools/{universal_name} | Get school |
@@ -379,6 +380,81 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **universal_name** | **String** |  |  |
+| **country** | **String** | Residential proxy country | [optional][default to &#39;us&#39;] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## linkedin_get_full_profile_through_the_authenticated_projection
+
+> Object linkedin_get_full_profile_through_the_authenticated_projection(public_id, opts)
+
+Get full profile through the authenticated projection
+
+Full profile using the server-owned authenticated LinkedIn session.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::LinkedInApi.new
+public_id = 'public_id_example' # String | 
+opts = {
+  country: 'country_example' # String | Residential proxy country
+}
+
+begin
+  # Get full profile through the authenticated projection
+  result = api_instance.linkedin_get_full_profile_through_the_authenticated_projection(public_id, opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling LinkedInApi->linkedin_get_full_profile_through_the_authenticated_projection: #{e}"
+end
+```
+
+#### Using the linkedin_get_full_profile_through_the_authenticated_projection_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Object, Integer, Hash)> linkedin_get_full_profile_through_the_authenticated_projection_with_http_info(public_id, opts)
+
+```ruby
+begin
+  # Get full profile through the authenticated projection
+  data, status_code, headers = api_instance.linkedin_get_full_profile_through_the_authenticated_projection_with_http_info(public_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Object
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling LinkedInApi->linkedin_get_full_profile_through_the_authenticated_projection_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **public_id** | **String** |  |  |
 | **country** | **String** | Residential proxy country | [optional][default to &#39;us&#39;] |
 
 ### Return type
