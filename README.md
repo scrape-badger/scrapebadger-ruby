@@ -535,6 +535,11 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::RedfinApi* | [**redfin_search_properties**](docs/RedfinApi.md#redfin_search_properties) | **GET** /v1/redfin/search | Search properties
 *ScrapeBadger::RequestsApi* | [**requests_poll_an_async_request**](docs/RequestsApi.md#requests_poll_an_async_request) | **GET** /v1/requests/{request_id} | Poll an async request
 *ScrapeBadger::ResultsApi* | [**results_re_read_a_result_removed**](docs/ResultsApi.md#results_re_read_a_result_removed) | **GET** /v1/results/{result_id} | Re-read a result (removed)
+*ScrapeBadger::RufusApi* | [**rufus_amazon_rufus_scraper_health_check**](docs/RufusApi.md#rufus_amazon_rufus_scraper_health_check) | **GET** /v1/rufus/health | Amazon Rufus scraper health check
+*ScrapeBadger::RufusApi* | [**rufus_amazon_rufus_scraper_health_check_head**](docs/RufusApi.md#rufus_amazon_rufus_scraper_health_check_head) | **HEAD** /v1/rufus/health | Amazon Rufus scraper health check
+*ScrapeBadger::RufusApi* | [**rufus_ask_amazon_rufus_a_question**](docs/RufusApi.md#rufus_ask_amazon_rufus_a_question) | **GET** /v1/rufus/ask | Ask Amazon Rufus a question
+*ScrapeBadger::RufusApi* | [**rufus_ask_amazon_rufus_a_question_post**](docs/RufusApi.md#rufus_ask_amazon_rufus_a_question_post) | **POST** /v1/rufus/ask | Ask Amazon Rufus a question (POST)
+*ScrapeBadger::RufusApi* | [**rufus_list_amazon_rufus_models**](docs/RufusApi.md#rufus_list_amazon_rufus_models) | **GET** /v1/rufus/models | List Amazon Rufus models
 *ScrapeBadger::TargetApi* | [**target_browse_a_category**](docs/TargetApi.md#target_browse_a_category) | **GET** /v1/target/category | Browse a category
 *ScrapeBadger::TargetApi* | [**target_find_nearby_stores**](docs/TargetApi.md#target_find_nearby_stores) | **GET** /v1/target/stores | Find nearby stores
 *ScrapeBadger::TargetApi* | [**target_get_categories**](docs/TargetApi.md#target_get_categories) | **GET** /v1/target/categories | Get categories
@@ -879,6 +884,7 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::Ratings](docs/Ratings.md)
  - [ScrapeBadger::Recipe](docs/Recipe.md)
  - [ScrapeBadger::Review](docs/Review.md)
+ - [ScrapeBadger::RufusAskRequest](docs/RufusAskRequest.md)
  - [ScrapeBadger::ScreenshotRequest](docs/ScreenshotRequest.md)
  - [ScrapeBadger::Searchterm](docs/Searchterm.md)
  - [ScrapeBadger::SiteName](docs/SiteName.md)

@@ -176,6 +176,8 @@ docs/RedfinApi.md
 docs/RequestsApi.md
 docs/ResultsApi.md
 docs/Review.md
+docs/RufusApi.md
+docs/RufusAskRequest.md
 docs/ScreenshotRequest.md
 docs/Searchterm.md
 docs/SiteName.md
@@ -287,6 +289,7 @@ lib/scrapebadger/api/reddit_api.rb
 lib/scrapebadger/api/redfin_api.rb
 lib/scrapebadger/api/requests_api.rb
 lib/scrapebadger/api/results_api.rb
+lib/scrapebadger/api/rufus_api.rb
 lib/scrapebadger/api/target_api.rb
 lib/scrapebadger/api/tik_tok_api.rb
 lib/scrapebadger/api/twitter_api.rb
@@ -428,6 +431,7 @@ lib/scrapebadger/models/rating.rb
 lib/scrapebadger/models/ratings.rb
 lib/scrapebadger/models/recipe.rb
 lib/scrapebadger/models/review.rb
+lib/scrapebadger/models/rufus_ask_request.rb
 lib/scrapebadger/models/screenshot_request.rb
 lib/scrapebadger/models/searchterm.rb
 lib/scrapebadger/models/site_name.rb
@@ -527,6 +531,7 @@ spec/api/reddit_api_spec.rb
 spec/api/redfin_api_spec.rb
 spec/api/requests_api_spec.rb
 spec/api/results_api_spec.rb
+spec/api/rufus_api_spec.rb
 spec/api/target_api_spec.rb
 spec/api/tik_tok_api_spec.rb
 spec/api/twitter_api_spec.rb
@@ -665,6 +670,7 @@ spec/models/rating_spec.rb
 spec/models/ratings_spec.rb
 spec/models/recipe_spec.rb
 spec/models/review_spec.rb
+spec/models/rufus_ask_request_spec.rb
 spec/models/screenshot_request_spec.rb
 spec/models/searchterm_spec.rb
 spec/models/site_name_spec.rb
