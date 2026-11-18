@@ -24,6 +24,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :url Full Redfin /realestateagents/ URL
     # @option opts [String] :agent_id Redfin agent id
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def redfin_get_agent_profile_listings(opts = {})
       data, _status_code, _headers = redfin_get_agent_profile_listings_with_http_info(opts)
@@ -35,11 +42,39 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :url Full Redfin /realestateagents/ URL
     # @option opts [String] :agent_id Redfin agent id
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def redfin_get_agent_profile_listings_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: RedfinApi.redfin_get_agent_profile_listings ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_get_agent_profile_listings, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_get_agent_profile_listings, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling RedfinApi.redfin_get_agent_profile_listings, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_get_agent_profile_listings, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_get_agent_profile_listings, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/redfin/agent'
 
@@ -47,11 +82,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'url'] = opts[:'url'] if !opts[:'url'].nil?
       query_params[:'agent_id'] = opts[:'agent_id'] if !opts[:'agent_id'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -86,6 +128,13 @@ module ScrapeBadger
     # Get a single Redfin property's full detail by its numeric propertyId.
     # @param property_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def redfin_get_property_detail(property_id, opts = {})
       data, _status_code, _headers = redfin_get_property_detail_with_http_info(property_id, opts)
@@ -96,6 +145,13 @@ module ScrapeBadger
     # Get a single Redfin property&#39;s full detail by its numeric propertyId.
     # @param property_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def redfin_get_property_detail_with_http_info(property_id, opts = {})
       if @api_client.config.debugging
@@ -105,16 +161,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && property_id.nil?
         fail ArgumentError, "Missing the required parameter 'property_id' when calling RedfinApi.redfin_get_property_detail"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_get_property_detail, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_get_property_detail, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling RedfinApi.redfin_get_property_detail, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_get_property_detail, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_get_property_detail, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/redfin/property/{property_id}'.sub('{' + 'property_id' + '}', CGI.escape(property_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -149,6 +233,13 @@ module ScrapeBadger
     # Get a single Redfin property's full detail by its home URL.
     # @param url [String] Full Redfin property URL (/CA/City/.../home/12345678)
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def redfin_get_property_detail_by_url(url, opts = {})
       data, _status_code, _headers = redfin_get_property_detail_by_url_with_http_info(url, opts)
@@ -159,6 +250,13 @@ module ScrapeBadger
     # Get a single Redfin property&#39;s full detail by its home URL.
     # @param url [String] Full Redfin property URL (/CA/City/.../home/12345678)
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def redfin_get_property_detail_by_url_with_http_info(url, opts = {})
       if @api_client.config.debugging
@@ -168,17 +266,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && url.nil?
         fail ArgumentError, "Missing the required parameter 'url' when calling RedfinApi.redfin_get_property_detail_by_url"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_get_property_detail_by_url, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_get_property_detail_by_url, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling RedfinApi.redfin_get_property_detail_by_url, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_get_property_detail_by_url, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_get_property_detail_by_url, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/redfin/property'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'url'] = url
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -212,6 +338,13 @@ module ScrapeBadger
     # List coverage markets
     # List Redfin coverage regions (US).
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def redfin_list_coverage_markets(opts = {})
       data, _status_code, _headers = redfin_list_coverage_markets_with_http_info(opts)
@@ -221,21 +354,56 @@ module ScrapeBadger
     # List coverage markets
     # List Redfin coverage regions (US).
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def redfin_list_coverage_markets_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: RedfinApi.redfin_list_coverage_markets ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_list_coverage_markets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_list_coverage_markets, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling RedfinApi.redfin_list_coverage_markets, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_list_coverage_markets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_list_coverage_markets, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/redfin/markets'
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -384,6 +552,13 @@ module ScrapeBadger
     # Resolve a search term to Redfin regions/addresses.
     # @param query [String] Partial location — city, ZIP, address, neighborhood
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def redfin_region_address_suggestions(query, opts = {})
       data, _status_code, _headers = redfin_region_address_suggestions_with_http_info(query, opts)
@@ -394,6 +569,13 @@ module ScrapeBadger
     # Resolve a search term to Redfin regions/addresses.
     # @param query [String] Partial location — city, ZIP, address, neighborhood
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def redfin_region_address_suggestions_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -403,17 +585,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && query.nil?
         fail ArgumentError, "Missing the required parameter 'query' when calling RedfinApi.redfin_region_address_suggestions"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_region_address_suggestions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_region_address_suggestions, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling RedfinApi.redfin_region_address_suggestions, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_region_address_suggestions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_region_address_suggestions, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/redfin/autocomplete'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'query'] = query
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -466,6 +676,13 @@ module ScrapeBadger
     # @option opts [Float] :south 
     # @option opts [Float] :east 
     # @option opts [Float] :west 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def redfin_search_properties(location, opts = {})
       data, _status_code, _headers = redfin_search_properties_with_http_info(location, opts)
@@ -494,6 +711,13 @@ module ScrapeBadger
     # @option opts [Float] :south 
     # @option opts [Float] :east 
     # @option opts [Float] :west 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def redfin_search_properties_with_http_info(location, opts = {})
       if @api_client.config.debugging
@@ -563,6 +787,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"max_days_on_market"]" when calling RedfinApi.redfin_search_properties, must be greater than or equal to 0.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_search_properties, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling RedfinApi.redfin_search_properties, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling RedfinApi.redfin_search_properties, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_search_properties, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling RedfinApi.redfin_search_properties, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/redfin/search'
 
@@ -587,11 +832,18 @@ module ScrapeBadger
       query_params[:'south'] = opts[:'south'] if !opts[:'south'].nil?
       query_params[:'east'] = opts[:'east'] if !opts[:'east'].nil?
       query_params[:'west'] = opts[:'west'] if !opts[:'west'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}

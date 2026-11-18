@@ -10,6 +10,7 @@ Rakefile
 docs/ASOSApi.md
 docs/AccountApi.md
 docs/AccountInfo.md
+docs/AccountWebhookDeliveries403Response.md
 docs/Age.md
 docs/AgentTrialInfo.md
 docs/AirbnbApi.md
@@ -18,6 +19,9 @@ docs/AmazonApi.md
 docs/ApartmentsApi.md
 docs/AppStoreApi.md
 docs/Article.md
+docs/AsyncAccepted.md
+docs/AsyncAcceptedNextAction.md
+docs/AsyncCallbackStatus.md
 docs/AutoScout24Api.md
 docs/AutoScout24FiltersResponse.md
 docs/AutoScout24Listing.md
@@ -223,6 +227,9 @@ docs/WallapopApi.md
 docs/WalmartApi.md
 docs/WebApi.md
 docs/WebhookCreate.md
+docs/WebhookDeliveries.md
+docs/WebhookDelivery.md
+docs/WebhookEvent.md
 docs/WebhookListItem.md
 docs/WebhookListResponse.md
 docs/WebhookResponse.md
@@ -306,9 +313,13 @@ lib/scrapebadger/api_client.rb
 lib/scrapebadger/api_error.rb
 lib/scrapebadger/configuration.rb
 lib/scrapebadger/models/account_info.rb
+lib/scrapebadger/models/account_webhook_deliveries403_response.rb
 lib/scrapebadger/models/age.rb
 lib/scrapebadger/models/agent_trial_info.rb
 lib/scrapebadger/models/article.rb
+lib/scrapebadger/models/async_accepted.rb
+lib/scrapebadger/models/async_accepted_next_action.rb
+lib/scrapebadger/models/async_callback_status.rb
 lib/scrapebadger/models/auto_scout24_filters_response.rb
 lib/scrapebadger/models/auto_scout24_listing.rb
 lib/scrapebadger/models/auto_scout24_listing_detail.rb
@@ -470,6 +481,9 @@ lib/scrapebadger/models/vinted_status.rb
 lib/scrapebadger/models/vinted_user_profile.rb
 lib/scrapebadger/models/vinted_user_summary.rb
 lib/scrapebadger/models/webhook_create.rb
+lib/scrapebadger/models/webhook_deliveries.rb
+lib/scrapebadger/models/webhook_delivery.rb
+lib/scrapebadger/models/webhook_event.rb
 lib/scrapebadger/models/webhook_list_item.rb
 lib/scrapebadger/models/webhook_list_response.rb
 lib/scrapebadger/models/webhook_response.rb
@@ -545,9 +559,13 @@ spec/api/yelp_api_spec.rb
 spec/api/you_tube_api_spec.rb
 spec/api/zillow_api_spec.rb
 spec/models/account_info_spec.rb
+spec/models/account_webhook_deliveries403_response_spec.rb
 spec/models/age_spec.rb
 spec/models/agent_trial_info_spec.rb
 spec/models/article_spec.rb
+spec/models/async_accepted_next_action_spec.rb
+spec/models/async_accepted_spec.rb
+spec/models/async_callback_status_spec.rb
 spec/models/auto_scout24_filters_response_spec.rb
 spec/models/auto_scout24_listing_detail_spec.rb
 spec/models/auto_scout24_listing_response_spec.rb
@@ -709,6 +727,9 @@ spec/models/vinted_status_spec.rb
 spec/models/vinted_user_profile_spec.rb
 spec/models/vinted_user_summary_spec.rb
 spec/models/webhook_create_spec.rb
+spec/models/webhook_deliveries_spec.rb
+spec/models/webhook_delivery_spec.rb
+spec/models/webhook_event_spec.rb
 spec/models/webhook_list_item_spec.rb
 spec/models/webhook_list_response_spec.rb
 spec/models/webhook_response_spec.rb

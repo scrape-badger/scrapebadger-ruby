@@ -24,6 +24,13 @@ module ScrapeBadger
     # @param author_id [String] Scholar user ID
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_author_citations_per_year_chart(author_id, opts = {})
       data, _status_code, _headers = google_get_author_citations_per_year_chart_with_http_info(author_id, opts)
@@ -35,6 +42,13 @@ module ScrapeBadger
     # @param author_id [String] Scholar user ID
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_author_citations_per_year_chart_with_http_info(author_id, opts = {})
       if @api_client.config.debugging
@@ -44,6 +58,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && author_id.nil?
         fail ArgumentError, "Missing the required parameter 'author_id' when calling GoogleApi.google_get_author_citations_per_year_chart"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_author_citations_per_year_chart, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_author_citations_per_year_chart, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_author_citations_per_year_chart, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_author_citations_per_year_chart, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_author_citations_per_year_chart, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/scholar/author/citation'
 
@@ -51,11 +86,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'author_id'] = author_id
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -90,6 +132,13 @@ module ScrapeBadger
     # @param data_id [String] Maps data ID
     # @param [Hash] opts the optional parameters
     # @option opts [String] :next_page_token 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_business_posts(data_id, opts = {})
       data, _status_code, _headers = google_get_business_posts_with_http_info(data_id, opts)
@@ -100,6 +149,13 @@ module ScrapeBadger
     # @param data_id [String] Maps data ID
     # @param [Hash] opts the optional parameters
     # @option opts [String] :next_page_token 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_business_posts_with_http_info(data_id, opts = {})
       if @api_client.config.debugging
@@ -109,6 +165,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && data_id.nil?
         fail ArgumentError, "Missing the required parameter 'data_id' when calling GoogleApi.google_get_business_posts"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_business_posts, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_business_posts, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_business_posts, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_business_posts, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_business_posts, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/maps/posts'
 
@@ -116,11 +193,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'data_id'] = data_id
       query_params[:'next_page_token'] = opts[:'next_page_token'] if !opts[:'next_page_token'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -156,6 +240,13 @@ module ScrapeBadger
     # @param q [String] Cluster ID from a search result
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_citation_formats_for_a_scholar_paper(q, opts = {})
       data, _status_code, _headers = google_get_citation_formats_for_a_scholar_paper_with_http_info(q, opts)
@@ -167,6 +258,13 @@ module ScrapeBadger
     # @param q [String] Cluster ID from a search result
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_citation_formats_for_a_scholar_paper_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -176,6 +274,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_get_citation_formats_for_a_scholar_paper"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_citation_formats_for_a_scholar_paper, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_citation_formats_for_a_scholar_paper, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_citation_formats_for_a_scholar_paper, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_citation_formats_for_a_scholar_paper, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_citation_formats_for_a_scholar_paper, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/scholar/cite'
 
@@ -183,11 +302,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'q'] = q
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -224,6 +350,13 @@ module ScrapeBadger
     # @option opts [String] :data_id 
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'us')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_place_details(opts = {})
       data, _status_code, _headers = google_get_place_details_with_http_info(opts)
@@ -236,11 +369,39 @@ module ScrapeBadger
     # @option opts [String] :data_id 
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'us')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_place_details_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GoogleApi.google_get_place_details ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_place_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_place_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_place_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_place_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_place_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/maps/place'
 
@@ -250,11 +411,18 @@ module ScrapeBadger
       query_params[:'data_id'] = opts[:'data_id'] if !opts[:'data_id'].nil?
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -290,6 +458,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :next_page_token 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_place_photos(data_id, opts = {})
       data, _status_code, _headers = google_get_place_photos_with_http_info(data_id, opts)
@@ -301,6 +476,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :next_page_token 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_place_photos_with_http_info(data_id, opts = {})
       if @api_client.config.debugging
@@ -310,6 +492,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && data_id.nil?
         fail ArgumentError, "Missing the required parameter 'data_id' when calling GoogleApi.google_get_place_photos"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_place_photos, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_place_photos, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_place_photos, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_place_photos, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_place_photos, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/maps/photos'
 
@@ -318,11 +521,18 @@ module ScrapeBadger
       query_params[:'data_id'] = data_id
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'next_page_token'] = opts[:'next_page_token'] if !opts[:'next_page_token'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -360,6 +570,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :next_page_token Cursor from the previous response&#39;s pagination.next; omit for page 1.
     # @option opts [Integer] :results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_place_reviews(data_id, opts = {})
       data, _status_code, _headers = google_get_place_reviews_with_http_info(data_id, opts)
@@ -373,6 +590,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :next_page_token Cursor from the previous response&#39;s pagination.next; omit for page 1.
     # @option opts [Integer] :results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_place_reviews_with_http_info(data_id, opts = {})
       if @api_client.config.debugging
@@ -390,6 +614,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"results"]" when calling GoogleApi.google_get_place_reviews, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_place_reviews, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_place_reviews, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_place_reviews, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_place_reviews, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_place_reviews, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/maps/reviews'
 
@@ -400,11 +645,18 @@ module ScrapeBadger
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'next_page_token'] = opts[:'next_page_token'] if !opts[:'next_page_token'].nil?
       query_params[:'results'] = opts[:'results'] if !opts[:'results'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -442,6 +694,13 @@ module ScrapeBadger
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [Integer] :cstart Articles pagination offset (default to 0)
     # @option opts [Integer] :pagesize Articles per page (default to 20)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_scholar_author_profile(author_id, opts = {})
       data, _status_code, _headers = google_get_scholar_author_profile_with_http_info(author_id, opts)
@@ -455,6 +714,13 @@ module ScrapeBadger
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [Integer] :cstart Articles pagination offset (default to 0)
     # @option opts [Integer] :pagesize Articles per page (default to 20)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_scholar_author_profile_with_http_info(author_id, opts = {})
       if @api_client.config.debugging
@@ -476,6 +742,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"pagesize"]" when calling GoogleApi.google_get_scholar_author_profile, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_scholar_author_profile, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_scholar_author_profile, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_scholar_author_profile, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_scholar_author_profile, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_scholar_author_profile, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/scholar/author'
 
@@ -485,11 +772,18 @@ module ScrapeBadger
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'cstart'] = opts[:'cstart'] if !opts[:'cstart'].nil?
       query_params[:'pagesize'] = opts[:'pagesize'] if !opts[:'pagesize'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -525,6 +819,13 @@ module ScrapeBadger
     # @param q [String] Ticker and exchange (e.g. \&quot;AAPL:NASDAQ\&quot;, \&quot;BTC-USD\&quot;)
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_get_stock_index_quote(q, opts = {})
       data, _status_code, _headers = google_get_stock_index_quote_with_http_info(q, opts)
@@ -536,6 +837,13 @@ module ScrapeBadger
     # @param q [String] Ticker and exchange (e.g. \&quot;AAPL:NASDAQ\&quot;, \&quot;BTC-USD\&quot;)
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_get_stock_index_quote_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -545,6 +853,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_get_stock_index_quote"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_stock_index_quote, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_get_stock_index_quote, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_get_stock_index_quote, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_stock_index_quote, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_get_stock_index_quote, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/finance/quote'
 
@@ -552,11 +881,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'q'] = q
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -598,6 +934,13 @@ module ScrapeBadger
     # @option opts [String] :uule A Google UULE value in its &#x60;w+&#x60; (canonical name) or &#x60;j+&#x60; (coordinates) form.
     # @option opts [Float] :lat Latitude of the user&#39;s location (with lon).
     # @option opts [Float] :lon Longitude of the user&#39;s location (with lat).
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_ai_mode_search(q, opts = {})
       data, _status_code, _headers = google_google_ai_mode_search_with_http_info(q, opts)
@@ -615,6 +958,13 @@ module ScrapeBadger
     # @option opts [String] :uule A Google UULE value in its &#x60;w+&#x60; (canonical name) or &#x60;j+&#x60; (coordinates) form.
     # @option opts [Float] :lat Latitude of the user&#39;s location (with lon).
     # @option opts [Float] :lon Longitude of the user&#39;s location (with lat).
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_ai_mode_search_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -640,6 +990,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"lon"]" when calling GoogleApi.google_google_ai_mode_search, must be greater than or equal to -180.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_ai_mode_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_ai_mode_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_ai_mode_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_ai_mode_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_ai_mode_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/ai-mode/search'
 
@@ -653,11 +1024,18 @@ module ScrapeBadger
       query_params[:'uule'] = opts[:'uule'] if !opts[:'uule'].nil?
       query_params[:'lat'] = opts[:'lat'] if !opts[:'lat'].nil?
       query_params[:'lon'] = opts[:'lon'] if !opts[:'lon'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -694,6 +1072,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :gl Country code (default to 'us')
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_ai_overview_inline_serp_block(q, opts = {})
       data, _status_code, _headers = google_google_ai_overview_inline_serp_block_with_http_info(q, opts)
@@ -706,6 +1091,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :gl Country code (default to 'us')
     # @option opts [String] :hl Language code (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_ai_overview_inline_serp_block_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -715,6 +1107,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_google_ai_overview_inline_serp_block"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_ai_overview_inline_serp_block, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_ai_overview_inline_serp_block, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_ai_overview_inline_serp_block, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_ai_overview_inline_serp_block, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_ai_overview_inline_serp_block, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/ai-overview'
 
@@ -723,11 +1136,18 @@ module ScrapeBadger
       query_params[:'q'] = q
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -777,6 +1197,13 @@ module ScrapeBadger
     # @option opts [String] :currency ISO-4217 currency (default to 'USD')
     # @option opts [String] :gl  (default to 'us')
     # @option opts [String] :hl  (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_flights_calendar_cheapest_fare_per_date(departure_id, arrival_id, outbound_date_from, outbound_date_to, opts = {})
       data, _status_code, _headers = google_google_flights_calendar_cheapest_fare_per_date_with_http_info(departure_id, arrival_id, outbound_date_from, outbound_date_to, opts)
@@ -802,6 +1229,13 @@ module ScrapeBadger
     # @option opts [String] :currency ISO-4217 currency (default to 'USD')
     # @option opts [String] :gl  (default to 'us')
     # @option opts [String] :hl  (default to 'en')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_flights_calendar_cheapest_fare_per_date_with_http_info(departure_id, arrival_id, outbound_date_from, outbound_date_to, opts = {})
       if @api_client.config.debugging
@@ -863,6 +1297,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"infants_on_lap"]" when calling GoogleApi.google_google_flights_calendar_cheapest_fare_per_date, must be greater than or equal to 0.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_flights_calendar_cheapest_fare_per_date, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_flights_calendar_cheapest_fare_per_date, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_flights_calendar_cheapest_fare_per_date, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_flights_calendar_cheapest_fare_per_date, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_flights_calendar_cheapest_fare_per_date, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/flights/calendar'
 
@@ -884,11 +1339,18 @@ module ScrapeBadger
       query_params[:'currency'] = opts[:'currency'] if !opts[:'currency'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -938,6 +1400,13 @@ module ScrapeBadger
     # @option opts [String] :stops  (default to 'any')
     # @option opts [Integer] :max_price 
     # @option opts [String] :departure_token A round-trip offer&#39;s departure_token; returns the return-leg flights for that selected outbound (round-trip only).
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_flights_search(departure_id, arrival_id, outbound_date, opts = {})
       data, _status_code, _headers = google_google_flights_search_with_http_info(departure_id, arrival_id, outbound_date, opts)
@@ -963,6 +1432,13 @@ module ScrapeBadger
     # @option opts [String] :stops  (default to 'any')
     # @option opts [Integer] :max_price 
     # @option opts [String] :departure_token A round-trip offer&#39;s departure_token; returns the return-leg flights for that selected outbound (round-trip only).
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_flights_search_with_http_info(departure_id, arrival_id, outbound_date, opts = {})
       if @api_client.config.debugging
@@ -1016,6 +1492,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"max_price"]" when calling GoogleApi.google_google_flights_search, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_flights_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_flights_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_flights_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_flights_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_flights_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/flights/search'
 
@@ -1037,11 +1534,18 @@ module ScrapeBadger
       query_params[:'stops'] = opts[:'stops'] if !opts[:'stops'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'departure_token'] = opts[:'departure_token'] if !opts[:'departure_token'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1084,6 +1588,13 @@ module ScrapeBadger
     # @option opts [Boolean] :product Only the tiles Google marked buyable (price + stock), drawn from the same grid (default to false)
     # @option opts [Boolean] :visual_matches Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; (default to true)
     # @option opts [Boolean] :exact_matches Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings (default to false)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_lens_visual_search(url, opts = {})
       data, _status_code, _headers = google_google_lens_visual_search_with_http_info(url, opts)
@@ -1102,6 +1613,13 @@ module ScrapeBadger
     # @option opts [Boolean] :product Only the tiles Google marked buyable (price + stock), drawn from the same grid (default to false)
     # @option opts [Boolean] :visual_matches Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; (default to true)
     # @option opts [Boolean] :exact_matches Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings (default to false)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_lens_visual_search_with_http_info(url, opts = {})
       if @api_client.config.debugging
@@ -1111,6 +1629,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && url.nil?
         fail ArgumentError, "Missing the required parameter 'url' when calling GoogleApi.google_google_lens_visual_search"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_lens_visual_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_lens_visual_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_lens_visual_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_lens_visual_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_lens_visual_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/lens/search'
 
@@ -1125,11 +1664,18 @@ module ScrapeBadger
       query_params[:'product'] = opts[:'product'] if !opts[:'product'].nil?
       query_params[:'visual_matches'] = opts[:'visual_matches'] if !opts[:'visual_matches'].nil?
       query_params[:'exact_matches'] = opts[:'exact_matches'] if !opts[:'exact_matches'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1208,6 +1754,13 @@ module ScrapeBadger
     # @option opts [String] :si Cached Google parameters.
     # @option opts [String] :ibp Layout control.
     # @option opts [String] :uds Google filter string.
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_light_web_search(q, opts = {})
       data, _status_code, _headers = google_google_light_web_search_with_http_info(q, opts)
@@ -1262,6 +1815,13 @@ module ScrapeBadger
     # @option opts [String] :si Cached Google parameters.
     # @option opts [String] :ibp Layout control.
     # @option opts [String] :uds Google filter string.
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_light_web_search_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -1337,6 +1897,27 @@ module ScrapeBadger
         fail ArgumentError, "invalid value for 'opts[:\"as_dt\"]' when calling GoogleApi.google_google_light_web_search, must conform to the pattern #{pattern}."
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_light_web_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_light_web_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_light_web_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_light_web_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_light_web_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/light/search'
 
@@ -1387,11 +1968,18 @@ module ScrapeBadger
       query_params[:'si'] = opts[:'si'] if !opts[:'si'].nil?
       query_params[:'ibp'] = opts[:'ibp'] if !opts[:'ibp'].nil?
       query_params[:'uds'] = opts[:'uds'] if !opts[:'uds'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1542,6 +2130,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [String] :gl Country code (default to 'us')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_search_suggestions(q, opts = {})
       data, _status_code, _headers = google_google_search_suggestions_with_http_info(q, opts)
@@ -1554,6 +2149,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [String] :gl Country code (default to 'us')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_search_suggestions_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -1563,6 +2165,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_google_search_suggestions"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_search_suggestions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_search_suggestions, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_search_suggestions, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_search_suggestions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_search_suggestions, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/autocomplete'
 
@@ -1571,11 +2194,18 @@ module ScrapeBadger
       query_params[:'q'] = q
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1615,6 +2245,13 @@ module ScrapeBadger
     # @option opts [String] :domain Google domain (default to 'google.com')
     # @option opts [Integer] :num Results per page (default to 20)
     # @option opts [Integer] :start Pagination offset (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_shorts_search(q, opts = {})
       data, _status_code, _headers = google_google_shorts_search_with_http_info(q, opts)
@@ -1630,6 +2267,13 @@ module ScrapeBadger
     # @option opts [String] :domain Google domain (default to 'google.com')
     # @option opts [Integer] :num Results per page (default to 20)
     # @option opts [Integer] :start Pagination offset (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_shorts_search_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -1651,6 +2295,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"start"]" when calling GoogleApi.google_google_shorts_search, must be greater than or equal to 0.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_shorts_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_shorts_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_shorts_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_shorts_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_shorts_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/shorts/search'
 
@@ -1662,11 +2327,18 @@ module ScrapeBadger
       query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
       query_params[:'num'] = opts[:'num'] if !opts[:'num'].nil?
       query_params[:'start'] = opts[:'start'] if !opts[:'start'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1748,6 +2420,13 @@ module ScrapeBadger
     # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
     # @option opts [String] :as_rq Related URL; availability depends on Google.
     # @option opts [String] :as_sitesearch Restrict results to a site.
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_google_web_search(q, opts = {})
       data, _status_code, _headers = google_google_web_search_with_http_info(q, opts)
@@ -1805,6 +2484,13 @@ module ScrapeBadger
     # @option opts [String] :as_qdr Time range, such as d, w, m or y1.
     # @option opts [String] :as_rq Related URL; availability depends on Google.
     # @option opts [String] :as_sitesearch Restrict results to a site.
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_google_web_search_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -1894,6 +2580,27 @@ module ScrapeBadger
         fail ArgumentError, "invalid value for 'opts[:\"as_dt\"]' when calling GoogleApi.google_google_web_search, must conform to the pattern #{pattern}."
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_web_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_google_web_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_google_web_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_web_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_google_web_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/search'
 
@@ -1947,11 +2654,18 @@ module ScrapeBadger
       query_params[:'as_qdr'] = opts[:'as_qdr'] if !opts[:'as_qdr'].nil?
       query_params[:'as_rq'] = opts[:'as_rq'] if !opts[:'as_rq'].nil?
       query_params[:'as_sitesearch'] = opts[:'as_sitesearch'] if !opts[:'as_sitesearch'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1987,6 +2701,13 @@ module ScrapeBadger
     # @param check_in [String] YYYY-MM-DD
     # @param check_out [String] YYYY-MM-DD
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_hotel_details(property_token, check_in, check_out, opts = {})
       data, _status_code, _headers = google_hotel_details_with_http_info(property_token, check_in, check_out, opts)
@@ -1998,6 +2719,13 @@ module ScrapeBadger
     # @param check_in [String] YYYY-MM-DD
     # @param check_out [String] YYYY-MM-DD
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_hotel_details_with_http_info(property_token, check_in, check_out, opts = {})
       if @api_client.config.debugging
@@ -2015,6 +2743,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && check_out.nil?
         fail ArgumentError, "Missing the required parameter 'check_out' when calling GoogleApi.google_hotel_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_hotel_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_hotel_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_hotel_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_hotel_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_hotel_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/hotels/details'
 
@@ -2023,11 +2772,18 @@ module ScrapeBadger
       query_params[:'property_token'] = property_token
       query_params[:'check_in'] = check_in
       query_params[:'check_out'] = check_out
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2071,6 +2827,13 @@ module ScrapeBadger
     # @option opts [String] :mid Optional Google Knowledge-Graph &#x60;&#x60;mid&#x60;&#x60;.
     # @option opts [Boolean] :include_offers When true, fetch the full merchant-offer list via a secondary RPC (&#x60;&#x60;/async/piu_ps&#x60;&#x60;). Adds ~1 s. (default to false)
     # @option opts [Boolean] :include_variants When true, fetch size/colour variants via a secondary RPC (&#x60;&#x60;/async/toy_v&#x60;&#x60;). Adds ~1 s. (default to false)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_immersive_product_detail(product_id, q, opts = {})
       data, _status_code, _headers = google_immersive_product_detail_with_http_info(product_id, q, opts)
@@ -2090,6 +2853,13 @@ module ScrapeBadger
     # @option opts [String] :mid Optional Google Knowledge-Graph &#x60;&#x60;mid&#x60;&#x60;.
     # @option opts [Boolean] :include_offers When true, fetch the full merchant-offer list via a secondary RPC (&#x60;&#x60;/async/piu_ps&#x60;&#x60;). Adds ~1 s. (default to false)
     # @option opts [Boolean] :include_variants When true, fetch size/colour variants via a secondary RPC (&#x60;&#x60;/async/toy_v&#x60;&#x60;). Adds ~1 s. (default to false)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_immersive_product_detail_with_http_info(product_id, q, opts = {})
       if @api_client.config.debugging
@@ -2103,6 +2873,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_immersive_product_detail"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_immersive_product_detail, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_immersive_product_detail, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_immersive_product_detail, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_immersive_product_detail, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_immersive_product_detail, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/products/detail'
 
@@ -2118,11 +2909,18 @@ module ScrapeBadger
       query_params[:'mid'] = opts[:'mid'] if !opts[:'mid'].nil?
       query_params[:'include_offers'] = opts[:'include_offers'] if !opts[:'include_offers'].nil?
       query_params[:'include_variants'] = opts[:'include_variants'] if !opts[:'include_variants'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2157,6 +2955,13 @@ module ScrapeBadger
     # @param q [String] Search term
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to '')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_interest_by_region(q, opts = {})
       data, _status_code, _headers = google_interest_by_region_with_http_info(q, opts)
@@ -2167,6 +2972,13 @@ module ScrapeBadger
     # @param q [String] Search term
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to '')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_interest_by_region_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2176,6 +2988,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_interest_by_region"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_interest_by_region, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_interest_by_region, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_interest_by_region, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_interest_by_region, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_interest_by_region, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/trends/regions'
 
@@ -2183,11 +3016,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'q'] = q
       query_params[:'geo'] = opts[:'geo'] if !opts[:'geo'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2223,6 +3063,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to '')
     # @option opts [String] :date  (default to 'today 12-m')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_interest_over_time(q, opts = {})
       data, _status_code, _headers = google_interest_over_time_with_http_info(q, opts)
@@ -2234,6 +3081,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to '')
     # @option opts [String] :date  (default to 'today 12-m')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_interest_over_time_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2243,6 +3097,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_interest_over_time"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_interest_over_time, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_interest_over_time, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_interest_over_time, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_interest_over_time, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_interest_over_time, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/trends/interest'
 
@@ -2251,11 +3126,18 @@ module ScrapeBadger
       query_params[:'q'] = q
       query_params[:'geo'] = opts[:'geo'] if !opts[:'geo'].nil?
       query_params[:'date'] = opts[:'date'] if !opts[:'date'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2294,6 +3176,13 @@ module ScrapeBadger
     # @option opts [String] :gl Country code (ISO 3166 alpha-2)
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [String] :domain Google domain (default to 'google.com')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_multi_seller_offers_by_barcode(opts = {})
       data, _status_code, _headers = google_multi_seller_offers_by_barcode_with_http_info(opts)
@@ -2308,11 +3197,39 @@ module ScrapeBadger
     # @option opts [String] :gl Country code (ISO 3166 alpha-2)
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [String] :domain Google domain (default to 'google.com')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_multi_seller_offers_by_barcode_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GoogleApi.google_multi_seller_offers_by_barcode ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_multi_seller_offers_by_barcode, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_multi_seller_offers_by_barcode, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_multi_seller_offers_by_barcode, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_multi_seller_offers_by_barcode, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_multi_seller_offers_by_barcode, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/shopping/offers'
 
@@ -2323,11 +3240,18 @@ module ScrapeBadger
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2364,6 +3288,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'US')
     # @option opts [Integer] :max_results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_news_by_topic(topic, opts = {})
       data, _status_code, _headers = google_news_by_topic_with_http_info(topic, opts)
@@ -2376,6 +3307,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'US')
     # @option opts [Integer] :max_results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_news_by_topic_with_http_info(topic, opts = {})
       if @api_client.config.debugging
@@ -2393,6 +3331,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"max_results"]" when calling GoogleApi.google_news_by_topic, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_news_by_topic, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_news_by_topic, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_news_by_topic, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_news_by_topic, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_news_by_topic, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/news/topics'
 
@@ -2402,11 +3361,18 @@ module ScrapeBadger
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'max_results'] = opts[:'max_results'] if !opts[:'max_results'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2440,6 +3406,13 @@ module ScrapeBadger
     # Patent details
     # @param patent_id [String] Patent number
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_patent_details(patent_id, opts = {})
       data, _status_code, _headers = google_patent_details_with_http_info(patent_id, opts)
@@ -2449,6 +3422,13 @@ module ScrapeBadger
     # Patent details
     # @param patent_id [String] Patent number
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_patent_details_with_http_info(patent_id, opts = {})
       if @api_client.config.debugging
@@ -2458,17 +3438,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && patent_id.nil?
         fail ArgumentError, "Missing the required parameter 'patent_id' when calling GoogleApi.google_patent_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_patent_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_patent_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_patent_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_patent_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_patent_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/patents/detail'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'patent_id'] = patent_id
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2503,6 +3511,13 @@ module ScrapeBadger
     # @param q [String] Search term
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to '')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_related_topics_queries(q, opts = {})
       data, _status_code, _headers = google_related_topics_queries_with_http_info(q, opts)
@@ -2513,6 +3528,13 @@ module ScrapeBadger
     # @param q [String] Search term
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to '')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_related_topics_queries_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2522,6 +3544,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_related_topics_queries"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_related_topics_queries, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_related_topics_queries, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_related_topics_queries, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_related_topics_queries, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_related_topics_queries, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/trends/related'
 
@@ -2529,11 +3572,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'q'] = q
       query_params[:'geo'] = opts[:'geo'] if !opts[:'geo'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2576,6 +3626,13 @@ module ScrapeBadger
     # @option opts [String] :imgtype Image type: face, photo, clipart
     # @option opts [String] :safe Safe search (default to 'off')
     # @option opts [Integer] :page Page number (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_google_images(q, opts = {})
       data, _status_code, _headers = google_search_google_images_with_http_info(q, opts)
@@ -2594,6 +3651,13 @@ module ScrapeBadger
     # @option opts [String] :imgtype Image type: face, photo, clipart
     # @option opts [String] :safe Safe search (default to 'off')
     # @option opts [Integer] :page Page number (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_google_images_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2605,6 +3669,27 @@ module ScrapeBadger
       end
       if @api_client.config.client_side_validation && !opts[:'page'].nil? && opts[:'page'] < 0
         fail ArgumentError, 'invalid value for "opts[:"page"]" when calling GoogleApi.google_search_google_images, must be greater than or equal to 0.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_images, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_images, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_google_images, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_images, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_images, the character length must be great than or equal to 1.'
       end
 
       # resource path
@@ -2621,11 +3706,18 @@ module ScrapeBadger
       query_params[:'imgtype'] = opts[:'imgtype'] if !opts[:'imgtype'].nil?
       query_params[:'safe'] = opts[:'safe'] if !opts[:'safe'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2663,6 +3755,13 @@ module ScrapeBadger
     # @option opts [String] :gl  (default to 'us')
     # @option opts [String] :job_type 
     # @option opts [String] :date_posted 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_google_jobs(q, opts = {})
       data, _status_code, _headers = google_search_google_jobs_with_http_info(q, opts)
@@ -2676,6 +3775,13 @@ module ScrapeBadger
     # @option opts [String] :gl  (default to 'us')
     # @option opts [String] :job_type 
     # @option opts [String] :date_posted 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_google_jobs_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2685,6 +3791,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_search_google_jobs"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_jobs, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_jobs, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_google_jobs, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_jobs, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_jobs, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/jobs/search'
 
@@ -2695,11 +3822,18 @@ module ScrapeBadger
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'job_type'] = opts[:'job_type'] if !opts[:'job_type'].nil?
       query_params[:'date_posted'] = opts[:'date_posted'] if !opts[:'date_posted'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2737,6 +3871,13 @@ module ScrapeBadger
     # @option opts [String] :gl  (default to 'us')
     # @option opts [String] :hl  (default to 'en')
     # @option opts [Integer] :start  (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_google_maps_places(q, opts = {})
       data, _status_code, _headers = google_search_google_maps_places_with_http_info(q, opts)
@@ -2750,6 +3891,13 @@ module ScrapeBadger
     # @option opts [String] :gl  (default to 'us')
     # @option opts [String] :hl  (default to 'en')
     # @option opts [Integer] :start  (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_google_maps_places_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2763,6 +3911,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"start"]" when calling GoogleApi.google_search_google_maps_places, must be greater than or equal to 0.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_maps_places, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_maps_places, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_google_maps_places, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_maps_places, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_maps_places, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/maps/search'
 
@@ -2773,11 +3942,18 @@ module ScrapeBadger
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'start'] = opts[:'start'] if !opts[:'start'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2814,6 +3990,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'US')
     # @option opts [Integer] :max_results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_google_news(q, opts = {})
       data, _status_code, _headers = google_search_google_news_with_http_info(q, opts)
@@ -2826,6 +4009,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'US')
     # @option opts [Integer] :max_results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_google_news_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2843,6 +4033,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"max_results"]" when calling GoogleApi.google_search_google_news, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_news, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_news, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_google_news, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_news, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_news, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/news/search'
 
@@ -2852,11 +4063,18 @@ module ScrapeBadger
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'max_results'] = opts[:'max_results'] if !opts[:'max_results'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2897,6 +4115,13 @@ module ScrapeBadger
     # @option opts [String] :as_sdt Search type: 0&#x3D;exclude patents, 7&#x3D;include (default to '0')
     # @option opts [Integer] :page Page number (0-based) (default to 0)
     # @option opts [Integer] :num Results per page (max 20) (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_google_scholar(q, opts = {})
       data, _status_code, _headers = google_search_google_scholar_with_http_info(q, opts)
@@ -2913,6 +4138,13 @@ module ScrapeBadger
     # @option opts [String] :as_sdt Search type: 0&#x3D;exclude patents, 7&#x3D;include (default to '0')
     # @option opts [Integer] :page Page number (0-based) (default to 0)
     # @option opts [Integer] :num Results per page (max 20) (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_google_scholar_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -2934,6 +4166,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GoogleApi.google_search_google_scholar, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_scholar, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_scholar, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_google_scholar, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_scholar, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_scholar, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/scholar/search'
 
@@ -2946,11 +4199,18 @@ module ScrapeBadger
       query_params[:'as_sdt'] = opts[:'as_sdt'] if !opts[:'as_sdt'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'num'] = opts[:'num'] if !opts[:'num'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2990,6 +4250,13 @@ module ScrapeBadger
     # @option opts [String] :tbs Time filter (e.g. qdr:d)
     # @option opts [String] :safe Safe search (default to 'off')
     # @option opts [Integer] :page Page number (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_google_videos(q, opts = {})
       data, _status_code, _headers = google_search_google_videos_with_http_info(q, opts)
@@ -3005,6 +4272,13 @@ module ScrapeBadger
     # @option opts [String] :tbs Time filter (e.g. qdr:d)
     # @option opts [String] :safe Safe search (default to 'off')
     # @option opts [Integer] :page Page number (default to 0)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_google_videos_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -3018,6 +4292,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"page"]" when calling GoogleApi.google_search_google_videos, must be greater than or equal to 0.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_videos, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_google_videos, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_google_videos, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_videos, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_google_videos, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/videos/search'
 
@@ -3029,11 +4324,18 @@ module ScrapeBadger
       query_params[:'tbs'] = opts[:'tbs'] if !opts[:'tbs'].nil?
       query_params[:'safe'] = opts[:'safe'] if !opts[:'safe'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3072,6 +4374,13 @@ module ScrapeBadger
     # @option opts [Integer] :adults  (default to 2)
     # @option opts [String] :currency  (default to 'USD')
     # @option opts [String] :gl  (default to 'us')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_hotels(q, check_in, check_out, opts = {})
       data, _status_code, _headers = google_search_hotels_with_http_info(q, check_in, check_out, opts)
@@ -3086,6 +4395,13 @@ module ScrapeBadger
     # @option opts [Integer] :adults  (default to 2)
     # @option opts [String] :currency  (default to 'USD')
     # @option opts [String] :gl  (default to 'us')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_hotels_with_http_info(q, check_in, check_out, opts = {})
       if @api_client.config.debugging
@@ -3103,6 +4419,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && check_out.nil?
         fail ArgumentError, "Missing the required parameter 'check_out' when calling GoogleApi.google_search_hotels"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_hotels, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_hotels, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_hotels, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_hotels, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_hotels, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/hotels/search'
 
@@ -3114,11 +4451,18 @@ module ScrapeBadger
       query_params[:'adults'] = opts[:'adults'] if !opts[:'adults'].nil?
       query_params[:'currency'] = opts[:'currency'] if !opts[:'currency'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3163,6 +4507,13 @@ module ScrapeBadger
     # @option opts [String] :patent_type PATENT or DESIGN
     # @option opts [String] :before Before date YYYYMMDD
     # @option opts [String] :after After date YYYYMMDD
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_patents(q, opts = {})
       data, _status_code, _headers = google_search_patents_with_http_info(q, opts)
@@ -3183,6 +4534,13 @@ module ScrapeBadger
     # @option opts [String] :patent_type PATENT or DESIGN
     # @option opts [String] :before Before date YYYYMMDD
     # @option opts [String] :after After date YYYYMMDD
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_patents_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -3204,6 +4562,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"num"]" when calling GoogleApi.google_search_patents, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_patents, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_patents, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_patents, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_patents, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_patents, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/patents/search'
 
@@ -3221,11 +4600,18 @@ module ScrapeBadger
       query_params[:'patent_type'] = opts[:'patent_type'] if !opts[:'patent_type'].nil?
       query_params[:'before'] = opts[:'before'] if !opts[:'before'].nil?
       query_params[:'after'] = opts[:'after'] if !opts[:'after'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3263,6 +4649,13 @@ module ScrapeBadger
     # @option opts [Integer] :min_price 
     # @option opts [Integer] :max_price 
     # @option opts [String] :sort_by 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_products(q, opts = {})
       data, _status_code, _headers = google_search_products_with_http_info(q, opts)
@@ -3276,6 +4669,13 @@ module ScrapeBadger
     # @option opts [Integer] :min_price 
     # @option opts [Integer] :max_price 
     # @option opts [String] :sort_by 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_products_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -3285,6 +4685,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_search_products"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_products, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_products, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_products, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_products, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_products, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/shopping/search'
 
@@ -3295,11 +4716,18 @@ module ScrapeBadger
       query_params[:'min_price'] = opts[:'min_price'] if !opts[:'min_price'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'sort_by'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3337,6 +4765,13 @@ module ScrapeBadger
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [String] :after_author Pagination token (next page)
     # @option opts [String] :before_author Pagination token (previous page)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_search_scholar_author_profiles(mauthors, opts = {})
       data, _status_code, _headers = google_search_scholar_author_profiles_with_http_info(mauthors, opts)
@@ -3350,6 +4785,13 @@ module ScrapeBadger
     # @option opts [String] :hl Language code (default to 'en')
     # @option opts [String] :after_author Pagination token (next page)
     # @option opts [String] :before_author Pagination token (previous page)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_search_scholar_author_profiles_with_http_info(mauthors, opts = {})
       if @api_client.config.debugging
@@ -3359,6 +4801,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && mauthors.nil?
         fail ArgumentError, "Missing the required parameter 'mauthors' when calling GoogleApi.google_search_scholar_author_profiles"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_scholar_author_profiles, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_search_scholar_author_profiles, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_search_scholar_author_profiles, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_scholar_author_profiles, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_search_scholar_author_profiles, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/scholar/profiles'
 
@@ -3368,11 +4831,18 @@ module ScrapeBadger
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'after_author'] = opts[:'after_author'] if !opts[:'after_author'].nil?
       query_params[:'before_author'] = opts[:'before_author'] if !opts[:'before_author'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3408,6 +4878,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'US')
     # @option opts [Integer] :max_results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_trending_news(opts = {})
       data, _status_code, _headers = google_trending_news_with_http_info(opts)
@@ -3419,6 +4896,13 @@ module ScrapeBadger
     # @option opts [String] :hl  (default to 'en')
     # @option opts [String] :gl  (default to 'US')
     # @option opts [Integer] :max_results  (default to 10)
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_trending_news_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -3432,6 +4916,27 @@ module ScrapeBadger
         fail ArgumentError, 'invalid value for "opts[:"max_results"]" when calling GoogleApi.google_trending_news, must be greater than or equal to 1.'
       end
 
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_trending_news, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_trending_news, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_trending_news, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_trending_news, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_trending_news, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/news/trending'
 
@@ -3440,11 +4945,18 @@ module ScrapeBadger
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'gl'] = opts[:'gl'] if !opts[:'gl'].nil?
       query_params[:'max_results'] = opts[:'max_results'] if !opts[:'max_results'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3478,6 +4990,13 @@ module ScrapeBadger
     # Trending searches
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to 'US')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_trending_searches(opts = {})
       data, _status_code, _headers = google_trending_searches_with_http_info(opts)
@@ -3487,22 +5006,57 @@ module ScrapeBadger
     # Trending searches
     # @param [Hash] opts the optional parameters
     # @option opts [String] :geo  (default to 'US')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_trending_searches_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: GoogleApi.google_trending_searches ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_trending_searches, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_trending_searches, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_trending_searches, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_trending_searches, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_trending_searches, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/trends/trending'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'geo'] = opts[:'geo'] if !opts[:'geo'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3539,6 +5093,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en-US')
     # @option opts [String] :tz Timezone offset in minutes (default to '0')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def google_trends_topic_autocomplete(q, opts = {})
       data, _status_code, _headers = google_trends_topic_autocomplete_with_http_info(q, opts)
@@ -3551,6 +5112,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :hl Language code (default to 'en-US')
     # @option opts [String] :tz Timezone offset in minutes (default to '0')
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def google_trends_topic_autocomplete_with_http_info(q, opts = {})
       if @api_client.config.debugging
@@ -3560,6 +5128,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && q.nil?
         fail ArgumentError, "Missing the required parameter 'q' when calling GoogleApi.google_trends_topic_autocomplete"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_trends_topic_autocomplete, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling GoogleApi.google_trends_topic_autocomplete, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling GoogleApi.google_trends_topic_autocomplete, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_trends_topic_autocomplete, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling GoogleApi.google_trends_topic_autocomplete, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/google/trends/autocomplete'
 
@@ -3568,11 +5157,18 @@ module ScrapeBadger
       query_params[:'q'] = q
       query_params[:'hl'] = opts[:'hl'] if !opts[:'hl'].nil?
       query_params[:'tz'] = opts[:'tz'] if !opts[:'tz'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}

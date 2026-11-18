@@ -126,7 +126,14 @@ opts = {
   store: 'store_example', # String | Override store, e.g. COM or US
   country: 'country_example', # String | ISO country override
   currency: 'currency_example', # String | Currency override
-  language: 'language_example' # String | Locale override, e.g. en-GB
+  language: 'language_example', # String | Locale override, e.g. en-GB
+  prefer: 'respond-async, wait=25', # String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait.
+  x_callback_url: 'x_callback_url_example', # String | An `https` URL that receives the signed `request.completed` webhook when the call finishes. Implies async: on its own (no `Prefer`, `async` or `async_wait`) the answer is an immediate `202`; with `Prefer: respond-async` or `async=true` the call still waits 25 s unless a wait is given. Wins over `callback_url`.
+  idempotency_key: 'idempotency_key_example', # String | 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call's current state (`Idempotent-Replayed: true`) without running or billing it again; on a different call it is `409 idempotency_key_reused`. Applies to async calls only; on a synchronous call it is ignored. Wins over `idempotency_key`.
+  async: true, # Boolean | Query form of `Prefer: respond-async`: `true` or `1` (also `yes`, `on`; `false`, `0`, `no`, `off` leave the call synchronous). Waits 25 s unless `async_wait` is given. Not sent to the scraper.
+  async_wait: 56, # Integer | Seconds (0-120; values outside are clamped) to wait for the result before answering `202`. Implies async. Not sent to the scraper.
+  callback_url: 'callback_url_example', # String | Query form of `X-Callback-URL` (URL-encode it). Implies async; on its own the answer is an immediate `202` (wait 0). Not sent to the scraper.
+  idempotency_key2: 'idempotency_key_example' # String | Query form of `Idempotency-Key`. Not sent to the scraper.
 }
 
 begin
@@ -155,6 +162,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::AccountApi* | [**account_get_account_info**](docs/AccountApi.md#account_get_account_info) | **GET** /v1/account/me | Get account info
 *ScrapeBadger::AccountApi* | [**account_get_the_webhook_signing_secret**](docs/AccountApi.md#account_get_the_webhook_signing_secret) | **GET** /v1/account/webhook-secret | Get the webhook signing secret
 *ScrapeBadger::AccountApi* | [**account_rotate_the_webhook_signing_secret**](docs/AccountApi.md#account_rotate_the_webhook_signing_secret) | **POST** /v1/account/webhook-secret/rotate | Rotate the webhook signing secret
+*ScrapeBadger::AccountApi* | [**account_webhook_deliveries**](docs/AccountApi.md#account_webhook_deliveries) | **GET** /v1/account/webhook-deliveries | Webhook deliveries
 *ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check) | **GET** /v1/airbnb/health | Airbnb scraper health check
 *ScrapeBadger::AirbnbApi* | [**airbnb_airbnb_scraper_health_check_head**](docs/AirbnbApi.md#airbnb_airbnb_scraper_health_check_head) | **HEAD** /v1/airbnb/health | Airbnb scraper health check
 *ScrapeBadger::AirbnbApi* | [**airbnb_get_availability_calendar**](docs/AirbnbApi.md#airbnb_get_availability_calendar) | **GET** /v1/airbnb/listings/{room_id}/calendar | Get availability calendar
@@ -533,6 +541,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::RedfinApi* | [**redfin_redfin_scraper_health_check_head**](docs/RedfinApi.md#redfin_redfin_scraper_health_check_head) | **HEAD** /v1/redfin/health | Redfin scraper health check
 *ScrapeBadger::RedfinApi* | [**redfin_region_address_suggestions**](docs/RedfinApi.md#redfin_region_address_suggestions) | **GET** /v1/redfin/autocomplete | Region/address suggestions
 *ScrapeBadger::RedfinApi* | [**redfin_search_properties**](docs/RedfinApi.md#redfin_search_properties) | **GET** /v1/redfin/search | Search properties
+*ScrapeBadger::RequestsApi* | [**requests_callback_status**](docs/RequestsApi.md#requests_callback_status) | **GET** /v1/requests/{request_id}/callback | Callback status
 *ScrapeBadger::RequestsApi* | [**requests_poll_an_async_request**](docs/RequestsApi.md#requests_poll_an_async_request) | **GET** /v1/requests/{request_id} | Poll an async request
 *ScrapeBadger::ResultsApi* | [**results_re_read_a_result_removed**](docs/ResultsApi.md#results_re_read_a_result_removed) | **GET** /v1/results/{result_id} | Re-read a result (removed)
 *ScrapeBadger::RufusApi* | [**rufus_amazon_rufus_scraper_health_check**](docs/RufusApi.md#rufus_amazon_rufus_scraper_health_check) | **GET** /v1/rufus/health | Amazon Rufus scraper health check
@@ -759,9 +768,13 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ScrapeBadger::AccountInfo](docs/AccountInfo.md)
+ - [ScrapeBadger::AccountWebhookDeliveries403Response](docs/AccountWebhookDeliveries403Response.md)
  - [ScrapeBadger::Age](docs/Age.md)
  - [ScrapeBadger::AgentTrialInfo](docs/AgentTrialInfo.md)
  - [ScrapeBadger::Article](docs/Article.md)
+ - [ScrapeBadger::AsyncAccepted](docs/AsyncAccepted.md)
+ - [ScrapeBadger::AsyncAcceptedNextAction](docs/AsyncAcceptedNextAction.md)
+ - [ScrapeBadger::AsyncCallbackStatus](docs/AsyncCallbackStatus.md)
  - [ScrapeBadger::AutoScout24FiltersResponse](docs/AutoScout24FiltersResponse.md)
  - [ScrapeBadger::AutoScout24Listing](docs/AutoScout24Listing.md)
  - [ScrapeBadger::AutoScout24ListingDetail](docs/AutoScout24ListingDetail.md)
@@ -923,6 +936,9 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::VintedUserProfile](docs/VintedUserProfile.md)
  - [ScrapeBadger::VintedUserSummary](docs/VintedUserSummary.md)
  - [ScrapeBadger::WebhookCreate](docs/WebhookCreate.md)
+ - [ScrapeBadger::WebhookDeliveries](docs/WebhookDeliveries.md)
+ - [ScrapeBadger::WebhookDelivery](docs/WebhookDelivery.md)
+ - [ScrapeBadger::WebhookEvent](docs/WebhookEvent.md)
  - [ScrapeBadger::WebhookListItem](docs/WebhookListItem.md)
  - [ScrapeBadger::WebhookListResponse](docs/WebhookListResponse.md)
  - [ScrapeBadger::WebhookResponse](docs/WebhookResponse.md)

@@ -189,5 +189,73 @@ module ScrapeBadger
       end
       return data, status_code, headers
     end
+
+    # Webhook deliveries
+    # This account's async-request webhook deliveries of the last 24 h, newest first. Free. Needs a full-access API key, like the webhook secret: a trial key gets `403 trial_not_allowed`, a key restricted to some APIs `403 full_access_required`.
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :limit How many deliveries to return (1-200). (default to 50)
+    # @return [WebhookDeliveries]
+    def account_webhook_deliveries(opts = {})
+      data, _status_code, _headers = account_webhook_deliveries_with_http_info(opts)
+      data
+    end
+
+    # Webhook deliveries
+    # This account&#39;s async-request webhook deliveries of the last 24 h, newest first. Free. Needs a full-access API key, like the webhook secret: a trial key gets &#x60;403 trial_not_allowed&#x60;, a key restricted to some APIs &#x60;403 full_access_required&#x60;.
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :limit How many deliveries to return (1-200). (default to 50)
+    # @return [Array<(WebhookDeliveries, Integer, Hash)>] WebhookDeliveries data, response status code and response headers
+    def account_webhook_deliveries_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: AccountApi.account_webhook_deliveries ...'
+      end
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 200
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling AccountApi.account_webhook_deliveries, must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling AccountApi.account_webhook_deliveries, must be greater than or equal to 1.'
+      end
+
+      # resource path
+      local_var_path = '/v1/account/webhook-deliveries'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'WebhookDeliveries'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"AccountApi.account_webhook_deliveries",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: AccountApi#account_webhook_deliveries\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
   end
 end

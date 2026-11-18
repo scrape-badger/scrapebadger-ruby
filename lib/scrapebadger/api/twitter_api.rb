@@ -26,6 +26,13 @@ module ScrapeBadger
     # @option opts [String] :query_type 
     # @option opts [Integer] :count 
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_advanced_tweet_search(query, opts = {})
       data, _status_code, _headers = twitter_advanced_tweet_search_with_http_info(query, opts)
@@ -39,6 +46,13 @@ module ScrapeBadger
     # @option opts [String] :query_type 
     # @option opts [Integer] :count 
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_advanced_tweet_search_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -48,6 +62,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && query.nil?
         fail ArgumentError, "Missing the required parameter 'query' when calling TwitterApi.twitter_advanced_tweet_search"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_advanced_tweet_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_advanced_tweet_search, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_advanced_tweet_search, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_advanced_tweet_search, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_advanced_tweet_search, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/advanced_search'
 
@@ -57,11 +92,18 @@ module ScrapeBadger
       query_params[:'query_type'] = opts[:'query_type'] if !opts[:'query_type'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -96,6 +138,13 @@ module ScrapeBadger
     # Get multiple user profiles by their numeric IDs (comma-separated).
     # @param user_ids [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_batch_get_users_by_ids(user_ids, opts = {})
       data, _status_code, _headers = twitter_batch_get_users_by_ids_with_http_info(user_ids, opts)
@@ -106,6 +155,13 @@ module ScrapeBadger
     # Get multiple user profiles by their numeric IDs (comma-separated).
     # @param user_ids [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_batch_get_users_by_ids_with_http_info(user_ids, opts = {})
       if @api_client.config.debugging
@@ -115,17 +171,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && user_ids.nil?
         fail ArgumentError, "Missing the required parameter 'user_ids' when calling TwitterApi.twitter_batch_get_users_by_ids"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_batch_get_users_by_ids, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_batch_get_users_by_ids, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_batch_get_users_by_ids, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_batch_get_users_by_ids, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_batch_get_users_by_ids, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/batch_by_ids'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'user_ids'] = user_ids
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -160,6 +244,13 @@ module ScrapeBadger
     # Get multiple user profiles by their usernames (comma-separated).
     # @param usernames [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_batch_get_users_by_usernames(usernames, opts = {})
       data, _status_code, _headers = twitter_batch_get_users_by_usernames_with_http_info(usernames, opts)
@@ -170,6 +261,13 @@ module ScrapeBadger
     # Get multiple user profiles by their usernames (comma-separated).
     # @param usernames [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_batch_get_users_by_usernames_with_http_info(usernames, opts = {})
       if @api_client.config.debugging
@@ -179,17 +277,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && usernames.nil?
         fail ArgumentError, "Missing the required parameter 'usernames' when calling TwitterApi.twitter_batch_get_users_by_usernames"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_batch_get_users_by_usernames, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_batch_get_users_by_usernames, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_batch_get_users_by_usernames, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_batch_get_users_by_usernames, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_batch_get_users_by_usernames, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/batch_by_usernames'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'usernames'] = usernames
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -554,6 +680,13 @@ module ScrapeBadger
     # Get a long-form article by its ID.
     # @param article_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_article_by_id(article_id, opts = {})
       data, _status_code, _headers = twitter_get_article_by_id_with_http_info(article_id, opts)
@@ -564,6 +697,13 @@ module ScrapeBadger
     # Get a long-form article by its ID.
     # @param article_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_article_by_id_with_http_info(article_id, opts = {})
       if @api_client.config.debugging
@@ -573,16 +713,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && article_id.nil?
         fail ArgumentError, "Missing the required parameter 'article_id' when calling TwitterApi.twitter_get_article_by_id"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_article_by_id, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_article_by_id, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_article_by_id, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_article_by_id, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_article_by_id, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/article/{article_id}'.sub('{' + 'article_id' + '}', CGI.escape(article_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -617,6 +785,13 @@ module ScrapeBadger
     # Get details of a live video broadcast.
     # @param broadcast_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_broadcast_details(broadcast_id, opts = {})
       data, _status_code, _headers = twitter_get_broadcast_details_with_http_info(broadcast_id, opts)
@@ -627,6 +802,13 @@ module ScrapeBadger
     # Get details of a live video broadcast.
     # @param broadcast_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_broadcast_details_with_http_info(broadcast_id, opts = {})
       if @api_client.config.debugging
@@ -636,16 +818,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && broadcast_id.nil?
         fail ArgumentError, "Missing the required parameter 'broadcast_id' when calling TwitterApi.twitter_get_broadcast_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_broadcast_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_broadcast_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_broadcast_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_broadcast_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_broadcast_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/spaces/broadcast/{broadcast_id}'.sub('{' + 'broadcast_id' + '}', CGI.escape(broadcast_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -680,6 +890,13 @@ module ScrapeBadger
     # Get details of a specific community.
     # @param community_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_community_details(community_id, opts = {})
       data, _status_code, _headers = twitter_get_community_details_with_http_info(community_id, opts)
@@ -690,6 +907,13 @@ module ScrapeBadger
     # Get details of a specific community.
     # @param community_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_community_details_with_http_info(community_id, opts = {})
       if @api_client.config.debugging
@@ -699,16 +923,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && community_id.nil?
         fail ArgumentError, "Missing the required parameter 'community_id' when calling TwitterApi.twitter_get_community_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_community_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_community_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_community_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_community_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_community_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/communities/{community_id}'.sub('{' + 'community_id' + '}', CGI.escape(community_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -743,6 +995,13 @@ module ScrapeBadger
     # Get community notes (Birdwatch) for a specific tweet.
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_community_notes(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_community_notes_with_http_info(tweet_id, opts)
@@ -753,6 +1012,13 @@ module ScrapeBadger
     # Get community notes (Birdwatch) for a specific tweet.
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_community_notes_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -762,16 +1028,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_community_notes"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_community_notes, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_community_notes, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_community_notes, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_community_notes, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_community_notes, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/community_notes'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -808,6 +1102,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :tweet_type 
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_community_tweets(community_id, opts = {})
       data, _status_code, _headers = twitter_get_community_tweets_with_http_info(community_id, opts)
@@ -820,6 +1121,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :tweet_type 
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_community_tweets_with_http_info(community_id, opts = {})
       if @api_client.config.debugging
@@ -829,6 +1137,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && community_id.nil?
         fail ArgumentError, "Missing the required parameter 'community_id' when calling TwitterApi.twitter_get_community_tweets"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_community_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_community_tweets, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_community_tweets, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_community_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_community_tweets, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/communities/{community_id}/tweets'.sub('{' + 'community_id' + '}', CGI.escape(community_id.to_s))
 
@@ -836,11 +1165,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'tweet_type'] = opts[:'tweet_type'] if !opts[:'tweet_type'].nil?
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -995,6 +1331,13 @@ module ScrapeBadger
     # Get details of a specific list.
     # @param list_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_list_details(list_id, opts = {})
       data, _status_code, _headers = twitter_get_list_details_with_http_info(list_id, opts)
@@ -1005,6 +1348,13 @@ module ScrapeBadger
     # Get details of a specific list.
     # @param list_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_list_details_with_http_info(list_id, opts = {})
       if @api_client.config.debugging
@@ -1014,16 +1364,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && list_id.nil?
         fail ArgumentError, "Missing the required parameter 'list_id' when calling TwitterApi.twitter_get_list_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_list_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_list_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_list_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_list_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_list_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/lists/{list_id}/detail'.sub('{' + 'list_id' + '}', CGI.escape(list_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1059,6 +1437,13 @@ module ScrapeBadger
     # @param list_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_list_tweets(list_id, opts = {})
       data, _status_code, _headers = twitter_get_list_tweets_with_http_info(list_id, opts)
@@ -1070,6 +1455,13 @@ module ScrapeBadger
     # @param list_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_list_tweets_with_http_info(list_id, opts = {})
       if @api_client.config.debugging
@@ -1079,17 +1471,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && list_id.nil?
         fail ArgumentError, "Missing the required parameter 'list_id' when calling TwitterApi.twitter_get_list_tweets"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_list_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_list_tweets, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_list_tweets, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_list_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_list_tweets, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/lists/{list_id}/tweets'.sub('{' + 'list_id' + '}', CGI.escape(list_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1124,6 +1544,13 @@ module ScrapeBadger
     # Get details of a specific place.
     # @param place_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_place_details(place_id, opts = {})
       data, _status_code, _headers = twitter_get_place_details_with_http_info(place_id, opts)
@@ -1134,6 +1561,13 @@ module ScrapeBadger
     # Get details of a specific place.
     # @param place_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_place_details_with_http_info(place_id, opts = {})
       if @api_client.config.debugging
@@ -1143,16 +1577,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && place_id.nil?
         fail ArgumentError, "Missing the required parameter 'place_id' when calling TwitterApi.twitter_get_place_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_place_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_place_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_place_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_place_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_place_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/geo/places/{place_id}'.sub('{' + 'place_id' + '}', CGI.escape(place_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1187,6 +1649,13 @@ module ScrapeBadger
     # Get tweets similar to a specific tweet.
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_similar_tweets(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_similar_tweets_with_http_info(tweet_id, opts)
@@ -1197,6 +1666,13 @@ module ScrapeBadger
     # Get tweets similar to a specific tweet.
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_similar_tweets_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1206,16 +1682,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_similar_tweets"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_similar_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_similar_tweets, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_similar_tweets, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_similar_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_similar_tweets, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/similar'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1250,6 +1754,13 @@ module ScrapeBadger
     # Get details of a Twitter Space.
     # @param space_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_space_details(space_id, opts = {})
       data, _status_code, _headers = twitter_get_space_details_with_http_info(space_id, opts)
@@ -1260,6 +1771,13 @@ module ScrapeBadger
     # Get details of a Twitter Space.
     # @param space_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_space_details_with_http_info(space_id, opts = {})
       if @api_client.config.debugging
@@ -1269,16 +1787,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && space_id.nil?
         fail ArgumentError, "Missing the required parameter 'space_id' when calling TwitterApi.twitter_get_space_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_space_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_space_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_space_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_space_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_space_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/spaces/{space_id}'.sub('{' + 'space_id' + '}', CGI.escape(space_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1377,6 +1923,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :category 
     # @option opts [Integer] :count 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_trending_topics(opts = {})
       data, _status_code, _headers = twitter_get_trending_topics_with_http_info(opts)
@@ -1388,11 +1941,39 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [String] :category 
     # @option opts [Integer] :count 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_trending_topics_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TwitterApi.twitter_get_trending_topics ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_trending_topics, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_trending_topics, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_trending_topics, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_trending_topics, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_trending_topics, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/trends/'
 
@@ -1400,11 +1981,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'category'] = opts[:'category'] if !opts[:'category'].nil?
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1439,6 +2027,13 @@ module ScrapeBadger
     # Get trending topics for a specific location (WOEID).
     # @param woeid [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_trends_by_location(woeid, opts = {})
       data, _status_code, _headers = twitter_get_trends_by_location_with_http_info(woeid, opts)
@@ -1449,6 +2044,13 @@ module ScrapeBadger
     # Get trending topics for a specific location (WOEID).
     # @param woeid [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_trends_by_location_with_http_info(woeid, opts = {})
       if @api_client.config.debugging
@@ -1458,16 +2060,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && woeid.nil?
         fail ArgumentError, "Missing the required parameter 'woeid' when calling TwitterApi.twitter_get_trends_by_location"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_trends_by_location, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_trends_by_location, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_trends_by_location, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_trends_by_location, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_trends_by_location, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/trends/place/{woeid}'.sub('{' + 'woeid' + '}', CGI.escape(woeid.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1503,6 +2133,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweet_details(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_tweet_details_with_http_info(tweet_id, opts)
@@ -1514,6 +2151,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweet_details_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1523,17 +2167,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_tweet_details"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_details, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweet_details, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_details, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_details, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1568,6 +2240,13 @@ module ScrapeBadger
     # Get the edit history of a tweet.
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweet_edit_history(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_tweet_edit_history_with_http_info(tweet_id, opts)
@@ -1578,6 +2257,13 @@ module ScrapeBadger
     # Get the edit history of a tweet.
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweet_edit_history_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1587,16 +2273,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_tweet_edit_history"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_edit_history, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_edit_history, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweet_edit_history, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_edit_history, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_edit_history, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/edit_history'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1632,6 +2346,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweet_favoriters(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_tweet_favoriters_with_http_info(tweet_id, opts)
@@ -1643,6 +2364,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweet_favoriters_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1652,17 +2380,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_tweet_favoriters"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_favoriters, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_favoriters, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweet_favoriters, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_favoriters, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_favoriters, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/favoriters'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1698,6 +2454,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweet_quotes(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_tweet_quotes_with_http_info(tweet_id, opts)
@@ -1709,6 +2472,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweet_quotes_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1718,17 +2488,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_tweet_quotes"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_quotes, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_quotes, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweet_quotes, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_quotes, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_quotes, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/quotes'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1764,6 +2562,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweet_replies(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_tweet_replies_with_http_info(tweet_id, opts)
@@ -1775,6 +2580,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweet_replies_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1784,17 +2596,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_tweet_replies"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_replies, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_replies, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweet_replies, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_replies, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_replies, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/replies'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1830,6 +2670,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweet_retweeters(tweet_id, opts = {})
       data, _status_code, _headers = twitter_get_tweet_retweeters_with_http_info(tweet_id, opts)
@@ -1841,6 +2688,13 @@ module ScrapeBadger
     # @param tweet_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweet_retweeters_with_http_info(tweet_id, opts = {})
       if @api_client.config.debugging
@@ -1850,17 +2704,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweet_id.nil?
         fail ArgumentError, "Missing the required parameter 'tweet_id' when calling TwitterApi.twitter_get_tweet_retweeters"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_retweeters, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweet_retweeters, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweet_retweeters, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_retweeters, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweet_retweeters, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/tweet/{tweet_id}/retweeters'.sub('{' + 'tweet_id' + '}', CGI.escape(tweet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1895,6 +2777,13 @@ module ScrapeBadger
     # Get multiple tweets by their IDs.
     # @param tweets [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_tweets_by_ids(tweets, opts = {})
       data, _status_code, _headers = twitter_get_tweets_by_ids_with_http_info(tweets, opts)
@@ -1905,6 +2794,13 @@ module ScrapeBadger
     # Get multiple tweets by their IDs.
     # @param tweets [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_tweets_by_ids_with_http_info(tweets, opts = {})
       if @api_client.config.debugging
@@ -1914,17 +2810,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && tweets.nil?
         fail ArgumentError, "Missing the required parameter 'tweets' when calling TwitterApi.twitter_get_tweets_by_ids"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweets_by_ids, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_tweets_by_ids, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_tweets_by_ids, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweets_by_ids, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_tweets_by_ids, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/tweets/'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'tweets'] = tweets
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1960,6 +2884,13 @@ module ScrapeBadger
     # @param user_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_articles(user_id, opts = {})
       data, _status_code, _headers = twitter_get_user_articles_with_http_info(user_id, opts)
@@ -1971,6 +2902,13 @@ module ScrapeBadger
     # @param user_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_articles_with_http_info(user_id, opts = {})
       if @api_client.config.debugging
@@ -1980,17 +2918,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && user_id.nil?
         fail ArgumentError, "Missing the required parameter 'user_id' when calling TwitterApi.twitter_get_user_articles"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_articles, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_articles, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_articles, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_articles, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_articles, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{user_id}/articles'.sub('{' + 'user_id' + '}', CGI.escape(user_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2025,6 +2991,13 @@ module ScrapeBadger
     # Get user profile by user ID.
     # @param user_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_by_id(user_id, opts = {})
       data, _status_code, _headers = twitter_get_user_by_id_with_http_info(user_id, opts)
@@ -2035,6 +3008,13 @@ module ScrapeBadger
     # Get user profile by user ID.
     # @param user_id [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_by_id_with_http_info(user_id, opts = {})
       if @api_client.config.debugging
@@ -2044,16 +3024,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && user_id.nil?
         fail ArgumentError, "Missing the required parameter 'user_id' when calling TwitterApi.twitter_get_user_by_id"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_by_id, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_by_id, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_by_id, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_by_id, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_by_id, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{user_id}/by_id'.sub('{' + 'user_id' + '}', CGI.escape(user_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2088,6 +3096,13 @@ module ScrapeBadger
     # Get user profile by username.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_by_username(username, opts = {})
       data, _status_code, _headers = twitter_get_user_by_username_with_http_info(username, opts)
@@ -2098,6 +3113,13 @@ module ScrapeBadger
     # Get user profile by username.
     # @param username [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_by_username_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -2107,16 +3129,44 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && username.nil?
         fail ArgumentError, "Missing the required parameter 'username' when calling TwitterApi.twitter_get_user_by_username"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_by_username, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_by_username, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_by_username, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_by_username, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_by_username, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{username}/by_username'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2152,6 +3202,13 @@ module ScrapeBadger
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_followers(username, opts = {})
       data, _status_code, _headers = twitter_get_user_followers_with_http_info(username, opts)
@@ -2163,6 +3220,13 @@ module ScrapeBadger
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_followers_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -2172,17 +3236,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && username.nil?
         fail ArgumentError, "Missing the required parameter 'username' when calling TwitterApi.twitter_get_user_followers"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_followers, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_followers, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_followers, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_followers, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_followers, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{username}/followers'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2218,6 +3310,13 @@ module ScrapeBadger
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_following(username, opts = {})
       data, _status_code, _headers = twitter_get_user_following_with_http_info(username, opts)
@@ -2229,6 +3328,13 @@ module ScrapeBadger
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_following_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -2238,17 +3344,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && username.nil?
         fail ArgumentError, "Missing the required parameter 'username' when calling TwitterApi.twitter_get_user_following"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_following, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_following, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_following, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_following, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_following, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{username}/followings'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2285,6 +3419,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :count 
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_mentions(username, opts = {})
       data, _status_code, _headers = twitter_get_user_mentions_with_http_info(username, opts)
@@ -2297,6 +3438,13 @@ module ScrapeBadger
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :count 
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_mentions_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -2306,6 +3454,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && username.nil?
         fail ArgumentError, "Missing the required parameter 'username' when calling TwitterApi.twitter_get_user_mentions"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_mentions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_mentions, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_mentions, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_mentions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_mentions, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{username}/mentions'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
 
@@ -2313,11 +3482,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'count'] = opts[:'count'] if !opts[:'count'].nil?
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2353,6 +3529,13 @@ module ScrapeBadger
     # @param user_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_subscriptions(user_id, opts = {})
       data, _status_code, _headers = twitter_get_user_subscriptions_with_http_info(user_id, opts)
@@ -2364,6 +3547,13 @@ module ScrapeBadger
     # @param user_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_subscriptions_with_http_info(user_id, opts = {})
       if @api_client.config.debugging
@@ -2373,17 +3563,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && user_id.nil?
         fail ArgumentError, "Missing the required parameter 'user_id' when calling TwitterApi.twitter_get_user_subscriptions"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_subscriptions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_subscriptions, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_subscriptions, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_subscriptions, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_subscriptions, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{user_id}/subscriptions'.sub('{' + 'user_id' + '}', CGI.escape(user_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2419,6 +3637,13 @@ module ScrapeBadger
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_get_user_tweets(username, opts = {})
       data, _status_code, _headers = twitter_get_user_tweets_with_http_info(username, opts)
@@ -2430,6 +3655,13 @@ module ScrapeBadger
     # @param username [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_get_user_tweets_with_http_info(username, opts = {})
       if @api_client.config.debugging
@@ -2439,17 +3671,45 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && username.nil?
         fail ArgumentError, "Missing the required parameter 'username' when calling TwitterApi.twitter_get_user_tweets"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_get_user_tweets, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_get_user_tweets, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_get_user_tweets, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/{username}/latest_tweets'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -2962,6 +4222,13 @@ module ScrapeBadger
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_search_communities(query, opts = {})
       data, _status_code, _headers = twitter_search_communities_with_http_info(query, opts)
@@ -2973,6 +4240,13 @@ module ScrapeBadger
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_search_communities_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -2982,6 +4256,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && query.nil?
         fail ArgumentError, "Missing the required parameter 'query' when calling TwitterApi.twitter_search_communities"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_communities, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_communities, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_search_communities, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_communities, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_communities, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/communities/search'
 
@@ -2989,11 +4284,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'query'] = query
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3030,6 +4332,13 @@ module ScrapeBadger
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_search_list_tweets(list_id, query, opts = {})
       data, _status_code, _headers = twitter_search_list_tweets_with_http_info(list_id, query, opts)
@@ -3042,6 +4351,13 @@ module ScrapeBadger
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_search_list_tweets_with_http_info(list_id, query, opts = {})
       if @api_client.config.debugging
@@ -3055,6 +4371,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && query.nil?
         fail ArgumentError, "Missing the required parameter 'query' when calling TwitterApi.twitter_search_list_tweets"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_list_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_list_tweets, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_search_list_tweets, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_list_tweets, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_list_tweets, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/lists/{list_id}/search_tweets'.sub('{' + 'list_id' + '}', CGI.escape(list_id.to_s))
 
@@ -3062,11 +4399,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'query'] = query
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3103,6 +4447,13 @@ module ScrapeBadger
     # @option opts [String] :query 
     # @option opts [Float] :lat 
     # @option opts [Float] :long 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_search_places(opts = {})
       data, _status_code, _headers = twitter_search_places_with_http_info(opts)
@@ -3115,11 +4466,39 @@ module ScrapeBadger
     # @option opts [String] :query 
     # @option opts [Float] :lat 
     # @option opts [Float] :long 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_search_places_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TwitterApi.twitter_search_places ...'
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_places, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_places, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_search_places, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_places, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_places, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/geo/search'
 
@@ -3128,11 +4507,18 @@ module ScrapeBadger
       query_params[:'query'] = opts[:'query'] if !opts[:'query'].nil?
       query_params[:'lat'] = opts[:'lat'] if !opts[:'lat'].nil?
       query_params[:'long'] = opts[:'long'] if !opts[:'long'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -3168,6 +4554,13 @@ module ScrapeBadger
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Object]
     def twitter_search_users(query, opts = {})
       data, _status_code, _headers = twitter_search_users_with_http_info(query, opts)
@@ -3179,6 +4572,13 @@ module ScrapeBadger
     # @param query [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :cursor 
+    # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
+    # @option opts [String] :x_callback_url An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;.
+    # @option opts [String] :idempotency_key 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;.
+    # @option opts [Boolean] :async Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper.
+    # @option opts [Integer] :async_wait Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper.
+    # @option opts [String] :callback_url Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper.
+    # @option opts [String] :idempotency_key2 Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper.
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def twitter_search_users_with_http_info(query, opts = {})
       if @api_client.config.debugging
@@ -3188,6 +4588,27 @@ module ScrapeBadger
       if @api_client.config.client_side_validation && query.nil?
         fail ArgumentError, "Missing the required parameter 'query' when calling TwitterApi.twitter_search_users"
       end
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_users, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key"]" when calling TwitterApi.twitter_search_users, the character length must be great than or equal to 1.'
+      end
+
+      pattern = Regexp.new(/^[!-~]{1,200}$/)
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key'].nil? && opts[:'idempotency_key'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"idempotency_key\"]' when calling TwitterApi.twitter_search_users, must conform to the pattern #{pattern}."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length > 200
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_users, the character length must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'idempotency_key2'].nil? && opts[:'idempotency_key2'].to_s.length < 1
+        fail ArgumentError, 'invalid value for "opts[:"idempotency_key2"]" when calling TwitterApi.twitter_search_users, the character length must be great than or equal to 1.'
+      end
+
       # resource path
       local_var_path = '/v1/twitter/users/search_users'
 
@@ -3195,11 +4616,18 @@ module ScrapeBadger
       query_params = opts[:query_params] || {}
       query_params[:'query'] = query
       query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+      query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
+      query_params[:'async_wait'] = opts[:'async_wait'] if !opts[:'async_wait'].nil?
+      query_params[:'callback_url'] = opts[:'callback_url'] if !opts[:'callback_url'].nil?
+      query_params[:'idempotency_key'] = opts[:'idempotency_key2'] if !opts[:'idempotency_key2'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'Prefer'] = opts[:'prefer'] if !opts[:'prefer'].nil?
+      header_params[:'X-Callback-URL'] = opts[:'x_callback_url'] if !opts[:'x_callback_url'].nil?
+      header_params[:'Idempotency-Key'] = opts[:'idempotency_key'] if !opts[:'idempotency_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}

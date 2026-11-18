@@ -65,4 +65,16 @@ describe 'AccountApi' do
     end
   end
 
+  # unit tests for account_webhook_deliveries
+  # Webhook deliveries
+  # This account&#39;s async-request webhook deliveries of the last 24 h, newest first. Free. Needs a full-access API key, like the webhook secret: a trial key gets &#x60;403 trial_not_allowed&#x60;, a key restricted to some APIs &#x60;403 full_access_required&#x60;.
+  # @param [Hash] opts the optional parameters
+  # @option opts [Integer] :limit How many deliveries to return (1-200).
+  # @return [WebhookDeliveries]
+  describe 'account_webhook_deliveries test' do
+    it 'should work' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+    end
+  end
+
 end

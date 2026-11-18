@@ -19,8 +19,71 @@ module ScrapeBadger
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # Callback status
+    # Webhook delivery state of a call submitted with `X-Callback-URL` / `callback_url`: kept for 24 h. Free. `404 callback_not_found` for a request without a callback, of another account, or older than 24 h.
+    # @param request_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [AsyncCallbackStatus]
+    def requests_callback_status(request_id, opts = {})
+      data, _status_code, _headers = requests_callback_status_with_http_info(request_id, opts)
+      data
+    end
+
+    # Callback status
+    # Webhook delivery state of a call submitted with &#x60;X-Callback-URL&#x60; / &#x60;callback_url&#x60;: kept for 24 h. Free. &#x60;404 callback_not_found&#x60; for a request without a callback, of another account, or older than 24 h.
+    # @param request_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(AsyncCallbackStatus, Integer, Hash)>] AsyncCallbackStatus data, response status code and response headers
+    def requests_callback_status_with_http_info(request_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: RequestsApi.requests_callback_status ...'
+      end
+      # verify the required parameter 'request_id' is set
+      if @api_client.config.client_side_validation && request_id.nil?
+        fail ArgumentError, "Missing the required parameter 'request_id' when calling RequestsApi.requests_callback_status"
+      end
+      # resource path
+      local_var_path = '/v1/requests/{request_id}/callback'.sub('{' + 'request_id' + '}', CGI.escape(request_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'AsyncCallbackStatus'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"RequestsApi.requests_callback_status",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: RequestsApi#requests_callback_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Poll an async request
-    # Status or final response of a call made with ``Prefer: respond-async``. While it runs: 202. When done: the original status, headers and body.
+    # Status or final response of a call made with ``Prefer: respond-async``. While it runs: 202. When done: the original status, headers and body.  The final response carries `X-Callback-Status`, `X-Callback-Attempts` and `X-Callback-Error` for a call submitted with a callback; while it runs, the `202` body has a `callback` object. Full delivery state: `GET /v1/requests/{request_id}/callback`.
     # @param request_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -30,7 +93,7 @@ module ScrapeBadger
     end
 
     # Poll an async request
-    # Status or final response of a call made with &#x60;&#x60;Prefer: respond-async&#x60;&#x60;. While it runs: 202. When done: the original status, headers and body.
+    # Status or final response of a call made with &#x60;&#x60;Prefer: respond-async&#x60;&#x60;. While it runs: 202. When done: the original status, headers and body.  The final response carries &#x60;X-Callback-Status&#x60;, &#x60;X-Callback-Attempts&#x60; and &#x60;X-Callback-Error&#x60; for a call submitted with a callback; while it runs, the &#x60;202&#x60; body has a &#x60;callback&#x60; object. Full delivery state: &#x60;GET /v1/requests/{request_id}/callback&#x60;.
     # @param request_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers

@@ -7,6 +7,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**account_get_account_info**](AccountApi.md#account_get_account_info) | **GET** /v1/account/me | Get account info |
 | [**account_get_the_webhook_signing_secret**](AccountApi.md#account_get_the_webhook_signing_secret) | **GET** /v1/account/webhook-secret | Get the webhook signing secret |
 | [**account_rotate_the_webhook_signing_secret**](AccountApi.md#account_rotate_the_webhook_signing_secret) | **POST** /v1/account/webhook-secret/rotate | Rotate the webhook signing secret |
+| [**account_webhook_deliveries**](AccountApi.md#account_webhook_deliveries) | **GET** /v1/account/webhook-deliveries | Webhook deliveries |
 
 
 ## account_get_account_info
@@ -202,6 +203,79 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**WebhookSecret**](WebhookSecret.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## account_webhook_deliveries
+
+> <WebhookDeliveries> account_webhook_deliveries(opts)
+
+Webhook deliveries
+
+This account's async-request webhook deliveries of the last 24 h, newest first. Free. Needs a full-access API key, like the webhook secret: a trial key gets `403 trial_not_allowed`, a key restricted to some APIs `403 full_access_required`.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::AccountApi.new
+opts = {
+  limit: 56 # Integer | How many deliveries to return (1-200).
+}
+
+begin
+  # Webhook deliveries
+  result = api_instance.account_webhook_deliveries(opts)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling AccountApi->account_webhook_deliveries: #{e}"
+end
+```
+
+#### Using the account_webhook_deliveries_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<WebhookDeliveries>, Integer, Hash)> account_webhook_deliveries_with_http_info(opts)
+
+```ruby
+begin
+  # Webhook deliveries
+  data, status_code, headers = api_instance.account_webhook_deliveries_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <WebhookDeliveries>
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling AccountApi->account_webhook_deliveries_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **limit** | **Integer** | How many deliveries to return (1-200). | [optional][default to 50] |
+
+### Return type
+
+[**WebhookDeliveries**](WebhookDeliveries.md)
 
 ### Authorization
 
