@@ -39,6 +39,8 @@ opts = {
   country: 'country_example', # String | ISO-3166 alpha-2 egress country, e.g. 'US', 'GB', 'DE'.
   strict_country: true, # Boolean | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`.
   location: 'location_example', # String | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or 'lat,lng' in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP's city. It does not pick the egress: `country` does.
+  html: true, # Boolean | Also return `answer_html`: the answer rendered as an HTML fragment, with each `[n]` citation linked to its source (`<a class=\"citation\" data-ref=\"n\">`). Raw HTML and unsafe links in the answer are dropped. Same price.
+  raw: true, # Boolean | Also return `raw`: Perplexity's own final answer object as it sent it (answer blocks, web results, related queries, model and mode metadata), minus its thread write token. Every other field is parsed from it. Same price.
   prefer: 'respond-async, wait=25', # String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait.
   x_callback_url: 'x_callback_url_example', # String | An `https` URL that receives the signed `request.completed` webhook when the call finishes. Implies async: on its own (no `Prefer`, `async` or `async_wait`) the answer is an immediate `202`; with `Prefer: respond-async` or `async=true` the call still waits 25 s unless a wait is given. Wins over `callback_url`.
   idempotency_key: 'idempotency_key_example', # String | 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call's current state (`Idempotent-Replayed: true`) without running or billing it again; on a different call it is `409 idempotency_key_reused`. Applies to async calls only; on a synchronous call it is ignored. Wins over `idempotency_key`.
@@ -83,6 +85,8 @@ end
 | **country** | **String** | ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. | [optional] |
 | **strict_country** | **Boolean** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional][default to false] |
 | **location** | **String** | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. | [optional] |
+| **html** | **Boolean** | Also return &#x60;answer_html&#x60;: the answer rendered as an HTML fragment, with each &#x60;[n]&#x60; citation linked to its source (&#x60;&lt;a class&#x3D;\&quot;citation\&quot; data-ref&#x3D;\&quot;n\&quot;&gt;&#x60;). Raw HTML and unsafe links in the answer are dropped. Same price. | [optional][default to false] |
+| **raw** | **Boolean** | Also return &#x60;raw&#x60;: Perplexity&#39;s own final answer object as it sent it (answer blocks, web results, related queries, model and mode metadata), minus its thread write token. Every other field is parsed from it. Same price. | [optional][default to false] |
 | **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] |
 | **x_callback_url** | **String** | An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. | [optional] |
 | **idempotency_key** | **String** | 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. | [optional] |
@@ -111,7 +115,7 @@ end
 
 Ask Perplexity a question (POST)
 
-POST form of `/ask`, for prompts too long for a query string.
+POST form of `/ask`, for prompts too long for a query string. The JSON body takes the same fields as the query (`prompt`, `country`, `strict_country`, `location`, `html`, `raw`).
 
 ### Examples
 
