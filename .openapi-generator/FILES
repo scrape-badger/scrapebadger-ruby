@@ -124,6 +124,10 @@ docs/GitHubStatus.md
 docs/GitHubTextLink.md
 docs/GoogleApi.md
 docs/GooglePlayApi.md
+docs/GoogleResolveItem.md
+docs/GoogleResolveRequest.md
+docs/GoogleResolveResponse.md
+docs/GoogleResolveRow.md
 docs/GrokApi.md
 docs/GumtreeApi.md
 docs/HTTPValidationError.md
@@ -403,6 +407,10 @@ lib/scrapebadger/models/git_hub_repository_response.rb
 lib/scrapebadger/models/git_hub_social_account.rb
 lib/scrapebadger/models/git_hub_status.rb
 lib/scrapebadger/models/git_hub_text_link.rb
+lib/scrapebadger/models/google_resolve_item.rb
+lib/scrapebadger/models/google_resolve_request.rb
+lib/scrapebadger/models/google_resolve_response.rb
+lib/scrapebadger/models/google_resolve_row.rb
 lib/scrapebadger/models/http_validation_error.rb
 lib/scrapebadger/models/imageurl.rb
 lib/scrapebadger/models/is_live.rb
@@ -649,6 +657,10 @@ spec/models/git_hub_repository_spec.rb
 spec/models/git_hub_social_account_spec.rb
 spec/models/git_hub_status_spec.rb
 spec/models/git_hub_text_link_spec.rb
+spec/models/google_resolve_item_spec.rb
+spec/models/google_resolve_request_spec.rb
+spec/models/google_resolve_response_spec.rb
+spec/models/google_resolve_row_spec.rb
 spec/models/http_validation_error_spec.rb
 spec/models/imageurl_spec.rb
 spec/models/is_live_spec.rb

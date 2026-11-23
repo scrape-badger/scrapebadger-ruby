@@ -363,6 +363,7 @@ Class | Method | HTTP request | Description
 *ScrapeBadger::GoogleApi* | [**google_news_by_topic**](docs/GoogleApi.md#google_news_by_topic) | **GET** /v1/google/news/topics | News by topic
 *ScrapeBadger::GoogleApi* | [**google_patent_details**](docs/GoogleApi.md#google_patent_details) | **GET** /v1/google/patents/detail | Patent details
 *ScrapeBadger::GoogleApi* | [**google_related_topics_queries**](docs/GoogleApi.md#google_related_topics_queries) | **GET** /v1/google/trends/related | Related topics & queries
+*ScrapeBadger::GoogleApi* | [**google_resolve**](docs/GoogleApi.md#google_resolve) | **POST** /v1/google/resolve | Resolve
 *ScrapeBadger::GoogleApi* | [**google_search_google_images**](docs/GoogleApi.md#google_search_google_images) | **GET** /v1/google/images/search | Search Google Images
 *ScrapeBadger::GoogleApi* | [**google_search_google_jobs**](docs/GoogleApi.md#google_search_google_jobs) | **GET** /v1/google/jobs/search | Search Google Jobs
 *ScrapeBadger::GoogleApi* | [**google_search_google_maps_places**](docs/GoogleApi.md#google_search_google_maps_places) | **GET** /v1/google/maps/search | Search Google Maps places
@@ -858,6 +859,10 @@ Class | Method | HTTP request | Description
  - [ScrapeBadger::GitHubSocialAccount](docs/GitHubSocialAccount.md)
  - [ScrapeBadger::GitHubStatus](docs/GitHubStatus.md)
  - [ScrapeBadger::GitHubTextLink](docs/GitHubTextLink.md)
+ - [ScrapeBadger::GoogleResolveItem](docs/GoogleResolveItem.md)
+ - [ScrapeBadger::GoogleResolveRequest](docs/GoogleResolveRequest.md)
+ - [ScrapeBadger::GoogleResolveResponse](docs/GoogleResolveResponse.md)
+ - [ScrapeBadger::GoogleResolveRow](docs/GoogleResolveRow.md)
  - [ScrapeBadger::HTTPValidationError](docs/HTTPValidationError.md)
  - [ScrapeBadger::Imageurl](docs/Imageurl.md)
  - [ScrapeBadger::IsLive](docs/IsLive.md)

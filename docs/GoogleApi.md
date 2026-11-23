@@ -31,6 +31,7 @@ All URIs are relative to *https://scrapebadger.com*
 | [**google_news_by_topic**](GoogleApi.md#google_news_by_topic) | **GET** /v1/google/news/topics | News by topic |
 | [**google_patent_details**](GoogleApi.md#google_patent_details) | **GET** /v1/google/patents/detail | Patent details |
 | [**google_related_topics_queries**](GoogleApi.md#google_related_topics_queries) | **GET** /v1/google/trends/related | Related topics &amp; queries |
+| [**google_resolve**](GoogleApi.md#google_resolve) | **POST** /v1/google/resolve | Resolve |
 | [**google_search_google_images**](GoogleApi.md#google_search_google_images) | **GET** /v1/google/images/search | Search Google Images |
 | [**google_search_google_jobs**](GoogleApi.md#google_search_google_jobs) | **GET** /v1/google/jobs/search | Search Google Jobs |
 | [**google_search_google_maps_places**](GoogleApi.md#google_search_google_maps_places) | **GET** /v1/google/maps/search | Search Google Maps places |
@@ -2700,6 +2701,77 @@ end
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## google_resolve
+
+> <GoogleResolveResponse> google_resolve(google_resolve_request)
+
+Resolve
+
+Get the URLs of search results whose `link` is still a Google redirect. Costs 0 credits.  Google hides a result's URL behind a redirect (`https://www.google.com/goto?url=...`) and paces how fast a result page's links can be followed. `GET /v1/google/search` and `GET /v1/google/light/search` give every organic result whose `link` is still such a redirect a `link_token` and `retry_after_seconds` (0 means it can be resolved right away). Both are null on a result whose `link` is already the real URL. Send the results that have a `link_token` here, 1 to 25 per call.  Each row comes back in the order sent, in one of three states:  - Resolved: `link` is the result's own URL and there is no `link_token`. - Not ready: `link_token` is the token to send next time (it can differ from the one   sent) and `retry_after_seconds` is how long to wait, at least 1. - Failed: `link_token` and `error`. Do not send this token again.  The top-level `retry_after_seconds` is the smallest wait among the rows that are not ready, or null. Wait that long, then send the rows that are not ready again. A token sent early is not an error: its row comes back not ready with the wait that is left.  Typical timing: calling again after each `retry_after_seconds`, all ten links of a result page are known 45 to 70 seconds after the search. Once the result page is about 160 seconds old, one call returns every remaining link.  An invalid body answers 422. The async request forms do not apply to this endpoint.
+
+### Examples
+
+```ruby
+require 'time'
+require 'scrapebadger'
+# setup authorization
+ScrapeBadger.configure do |config|
+  # Configure API key authorization: ApiKeyAuth
+  config.api_key['X-API-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-API-Key'] = 'Bearer'
+end
+
+api_instance = ScrapeBadger::GoogleApi.new
+google_resolve_request = ScrapeBadger::GoogleResolveRequest.new({results: [ScrapeBadger::GoogleResolveItem.new({link_token: 'link_token_example'})]}) # GoogleResolveRequest | 
+
+begin
+  # Resolve
+  result = api_instance.google_resolve(google_resolve_request)
+  p result
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling GoogleApi->google_resolve: #{e}"
+end
+```
+
+#### Using the google_resolve_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<GoogleResolveResponse>, Integer, Hash)> google_resolve_with_http_info(google_resolve_request)
+
+```ruby
+begin
+  # Resolve
+  data, status_code, headers = api_instance.google_resolve_with_http_info(google_resolve_request)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <GoogleResolveResponse>
+rescue ScrapeBadger::ApiError => e
+  puts "Error when calling GoogleApi->google_resolve_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **google_resolve_request** | [**GoogleResolveRequest**](GoogleResolveRequest.md) |  |  |
+
+### Return type
+
+[**GoogleResolveResponse**](GoogleResolveResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 

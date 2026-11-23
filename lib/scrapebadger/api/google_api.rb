@@ -3614,6 +3614,74 @@ module ScrapeBadger
       return data, status_code, headers
     end
 
+    # Resolve
+    # Get the URLs of search results whose `link` is still a Google redirect. Costs 0 credits.  Google hides a result's URL behind a redirect (`https://www.google.com/goto?url=...`) and paces how fast a result page's links can be followed. `GET /v1/google/search` and `GET /v1/google/light/search` give every organic result whose `link` is still such a redirect a `link_token` and `retry_after_seconds` (0 means it can be resolved right away). Both are null on a result whose `link` is already the real URL. Send the results that have a `link_token` here, 1 to 25 per call.  Each row comes back in the order sent, in one of three states:  - Resolved: `link` is the result's own URL and there is no `link_token`. - Not ready: `link_token` is the token to send next time (it can differ from the one   sent) and `retry_after_seconds` is how long to wait, at least 1. - Failed: `link_token` and `error`. Do not send this token again.  The top-level `retry_after_seconds` is the smallest wait among the rows that are not ready, or null. Wait that long, then send the rows that are not ready again. A token sent early is not an error: its row comes back not ready with the wait that is left.  Typical timing: calling again after each `retry_after_seconds`, all ten links of a result page are known 45 to 70 seconds after the search. Once the result page is about 160 seconds old, one call returns every remaining link.  An invalid body answers 422. The async request forms do not apply to this endpoint.
+    # @param google_resolve_request [GoogleResolveRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [GoogleResolveResponse]
+    def google_resolve(google_resolve_request, opts = {})
+      data, _status_code, _headers = google_resolve_with_http_info(google_resolve_request, opts)
+      data
+    end
+
+    # Resolve
+    # Get the URLs of search results whose &#x60;link&#x60; is still a Google redirect. Costs 0 credits.  Google hides a result&#39;s URL behind a redirect (&#x60;https://www.google.com/goto?url&#x3D;...&#x60;) and paces how fast a result page&#39;s links can be followed. &#x60;GET /v1/google/search&#x60; and &#x60;GET /v1/google/light/search&#x60; give every organic result whose &#x60;link&#x60; is still such a redirect a &#x60;link_token&#x60; and &#x60;retry_after_seconds&#x60; (0 means it can be resolved right away). Both are null on a result whose &#x60;link&#x60; is already the real URL. Send the results that have a &#x60;link_token&#x60; here, 1 to 25 per call.  Each row comes back in the order sent, in one of three states:  - Resolved: &#x60;link&#x60; is the result&#39;s own URL and there is no &#x60;link_token&#x60;. - Not ready: &#x60;link_token&#x60; is the token to send next time (it can differ from the one   sent) and &#x60;retry_after_seconds&#x60; is how long to wait, at least 1. - Failed: &#x60;link_token&#x60; and &#x60;error&#x60;. Do not send this token again.  The top-level &#x60;retry_after_seconds&#x60; is the smallest wait among the rows that are not ready, or null. Wait that long, then send the rows that are not ready again. A token sent early is not an error: its row comes back not ready with the wait that is left.  Typical timing: calling again after each &#x60;retry_after_seconds&#x60;, all ten links of a result page are known 45 to 70 seconds after the search. Once the result page is about 160 seconds old, one call returns every remaining link.  An invalid body answers 422. The async request forms do not apply to this endpoint.
+    # @param google_resolve_request [GoogleResolveRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(GoogleResolveResponse, Integer, Hash)>] GoogleResolveResponse data, response status code and response headers
+    def google_resolve_with_http_info(google_resolve_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: GoogleApi.google_resolve ...'
+      end
+      # verify the required parameter 'google_resolve_request' is set
+      if @api_client.config.client_side_validation && google_resolve_request.nil?
+        fail ArgumentError, "Missing the required parameter 'google_resolve_request' when calling GoogleApi.google_resolve"
+      end
+      # resource path
+      local_var_path = '/v1/google/resolve'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(google_resolve_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GoogleResolveResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKeyAuth']
+
+      new_options = opts.merge(
+        :operation => :"GoogleApi.google_resolve",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: GoogleApi#google_resolve\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Search Google Images
     # Search Google Images for visual content.
     # @param q [String] Image search query
