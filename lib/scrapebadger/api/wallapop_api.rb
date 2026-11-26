@@ -567,7 +567,7 @@ module ScrapeBadger
     end
 
     # List categories
-    # The full category tree; ids are usable as the search category_id.
+    # The full category tree; top-level ids are the search category_id, nested subcategory ids go in subcategory_ids.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
     # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
@@ -584,7 +584,7 @@ module ScrapeBadger
     end
 
     # List categories
-    # The full category tree; ids are usable as the search category_id.
+    # The full category tree; top-level ids are the search category_id, nested subcategory ids go in subcategory_ids.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
     # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
@@ -673,6 +673,7 @@ module ScrapeBadger
     # @param filter_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :category_id Category to scope options to
+    # @option opts [String] :subcategory_ids Comma-separated subcategory ids to scope options to
     # @option opts [String] :query Search text to scope options to
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
     # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
@@ -693,6 +694,7 @@ module ScrapeBadger
     # @param filter_id [String] 
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :category_id Category to scope options to
+    # @option opts [String] :subcategory_ids Comma-separated subcategory ids to scope options to
     # @option opts [String] :query Search text to scope options to
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
     # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
@@ -738,6 +740,7 @@ module ScrapeBadger
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'category_id'] = opts[:'category_id'] if !opts[:'category_id'].nil?
+      query_params[:'subcategory_ids'] = opts[:'subcategory_ids'] if !opts[:'subcategory_ids'].nil?
       query_params[:'query'] = opts[:'query'] if !opts[:'query'].nil?
       query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
       query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
@@ -885,6 +888,7 @@ module ScrapeBadger
     # The filters Wallapop offers for a category or query, with option ids.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :category_id Category the filters apply to
+    # @option opts [String] :subcategory_ids Comma-separated subcategory ids the filters apply to
     # @option opts [String] :query Search text the filters apply to
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
     # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
@@ -904,6 +908,7 @@ module ScrapeBadger
     # The filters Wallapop offers for a category or query, with option ids.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :category_id Category the filters apply to
+    # @option opts [String] :subcategory_ids Comma-separated subcategory ids the filters apply to
     # @option opts [String] :query Search text the filters apply to
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
     # @option opts [String] :prefer &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait.
@@ -945,6 +950,7 @@ module ScrapeBadger
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'category_id'] = opts[:'category_id'] if !opts[:'category_id'].nil?
+      query_params[:'subcategory_ids'] = opts[:'subcategory_ids'] if !opts[:'subcategory_ids'].nil?
       query_params[:'query'] = opts[:'query'] if !opts[:'query'].nil?
       query_params[:'market'] = opts[:'market'] if !opts[:'market'].nil?
       query_params[:'async'] = opts[:'async'] if !opts[:'async'].nil?
@@ -990,7 +996,7 @@ module ScrapeBadger
     end
 
     # Search listings
-    # Search Wallapop listings (40 per page). Needs a query, a category_id, or both.
+    # Search Wallapop listings (40 per page). Needs a query, a category_id, subcategory_ids, or a combination.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :query Search text, e.g. &#39;iphone 14&#39;
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
@@ -998,6 +1004,7 @@ module ScrapeBadger
     # @option opts [Float] :longitude Search centre longitude
     # @option opts [Integer] :distance_km Search radius
     # @option opts [Integer] :category_id Category id from /categories
+    # @option opts [String] :subcategory_ids Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310
     # @option opts [Float] :min_price Minimum price (EUR)
     # @option opts [Float] :max_price Maximum price (EUR)
     # @option opts [String] :condition Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all
@@ -1031,7 +1038,7 @@ module ScrapeBadger
     end
 
     # Search listings
-    # Search Wallapop listings (40 per page). Needs a query, a category_id, or both.
+    # Search Wallapop listings (40 per page). Needs a query, a category_id, subcategory_ids, or a combination.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :query Search text, e.g. &#39;iphone 14&#39;
     # @option opts [String] :market Market: es (Spain), it (Italy), pt (Portugal) (default to 'es')
@@ -1039,6 +1046,7 @@ module ScrapeBadger
     # @option opts [Float] :longitude Search centre longitude
     # @option opts [Integer] :distance_km Search radius
     # @option opts [Integer] :category_id Category id from /categories
+    # @option opts [String] :subcategory_ids Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310
     # @option opts [Float] :min_price Minimum price (EUR)
     # @option opts [Float] :max_price Maximum price (EUR)
     # @option opts [String] :condition Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all
@@ -1146,6 +1154,7 @@ module ScrapeBadger
       query_params[:'longitude'] = opts[:'longitude'] if !opts[:'longitude'].nil?
       query_params[:'distance_km'] = opts[:'distance_km'] if !opts[:'distance_km'].nil?
       query_params[:'category_id'] = opts[:'category_id'] if !opts[:'category_id'].nil?
+      query_params[:'subcategory_ids'] = opts[:'subcategory_ids'] if !opts[:'subcategory_ids'].nil?
       query_params[:'min_price'] = opts[:'min_price'] if !opts[:'min_price'].nil?
       query_params[:'max_price'] = opts[:'max_price'] if !opts[:'max_price'].nil?
       query_params[:'condition'] = opts[:'condition'] if !opts[:'condition'].nil?

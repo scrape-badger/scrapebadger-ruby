@@ -473,7 +473,7 @@ end
 
 List categories
 
-The full category tree; ids are usable as the search category_id.
+The full category tree; top-level ids are the search category_id, nested subcategory ids go in subcategory_ids.
 
 ### Examples
 
@@ -579,6 +579,7 @@ api_instance = ScrapeBadger::WallapopApi.new
 filter_id = 'filter_id_example' # String | 
 opts = {
   category_id: 56, # Integer | Category to scope options to
+  subcategory_ids: 'subcategory_ids_example', # String | Comma-separated subcategory ids to scope options to
   query: 'query_example', # String | Search text to scope options to
   market: 'market_example', # String | Market: es (Spain), it (Italy), pt (Portugal)
   prefer: 'respond-async, wait=25', # String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait.
@@ -623,6 +624,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **filter_id** | **String** |  |  |
 | **category_id** | **Integer** | Category to scope options to | [optional] |
+| **subcategory_ids** | **String** | Comma-separated subcategory ids to scope options to | [optional] |
 | **query** | **String** | Search text to scope options to | [optional] |
 | **market** | **String** | Market: es (Spain), it (Italy), pt (Portugal) | [optional][default to &#39;es&#39;] |
 | **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] |
@@ -756,6 +758,7 @@ end
 api_instance = ScrapeBadger::WallapopApi.new
 opts = {
   category_id: 56, # Integer | Category the filters apply to
+  subcategory_ids: 'subcategory_ids_example', # String | Comma-separated subcategory ids the filters apply to
   query: 'query_example', # String | Search text the filters apply to
   market: 'market_example', # String | Market: es (Spain), it (Italy), pt (Portugal)
   prefer: 'respond-async, wait=25', # String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait.
@@ -799,6 +802,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **category_id** | **Integer** | Category the filters apply to | [optional] |
+| **subcategory_ids** | **String** | Comma-separated subcategory ids the filters apply to | [optional] |
 | **query** | **String** | Search text the filters apply to | [optional] |
 | **market** | **String** | Market: es (Spain), it (Italy), pt (Portugal) | [optional][default to &#39;es&#39;] |
 | **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] |
@@ -829,7 +833,7 @@ end
 
 Search listings
 
-Search Wallapop listings (40 per page). Needs a query, a category_id, or both.
+Search Wallapop listings (40 per page). Needs a query, a category_id, subcategory_ids, or a combination.
 
 ### Examples
 
@@ -852,6 +856,7 @@ opts = {
   longitude: 8.14, # Float | Search centre longitude
   distance_km: 56, # Integer | Search radius
   category_id: 56, # Integer | Category id from /categories
+  subcategory_ids: 'subcategory_ids_example', # String | Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310
   min_price: 8.14, # Float | Minimum price (EUR)
   max_price: 8.14, # Float | Maximum price (EUR)
   condition: 'condition_example', # String | Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all
@@ -917,6 +922,7 @@ end
 | **longitude** | **Float** | Search centre longitude | [optional] |
 | **distance_km** | **Integer** | Search radius | [optional] |
 | **category_id** | **Integer** | Category id from /categories | [optional] |
+| **subcategory_ids** | **String** | Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310 | [optional] |
 | **min_price** | **Float** | Minimum price (EUR) | [optional] |
 | **max_price** | **Float** | Maximum price (EUR) | [optional] |
 | **condition** | **String** | Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all | [optional] |
