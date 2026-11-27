@@ -1722,6 +1722,7 @@ module ScrapeBadger
     # @option opts [String] :safe Safe search: off or active (default to 'off')
     # @option opts [Integer] :filter 
     # @option opts [Integer] :nfpr Disable auto-correction (default to 0)
+    # @option opts [Boolean] :require_resolved_links Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full). (default to false)
     # @option opts [String] :output  (default to 'json')
     # @option opts [String] :oq Original query sent to Google. Defaults to q; an empty string omits it.
     # @option opts [String] :sourceid Google source identifier. Defaults to chrome; an empty string omits it.
@@ -1783,6 +1784,7 @@ module ScrapeBadger
     # @option opts [String] :safe Safe search: off or active (default to 'off')
     # @option opts [Integer] :filter 
     # @option opts [Integer] :nfpr Disable auto-correction (default to 0)
+    # @option opts [Boolean] :require_resolved_links Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full). (default to false)
     # @option opts [String] :output  (default to 'json')
     # @option opts [String] :oq Original query sent to Google. Defaults to q; an empty string omits it.
     # @option opts [String] :sourceid Google source identifier. Defaults to chrome; an empty string omits it.
@@ -1936,6 +1938,7 @@ module ScrapeBadger
       query_params[:'safe'] = opts[:'safe'] if !opts[:'safe'].nil?
       query_params[:'filter'] = opts[:'filter'] if !opts[:'filter'].nil?
       query_params[:'nfpr'] = opts[:'nfpr'] if !opts[:'nfpr'].nil?
+      query_params[:'require_resolved_links'] = opts[:'require_resolved_links'] if !opts[:'require_resolved_links'].nil?
       query_params[:'output'] = opts[:'output'] if !opts[:'output'].nil?
       query_params[:'oq'] = opts[:'oq'] if !opts[:'oq'].nil?
       query_params[:'sourceid'] = opts[:'sourceid'] if !opts[:'sourceid'].nil?
@@ -2380,6 +2383,7 @@ module ScrapeBadger
     # @option opts [String] :domain Google domain (default to 'google.com')
     # @option opts [String] :device Device target: desktop, mobile, iphone, android, tablet (default to 'desktop')
     # @option opts [String] :user_agent Custom User-Agent (overrides device)
+    # @option opts [Boolean] :require_resolved_links Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full). (default to false)
     # @option opts [String] :output Response format: json (parsed) or html (raw SERP) (default to 'json')
     # @option opts [String] :location City-level geo-targeting
     # @option opts [String] :lr Language restrict (e.g. lang_en)
@@ -2444,6 +2448,7 @@ module ScrapeBadger
     # @option opts [String] :domain Google domain (default to 'google.com')
     # @option opts [String] :device Device target: desktop, mobile, iphone, android, tablet (default to 'desktop')
     # @option opts [String] :user_agent Custom User-Agent (overrides device)
+    # @option opts [Boolean] :require_resolved_links Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full). (default to false)
     # @option opts [String] :output Response format: json (parsed) or html (raw SERP) (default to 'json')
     # @option opts [String] :location City-level geo-targeting
     # @option opts [String] :lr Language restrict (e.g. lang_en)
@@ -2614,6 +2619,7 @@ module ScrapeBadger
       query_params[:'domain'] = opts[:'domain'] if !opts[:'domain'].nil?
       query_params[:'device'] = opts[:'device'] if !opts[:'device'].nil?
       query_params[:'user_agent'] = opts[:'user_agent'] if !opts[:'user_agent'].nil?
+      query_params[:'require_resolved_links'] = opts[:'require_resolved_links'] if !opts[:'require_resolved_links'].nil?
       query_params[:'output'] = opts[:'output'] if !opts[:'output'].nil?
       query_params[:'location'] = opts[:'location'] if !opts[:'location'].nil?
       query_params[:'lr'] = opts[:'lr'] if !opts[:'lr'].nil?

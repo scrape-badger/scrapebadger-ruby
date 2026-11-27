@@ -355,6 +355,7 @@ describe 'GoogleApi' do
   # @option opts [String] :safe Safe search: off or active
   # @option opts [Integer] :filter 
   # @option opts [Integer] :nfpr Disable auto-correction
+  # @option opts [Boolean] :require_resolved_links Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full).
   # @option opts [String] :output 
   # @option opts [String] :oq Original query sent to Google. Defaults to q; an empty string omits it.
   # @option opts [String] :sourceid Google source identifier. Defaults to chrome; an empty string omits it.
@@ -480,6 +481,7 @@ describe 'GoogleApi' do
   # @option opts [String] :domain Google domain
   # @option opts [String] :device Device target: desktop, mobile, iphone, android, tablet
   # @option opts [String] :user_agent Custom User-Agent (overrides device)
+  # @option opts [Boolean] :require_resolved_links Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full).
   # @option opts [String] :output Response format: json (parsed) or html (raw SERP)
   # @option opts [String] :location City-level geo-targeting
   # @option opts [String] :lr Language restrict (e.g. lang_en)

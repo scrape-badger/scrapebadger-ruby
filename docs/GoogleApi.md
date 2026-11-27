@@ -1332,6 +1332,7 @@ opts = {
   safe: 'safe_example', # String | Safe search: off or active
   filter: 56, # Integer | 
   nfpr: 56, # Integer | Disable auto-correction
+  require_resolved_links: true, # Boolean | Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full).
   output: 'json', # String | 
   oq: 'oq_example', # String | Original query sent to Google. Defaults to q; an empty string omits it.
   sourceid: 'sourceid_example', # String | Google source identifier. Defaults to chrome; an empty string omits it.
@@ -1417,6 +1418,7 @@ end
 | **safe** | **String** | Safe search: off or active | [optional][default to &#39;off&#39;] |
 | **filter** | **Integer** |  | [optional] |
 | **nfpr** | **Integer** | Disable auto-correction | [optional][default to 0] |
+| **require_resolved_links** | **Boolean** | Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full). | [optional][default to false] |
 | **output** | **String** |  | [optional][default to &#39;json&#39;] |
 | **oq** | **String** | Original query sent to Google. Defaults to q; an empty string omits it. | [optional] |
 | **sourceid** | **String** | Google source identifier. Defaults to chrome; an empty string omits it. | [optional] |
@@ -1826,6 +1828,7 @@ opts = {
   domain: 'domain_example', # String | Google domain
   device: 'desktop', # String | Device target: desktop, mobile, iphone, android, tablet
   user_agent: 'user_agent_example', # String | Custom User-Agent (overrides device)
+  require_resolved_links: true, # Boolean | Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full).
   output: 'json', # String | Response format: json (parsed) or html (raw SERP)
   location: 'location_example', # String | City-level geo-targeting
   lr: 'lr_example', # String | Language restrict (e.g. lang_en)
@@ -1914,6 +1917,7 @@ end
 | **domain** | **String** | Google domain | [optional][default to &#39;google.com&#39;] |
 | **device** | **String** | Device target: desktop, mobile, iphone, android, tablet | [optional][default to &#39;desktop&#39;] |
 | **user_agent** | **String** | Custom User-Agent (overrides device) | [optional] |
+| **require_resolved_links** | **Boolean** | Require direct organic result URLs and resolve Google redirects in returned result links. JSON only. The handler returns HTTP 503 on a budget miss (2 s fast, 2.5 s full). | [optional][default to false] |
 | **output** | **String** | Response format: json (parsed) or html (raw SERP) | [optional][default to &#39;json&#39;] |
 | **location** | **String** | City-level geo-targeting | [optional] |
 | **lr** | **String** | Language restrict (e.g. lang_en) | [optional] |
